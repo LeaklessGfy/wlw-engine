@@ -1,8 +1,8 @@
 import Effect from "./effect";
 
-export default interface Card {
+interface Card {
   id: number;
-  handlers: string[];
+  keys: string[];
   name: string;
   img: string;
   stamina: number[];
@@ -11,3 +11,5 @@ export default interface Card {
   targets: string[];
   reverseable: boolean;
 }
+
+export default Card;

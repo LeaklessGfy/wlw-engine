@@ -10,7 +10,7 @@ import Team from "./team";
 import Status from "./status";
 import Official from "./official";
 
-export default interface Wrestler {
+interface Wrestler {
   id: number;
   name: string;
   img: string;
@@ -38,3 +38,5 @@ export default interface Wrestler {
   //resistances: BodyStat; * DEPRECATED *
   //hits: BodyStat; * DEPRECATED *
 }
+
+export default Wrestler;

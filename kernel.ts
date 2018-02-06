@@ -1,16 +1,24 @@
-import Handler from "./Handler/handler";
+import Middleware from "./middleware";
+import State from "./model/state";
 
-export default class Kernel {
-  private handlers: any;
+class Kernel {
+  constructor(private middlewares: Middleware[]) {}
 
-  constructor(handlers: any) {
-    this.handlers = handlers;
+  public subscribe(middleware: Middleware): void {
+    if (!this.middlewares[middleware.key]) {
+      this.middlewares[middleware.key] = [];
+    }
+    this.middlewares[middleware.key].push(middleware);
   }
 
-  public subscribe(handler: Handler) {
-    if (!this.handlers[handler.key]) {
-      this.handlers[handler.key] = [];
+  public dispatch(key: string, mutable: State, original: State): void {
+    if (!this.middlewares[key]) {
+      return;
     }
-    this.handlers[handler.key].push(handler);
+    this.middlewares[key].forEach((middleware: Middleware) => {
+      middleware.apply(mutable, original);
+    });
   }
 }
+
+export default Kernel;

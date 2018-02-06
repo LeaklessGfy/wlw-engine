@@ -1,4 +1,4 @@
-export default interface CombatStat {
+interface CombatStat {
   accuracy: number;
   damage: number;
   speed: number;
@@ -8,3 +8,5 @@ export default interface CombatStat {
   recovery: number;
   submission: number;
 }
+
+export default CombatStat;

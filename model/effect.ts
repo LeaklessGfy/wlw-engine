@@ -1,4 +1,4 @@
-export default interface Effect {
+interface Effect {
   id: number;
   handlers: string[];
   name: string;
@@ -8,3 +8,5 @@ export default interface Effect {
   target: number;
   icon: string;
 }
+
+export default Effect;

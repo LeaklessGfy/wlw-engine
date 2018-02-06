@@ -1,4 +1,4 @@
-export default interface MoralStat {
+interface MoralStat {
   //-100 <> 100
   ego: number;
   respect: number;
@@ -7,3 +7,5 @@ export default interface MoralStat {
   boldness: number;
   aggresivity: number;
 }
+
+export default MoralStat;

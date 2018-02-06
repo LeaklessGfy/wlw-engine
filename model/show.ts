@@ -1,4 +1,4 @@
-export default interface Show {
+interface Show {
   id: number;
   name: string;
   color: string;
@@ -12,3 +12,5 @@ export default interface Show {
   championships?: any[];
   wrestlers?: any[];
 }
+
+export default Show;

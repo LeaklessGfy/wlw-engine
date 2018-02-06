@@ -10,7 +10,9 @@ export const STATUS_COMEBACK = "status::comeback";
 export const STATUS_GROWN = "status::grown";
 export const STATUS_KO = "status::ko";
 
-export default interface Status {
+interface Status {
   id: number;
   handlers: string[];
 }
+
+export default Status;
