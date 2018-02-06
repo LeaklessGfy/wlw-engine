@@ -1,7 +1,7 @@
 import PubSub from "pubsub-js";
 import Middleware from "../middleware";
 import State from "../model/state";
-import { NEW_TURN } from "../const/events";
+import { NEW_TURN } from "../consts/events";
 
 class TurnMiddleware implements Middleware {
   key: "middleware::turn";

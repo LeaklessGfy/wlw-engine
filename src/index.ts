@@ -1,15 +1,15 @@
 import PubSub from "pubsub-js";
 import Kernel from "./kernel";
-import Card from "./model/card";
-import State from "./model/state";
-import { PRE_MIDDLEWARE, POST_MIDDLEWARE } from "./const/events";
+import Card from "./models/card";
+import State from "./models/state";
+import { PRE_MIDDLEWARE, POST_MIDDLEWARE } from "./consts/events";
 
 class WLW {
   constructor(private kernel: Kernel) {}
 
   public runCard(_state: State): State {
-    const original = Object.freeze(_state);
-    let mutable = Object.assign({}, original);
+    const original = Object.freeze(_state); //immutable
+    let mutable = (<any>Object).assign({}, original); //clone mutable
 
     this.preMiddleware(mutable);
     for (let key of original.card.keys) {

@@ -1,4 +1,4 @@
-import State from "./model/state";
+import State from "./models/state";
 
 interface Middleware {
   key: string;

@@ -1,13 +1,12 @@
-import Wrestler from "./wrestler";
+import Players from "./players";
 import Card from "./card";
 
 interface State {
   turn: number;
+  players: Players;
   active: string;
   targets: string[];
-  players: string[];
   card: Card;
-  wrestlers: Wrestler[];
 }
 
 export default State;

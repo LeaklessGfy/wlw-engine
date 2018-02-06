@@ -1,5 +1,5 @@
 import Middleware from "./middleware";
-import State from "./model/state";
+import State from "./models/state";
 
 class Kernel {
   constructor(private middlewares: Middleware[]) {}

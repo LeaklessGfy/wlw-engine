@@ -1,6 +1,6 @@
-import Wrestler from "./model/wrestler";
-import Card from "./model/card";
-import State from "./model/state";
+import Wrestler from "./models/wrestler";
+import Card from "./models/card";
+import State from "./models/state";
 
 export class Fetcher {
   public fetchWrestlers(): Wrestler[] {}

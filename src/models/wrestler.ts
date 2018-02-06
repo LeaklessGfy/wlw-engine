@@ -14,7 +14,7 @@ interface Wrestler {
   id: number;
   name: string;
   img: string;
-  gender: number;
+  gender: string;
   category: string;
   health: Bar;
   stamina: number; // Energy

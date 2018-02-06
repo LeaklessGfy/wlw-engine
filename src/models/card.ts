@@ -5,7 +5,8 @@ interface Card {
   keys: string[];
   name: string;
   img: string;
-  stamina: number[];
+  stamina: number;
+  intensity: number;
   damages: number;
   effects: Effect[];
   targets: string[];
