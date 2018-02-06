@@ -2,7 +2,7 @@ import PubSub from "pubsub-js";
 import Kernel from "./kernel";
 import Card from "./model/card";
 import State from "./model/state";
-import { PRE_MIDDLEWARE, POST_MIDDLEWARE } from "./events";
+import { PRE_MIDDLEWARE, POST_MIDDLEWARE } from "./const/events";
 
 class WLW {
   constructor(private kernel: Kernel) {}
