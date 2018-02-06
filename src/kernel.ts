@@ -1,28 +1,27 @@
-import Middleware from "./middleware";
+import Actuator from "./actuator";
 import State from "./models/state";
 
 class Kernel {
-  private middlewares: any;
+  private actuators: any;
 
-  constructor(middlewares: Middleware[]) {
-    this.middlewares = {};
-    middlewares.forEach(middleware => this.subscribe(middleware));
+  constructor(actuatorList: Actuator[]) {
+    this.actuators = {};
+    actuatorList.forEach(actuator => this.add(actuator));
   }
 
-  public subscribe(middleware: Middleware): void {
-    if (!this.middlewares[middleware.key]) {
-      this.middlewares[middleware.key] = [];
+  public add(actuator: Actuator): void {
+    const key = actuator.key();
+    if (!this.actuators[key]) {
+      this.actuators[key] = [];
     }
-    this.middlewares[middleware.key].push(middleware);
+    this.actuators[key].push(actuator);
   }
 
-  public dispatch(key: string, mutable: State, original: State): void {
-    if (!this.middlewares[key]) {
-      return;
+  public get(key: string): Actuator[] {
+    if (!this.actuators[key]) {
+      return [];
     }
-    this.middlewares[key].forEach((middleware: Middleware) => {
-      middleware.apply(mutable, original);
-    });
+    return this.actuators[key];
   }
 }
 

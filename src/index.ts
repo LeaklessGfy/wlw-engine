@@ -1,32 +1,28 @@
-//import PubSub from "pubsub-js";
 import * as _ from "lodash";
+import Actuator from "./actuator";
 import Kernel from "./kernel";
 import Card from "./models/card";
 import State from "./models/state";
-import { PRE_MIDDLEWARE, POST_MIDDLEWARE } from "./consts/events";
 
 class WLW {
-  constructor(private kernel: Kernel) {}
+  constructor(private kernel: Kernel, private dispatcher: any) {}
 
-  public runCard(_state: State): State {
-    const original = Object.freeze(_state); //immutable
-    let mutable = _.cloneDeep(original);
+  public turnNew(_state: State): State {
+    return _state;
+  }
 
-    this.preMiddleware(mutable);
-    for (let key of original.card.keys) {
-      this.kernel.dispatch(key, mutable, original);
+  public cardPlay(_state: State): State {
+    const original = Object.freeze(_state); //immutableJS ?
+    const mutable: State = _.cloneDeep(original);
+
+    //this.dispatcher("pre.card.play");
+    for (let key of original.card.actuators) {
+      const actuators = this.kernel.get(key);
+      actuators.forEach((actuator: Actuator) => actuator.operate(mutable, original));
     }
-    this.postMiddleware(mutable);
+    //this.dispatcher.dispatch("post.card.play");
 
     return mutable;
-  }
-
-  private preMiddleware(mutable: State): void {
-    //PubSub.publish(PRE_MIDDLEWARE, mutable);
-  }
-
-  private postMiddleware(mutable: State): void {
-    //PubSub.publish(POST_MIDDLEWARE, mutable);
   }
 }
 

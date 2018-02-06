@@ -1,26 +1,27 @@
 import State from "./src/models/state";
 import Card from "./src/models/card";
 import Wrestler from "./src/models/wrestler";
-import * as Target from "./src/consts/targets";
-import * as Middle from "./src/consts/middlewares";
-import * as Player from "./src/consts/players";
-import { GENDER_MALE } from "./src/consts/genders";
-import { CATEGORY_HEAVYWEIGHT } from "./src/consts/categories";
+import * as Targets from "./src/consts/targets";
+import * as Actuators from "./src/consts/actuators";
+import * as Players from "./src/consts/players";
+import * as Genders from "./src/consts/genders";
+import * as Categories from "./src/consts/categories";
 import WLW from "./src";
 import Kernel from "./src/kernel";
-import TurnMiddleware from "./src/middlewares/turn-middleware";
-import AttackMiddleware from "./src/middlewares/attack-middleware";
+import AttackMiddleware from "./src/actuators/attack-actuator";
 
 const card: Card = {
   id: 0,
-  keys: [Middle.MIDDLEWARE_BASE, Middle.MIDDLEWARE_ATTACK],
+  uid: "",
+  actuators: [Actuators.BASE, Actuators.ATTACK],
+  validators: [],
   name: "DDT",
   img: "",
   stamina: 3,
   intensity: 1,
   damages: 10,
   effects: [],
-  targets: [Target.TARGET_OPONENT],
+  targets: [Targets.OPONENT],
   reverseable: true
 };
 
@@ -28,8 +29,8 @@ const w1: Wrestler = {
   id: 1,
   name: "Wrestler1",
   img: "",
-  gender: GENDER_MALE,
-  category: CATEGORY_HEAVYWEIGHT,
+  gender: Genders.MALE,
+  category: Categories.HEAVYWEIGHT,
   health: {
     val: 100,
     max: 100
@@ -45,8 +46,8 @@ const w2: Wrestler = {
   id: 2,
   name: "Wrestler2",
   img: "",
-  gender: GENDER_MALE,
-  category: CATEGORY_HEAVYWEIGHT,
+  gender: Genders.MALE,
+  category: Categories.HEAVYWEIGHT,
   health: {
     val: 100,
     max: 100
@@ -64,15 +65,16 @@ const state: State = {
     P1: w1,
     CPU: w2
   },
-  active: Player.PLAYER1,
-  targets: [Player.CPU],
+  active: Players.PLAYER1,
+  targets: [Players.CPU],
   card: card
 };
 
-const middlewares = [new TurnMiddleware(), new AttackMiddleware()];
-const kernel: Kernel = new Kernel(middlewares);
+const kernel: Kernel = new Kernel([
+  new AttackMiddleware()
+]);
 const app: WLW = new WLW(kernel);
-const newState = app.runCard(state);
+const newState = app.cardPlay(state);
 
 console.log(state.players.CPU.health);
 console.log(newState.players.CPU.health);

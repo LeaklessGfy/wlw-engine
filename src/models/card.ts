@@ -2,7 +2,9 @@ import Effect from "./effect";
 
 interface Card {
   id: number;
-  keys: string[];
+  uid: string;
+  actuators: string[];
+  validators: string[];
   name: string;
   img: string;
   stamina: number;

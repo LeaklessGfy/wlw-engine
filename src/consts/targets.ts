@@ -1,3 +1,3 @@
-export const TARGET_SELF = "target::self";
-export const TARGET_OPONENT = "target::oponent";
-export const TARGET_ALLIES = "target::allies";
+export const SELF = "self";
+export const OPONENT = "oponent";
+export const ALLIES = "allies";

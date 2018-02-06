@@ -1,1 +1,1 @@
-export const CATEGORY_HEAVYWEIGHT = "category::heavyweight";
+export const HEAVYWEIGHT = "heavyweight";
