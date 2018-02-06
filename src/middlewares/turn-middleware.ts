@@ -1,6 +1,6 @@
-import PubSub from "pubsub-js";
+//import PubSub from "pubsub-js";
 import Middleware from "../middleware";
-import State from "../model/state";
+import State from "../models/state";
 import { NEW_TURN } from "../consts/events";
 
 class TurnMiddleware implements Middleware {
@@ -8,6 +8,8 @@ class TurnMiddleware implements Middleware {
 
   apply(mutable: State, original: State): void {
     mutable.turn++;
-    PubSub.publish(NEW_TURN, mutable);
+    //PubSub.publish(NEW_TURN, mutable);
   }
 }
+
+export default TurnMiddleware;

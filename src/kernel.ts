@@ -2,7 +2,12 @@ import Middleware from "./middleware";
 import State from "./models/state";
 
 class Kernel {
-  constructor(private middlewares: Middleware[]) {}
+  private middlewares: any;
+
+  constructor(middlewares: Middleware[]) {
+    this.middlewares = {};
+    middlewares.forEach(middleware => this.subscribe(middleware));
+  }
 
   public subscribe(middleware: Middleware): void {
     if (!this.middlewares[middleware.key]) {

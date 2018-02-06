@@ -8,6 +8,8 @@ import { GENDER_MALE } from "./src/consts/genders";
 import { CATEGORY_HEAVYWEIGHT } from "./src/consts/categories";
 import WLW from "./src";
 import Kernel from "./src/kernel";
+import TurnMiddleware from "./src/middlewares/turn-middleware";
+import AttackMiddleware from "./src/middlewares/attack-middleware";
 
 const card: Card = {
   id: 0,
@@ -67,6 +69,10 @@ const state: State = {
   card: card
 };
 
-const kernel: Kernel = new Kernel([]);
+const middlewares = [new TurnMiddleware(), new AttackMiddleware()];
+const kernel: Kernel = new Kernel(middlewares);
 const app: WLW = new WLW(kernel);
 const newState = app.runCard(state);
+
+console.log(state.players.CPU.health);
+console.log(newState.players.CPU.health);

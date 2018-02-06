@@ -1,4 +1,5 @@
-import PubSub from "pubsub-js";
+//import PubSub from "pubsub-js";
+import * as _ from "lodash";
 import Kernel from "./kernel";
 import Card from "./models/card";
 import State from "./models/state";
@@ -9,7 +10,7 @@ class WLW {
 
   public runCard(_state: State): State {
     const original = Object.freeze(_state); //immutable
-    let mutable = (<any>Object).assign({}, original); //clone mutable
+    let mutable = _.cloneDeep(original);
 
     this.preMiddleware(mutable);
     for (let key of original.card.keys) {
@@ -21,11 +22,11 @@ class WLW {
   }
 
   private preMiddleware(mutable: State): void {
-    PubSub.publish(PRE_MIDDLEWARE, mutable);
+    //PubSub.publish(PRE_MIDDLEWARE, mutable);
   }
 
   private postMiddleware(mutable: State): void {
-    PubSub.publish(POST_MIDDLEWARE, mutable);
+    //PubSub.publish(POST_MIDDLEWARE, mutable);
   }
 }
 
