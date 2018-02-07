@@ -18,6 +18,6 @@
   "homepage": "https://github.com/LeaklessGfy/wlw-engine#readme",
   "dependencies": {
     "lodash": "^4.17.5",
-    "pubsub-js": "^1.6.0"
+    "postal": "^2.0.5"
   }
 }
