@@ -1,21 +1,20 @@
 import Card from "../../models/card";
+import { PIN } from "../../consts/uids";
 import * as Actuators from "../../consts/actuators";
 import * as Validators from "../../consts/validators";
 import * as Targets from "../../consts/targets";
 
-const DDT: Card = {
-  uid: "",
-  actuators: [Actuators.BASE, Actuators.ATTACK],
+const Pin: Card = {
+  uid: PIN,
+  actuators: [Actuators.BASE],
   validators: [Validators.ATTACK],
-  name: "DDT",
+  name: "Pin",
   img: "",
-  description: "",
+  description: "Attempt to pin the opponent.",
   stamina: 3,
-  intensity: 1,
-  damage: 10,
-  effects: [],
+  intensity: 0,
   targets: [Targets.OPPONENT],
   reverseable: true
 };
 
-export default DDT;
+export default Pin;

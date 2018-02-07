@@ -12,6 +12,7 @@ import Official from "./official";
 
 interface Wrestler {
   id: number;
+  uid: string;
   name: string;
   img: string;
   gender: string;

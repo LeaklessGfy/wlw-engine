@@ -3,9 +3,9 @@ import Card from "./card";
 
 interface State {
   turn: number;
-  players: Players;
   active: string;
   targets: string[];
+  players: Players;
   card: Card;
 }
 

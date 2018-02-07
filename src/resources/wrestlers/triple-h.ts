@@ -1,9 +1,11 @@
 import Wrestler from "../../models/wrestler";
+import { TRIPLE_H } from "../../consts/uids";
 import { MALE } from "../../consts/genders";
 import { HEAVYWEIGHT } from "../../consts/categories";
 
 const TripleH: Wrestler = {
   id: 1,
+  uid: "tripleh",
   name: "Triple H",
   img: "",
   gender: MALE,

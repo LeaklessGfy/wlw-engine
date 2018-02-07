@@ -1,4 +1,4 @@
-export const BASE = "actuator::base";
-export const ATTACK = "actuator::attack";
-export const DEFENSE = "actuator::defense";
-export const EFFECT = "actuator::effect";
+export const BASE = "base";
+export const ATTACK = "attack";
+export const DEFENSE = "defense";
+export const EFFECT = "effect";

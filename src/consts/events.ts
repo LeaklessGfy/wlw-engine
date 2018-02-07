@@ -1,6 +1,6 @@
-export const PRE_CARD_VALIDATION = "";
-export const CARD_VALIDATION = "";
-export const POST_CARD_VALIDATION = "";
+export const PRE_CARD_VALIDATION = "pre.card.validation";
+export const CARD_VALIDATION = "card.validation";
+export const POST_CARD_VALIDATION = "post.card.validation";
 
 export const PRE_CARD_PLAY = "pre.card.play";
 export const CARD_PLAY = "card.play";

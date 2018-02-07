@@ -3,6 +3,7 @@ class Mode {
   handlers: string[];
   name: string;
   img: string;
+  description: string;
   numbers: Number;
 }
 

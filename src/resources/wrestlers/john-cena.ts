@@ -1,9 +1,11 @@
 import Wrestler from "../../models/wrestler";
+import { JOHN_CENA } from "../../consts/uids";
 import { MALE } from "../../consts/genders";
 import { HEAVYWEIGHT } from "../../consts/categories";
 
 const JohnCena: Wrestler = {
   id: 2,
+  uid: "johncena",
   name: "John Cena",
   img: "",
   gender: MALE,

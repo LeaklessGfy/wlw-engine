@@ -1,1 +1,2 @@
-export const ATTACK = "validator::attack";
+export const BASE = "base";
+export const ATTACK = "attack";

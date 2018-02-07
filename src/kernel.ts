@@ -2,8 +2,8 @@ import Actuator from "./interfaces/actuator";
 import Validator from "./interfaces/validator";
 import State from "./models/state";
 /* DEFAULTS */
-import AttackActuator from "./resources/actuators/attack-actuator";
-import AttackValidator from "./resources/validators/attack-validator";
+import actuators from "./resources/actuators";
+import validators from "./resources/validators";
 
 class Kernel {
   private actuators: any;
@@ -34,8 +34,8 @@ class Kernel {
   }
 
   private defaults(): void {
-    this.addActuator(new AttackActuator());
-    this.addValidator(new AttackValidator());
+    actuators.forEach(actuator => this.addActuator(actuator));
+    validators.forEach(validator => this.addValidator(validator));
   }
 
   private add(holder: any, key: string, obj: any): void {

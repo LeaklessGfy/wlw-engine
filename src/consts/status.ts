@@ -1,0 +1,11 @@
+export const NORMAL = "normal";
+export const BLEEDING = "bleeding";
+export const INJURED = "injured";
+export const UNLEASHED = "unleashed";
+export const TIRED = "tired";
+export const STUN = "stun";
+export const CRAZY = "crazy";
+export const ENRAGED = "enraged";
+export const COMEBACK = "comeback";
+export const DOWN = "down";
+export const KO = "ko";

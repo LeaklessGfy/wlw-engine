@@ -8,12 +8,12 @@ import DDT from "./src/resources/cards/ddt";
 
 const state: State = {
   turn: 0,
+  active: Players.PLAYER1,
+  targets: [Players.CPU],
   players: {
     [Players.PLAYER1]: TripleH,
     [Players.CPU]: JohnCena
   },
-  active: Players.PLAYER1,
-  targets: [Players.CPU],
   card: DDT
 };
 

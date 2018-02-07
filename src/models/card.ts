@@ -1,16 +1,19 @@
 import Effect from "./effect";
+import Requirements from "./requirements";
 
 interface Card {
-  id: number;
+  id?: number;
   uid: string;
   actuators: string[];
   validators: string[];
   name: string;
   img: string;
+  description: string;
+  requirements?: Requirements; 
   stamina: number;
   intensity: number;
-  damages: number;
-  effects: Effect[];
+  damage?: number;
+  effects?: Effect[];
   targets: string[];
   reverseable: boolean;
 }

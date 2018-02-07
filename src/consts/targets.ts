@@ -1,3 +1,3 @@
 export const SELF = "self";
-export const OPONENT = "oponent";
-export const ALLIES = "allies";
+export const OPPONENT = "opponent";
+export const PARTENER = "partener";
