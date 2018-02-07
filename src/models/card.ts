@@ -16,6 +16,7 @@ interface Card {
   effects?: Effect[];
   targets: string[];
   reverseable: boolean;
+  valid?: boolean;
 }
 
 export default Card;

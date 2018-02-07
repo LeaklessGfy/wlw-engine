@@ -1,5 +1,5 @@
 import { Actuator, Validator } from "./interfaces";
-import State from "./models/state";
+import State from "./models/State";
 /* DEFAULTS */
 import actuators from "./resources/actuators";
 import validators from "./resources/validators";

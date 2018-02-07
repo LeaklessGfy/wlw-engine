@@ -1,8 +1,8 @@
-import Card from "../../models/card";
+import Card from "../../models/Card";
 import * as C from "../../consts";
 
 const Pin: Card = {
-  uid: C.UIDS.PIN,
+  uid: C.Uids.PIN,
   actuators: [C.Actuators.BASE, C.Actuators.PIN],
   validators: [C.Validators.BASE],
   name: "Pin",

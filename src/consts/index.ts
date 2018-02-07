@@ -1,12 +1,12 @@
 import * as Actuators from "./actuators";
 import * as Categories from "./categories";
-import * as Events from "./events";
-import * as Genders from "./genders";
-import * as Players from "./players";
-import * as Status from "./status";
-import * as Targets from "./targets";
-import * as UIDS from "./uids";
-import * as Validators from "./validators";
+import * as Events from "./Events";
+import * as Genders from "./Genders";
+import * as Players from "./Players";
+import * as Status from "./Status";
+import * as Targets from "./Targets";
+import * as Uids from "./Uids";
+import * as Validators from "./Validators";
 
 export {
   Actuators,
@@ -16,6 +16,6 @@ export {
   Players,
   Status,
   Targets,
-  UIDS,
+  Uids,
   Validators
 };

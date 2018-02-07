@@ -1,8 +1,8 @@
-import Card from "../../models/card";
+import Card from "../../models/Card";
 import * as C from "../../consts";
 
-const DDT: Card = {
-  uid: C.UIDS.DDT,
+const Ddt: Card = {
+  uid: C.Uids.DDT,
   actuators: [C.Actuators.BASE, C.Actuators.ATTACK],
   validators: [C.Validators.BASE, C.Validators.ATTACK],
   name: "DDT",
@@ -16,4 +16,4 @@ const DDT: Card = {
   reverseable: true
 };
 
-export default DDT;
+export default Ddt;

@@ -1,9 +1,9 @@
-import Wrestler from "../../models/wrestler";
+import Wrestler from "../../models/Wrestler";
 import * as C from "../../consts";
 
-const TripleH: Wrestler = {
-  uid: C.UIDS.TRIPLE_H,
-  name: "Triple H",
+const JohnCena: Wrestler = {
+  uid: C.Uids.JOHN_CENA,
+  name: "John Cena",
   img: "",
   gender: C.Genders.MALE,
   category: C.Categories.HEAVYWEIGHT,
@@ -16,7 +16,7 @@ const TripleH: Wrestler = {
   cards: [],
   hand: [],
   dead: [],
-  status: []
-};
+  status: [C.Status.NORMAL]
+}
 
-export default TripleH;
+export default JohnCena;
