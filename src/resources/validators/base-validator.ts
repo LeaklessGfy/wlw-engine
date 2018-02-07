@@ -1,7 +1,7 @@
 import Validator from "../../interfaces/validator";
 import { Card, State } from "../../models";
 import { BASE } from "../../consts/validators";
-import { getWrestler } from "../../utils/utils";
+import { getWrestler } from "../../utils";
 
 class BaseValidator implements Validator {
   key(): string {

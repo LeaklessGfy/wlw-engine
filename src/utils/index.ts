@@ -1,5 +1,4 @@
-import Players from "../models/players";
-import Wrestler from "../models/wrestler";
+import { Players, Wrestler } from "../models";
 
 export const getWrestler = (key: string, players: Players): Wrestler => {
   return players[key];

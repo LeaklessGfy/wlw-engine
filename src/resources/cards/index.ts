@@ -1,7 +1,2 @@
-import DDT from "./ddt";
-import Pin from "./pin";
-
-export {
-  DDT,
-  Pin
-};
+export { default as DDT } from "./ddt";
+export { default as Pin } from "./pin";

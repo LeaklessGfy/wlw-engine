@@ -15,7 +15,8 @@ const TripleH: Wrestler = {
   intensity: 3,
   cards: [],
   hand: [],
-  dead: []
+  dead: [],
+  status: []
 };
 
 export default TripleH;

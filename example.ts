@@ -17,6 +17,11 @@ const state: State = {
 const app = new WLW();
 const newState = app.cardPlay(state);
 
-console.log(state.players.CPU.health);
-console.log(newState.players.CPU.health);
-console.log(state === newState);
+console.log("base health : ", state.players.CPU.health.val);
+console.log("new health : ", newState.players.CPU.health.val);
+
+newState.card = R.Cards.Pin;
+const pinState = app.cardPlay(newState);
+
+console.log("base stamina : ", state.players.P1.stamina);
+console.log("new stamina : ", pinState.players.P1.stamina);

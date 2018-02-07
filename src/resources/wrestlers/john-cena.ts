@@ -15,7 +15,8 @@ const JohnCena: Wrestler = {
   intensity: 3,
   cards: [],
   hand: [],
-  dead: []
+  dead: [],
+  status: [C.Status.NORMAL]
 }
 
 export default JohnCena;

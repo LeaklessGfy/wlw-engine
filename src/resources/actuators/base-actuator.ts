@@ -1,7 +1,7 @@
 import Actuator from "../../interfaces/actuator";
 import { State, Wrestler } from "../../models";
 import { BASE } from "../../consts/actuators";
-import { getWrestler } from "../../utils/utils";
+import { getWrestler } from "../../utils";
 
 class BaseActuator implements Actuator {
   key(): string {

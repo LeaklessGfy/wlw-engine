@@ -1,7 +1,2 @@
-import TripleH from "./triple-h";
-import JohnCena from "./john-cena";
-
-export {
-  TripleH,
-  JohnCena
-};
+export { default as TripleH } from "./triple-h";
+export { default as JohnCena } from "./john-cena";

@@ -7,7 +7,6 @@ import BodyStat from "./body-stat";
 import Card from "./card";
 import Effect from "./effect";
 import Team from "./team";
-import Status from "./status";
 import Official from "./official";
 
 interface Wrestler {
@@ -23,7 +22,7 @@ interface Wrestler {
   cards: Card[]; //Paquet
   hand: Card[]; //Main
   dead: Card[]; //Defausse
-  //status: Status[]; * COMING SOON *
+  status: string[];
   //show: Show; * COMING SOON *
   //combat: CombatStat; * COMING SOON *
   //moral: MoralStat; * COMING SOON *

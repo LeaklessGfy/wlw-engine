@@ -13,6 +13,5 @@ export { default as Players } from "./players";
 export { default as Requirements } from "./requirements";
 export { default as Show } from "./show";
 export { default as State } from "./state";
-export { default as Status } from "./status";
 export { default as Team } from "./team";
 export { default as Wrestler } from "./wrestler";
