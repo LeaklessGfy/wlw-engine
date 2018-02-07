@@ -1,5 +1,4 @@
-import Card from "../models/card";
-import State from "../models/state";
+import { Card, State } from "../models";
 
 interface Validator {
   key(): string;

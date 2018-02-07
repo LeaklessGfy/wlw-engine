@@ -1,19 +1,19 @@
 import Card from "../../models/card";
-import { PIN } from "../../consts/uids";
-import * as Actuators from "../../consts/actuators";
-import * as Validators from "../../consts/validators";
-import * as Targets from "../../consts/targets";
+import * as C from "../../consts";
 
 const Pin: Card = {
-  uid: PIN,
-  actuators: [Actuators.BASE],
-  validators: [Validators.ATTACK],
+  uid: C.UIDS.PIN,
+  actuators: [C.Actuators.BASE, C.Actuators.PIN],
+  validators: [C.Validators.BASE],
   name: "Pin",
   img: "",
   description: "Attempt to pin the opponent.",
+  requirements: {
+    opponent: [{status: C.Status.DOWN}]
+  },
   stamina: 3,
   intensity: 0,
-  targets: [Targets.OPPONENT],
+  targets: [C.Targets.OPPONENT],
   reverseable: true
 };
 

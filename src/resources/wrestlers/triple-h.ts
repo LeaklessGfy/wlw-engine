@@ -1,15 +1,12 @@
 import Wrestler from "../../models/wrestler";
-import { TRIPLE_H } from "../../consts/uids";
-import { MALE } from "../../consts/genders";
-import { HEAVYWEIGHT } from "../../consts/categories";
+import * as C from "../../consts";
 
 const TripleH: Wrestler = {
-  id: 1,
-  uid: "tripleh",
+  uid: C.UIDS.TRIPLE_H,
   name: "Triple H",
   img: "",
-  gender: MALE,
-  category: HEAVYWEIGHT,
+  gender: C.Genders.MALE,
+  category: C.Categories.HEAVYWEIGHT,
   health: {
     val: 100,
     max: 100

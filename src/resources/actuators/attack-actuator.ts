@@ -1,6 +1,5 @@
 import Actuator from "../../interfaces/actuator";
-import State from "../../models/state";
-import Wrestler from "../../models/wrestler";
+import { State, Wrestler } from "../../models";
 import { ATTACK } from "../../consts/actuators";
 import { getWrestler } from "../../utils/utils";
 

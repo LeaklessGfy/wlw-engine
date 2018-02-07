@@ -1,12 +1,10 @@
 import Card from "../../models/card";
-import * as Actuators from "../../consts/actuators";
-import * as Validators from "../../consts/validators";
-import * as Targets from "../../consts/targets";
+import * as C from "../../consts";
 
 const DDT: Card = {
-  uid: "",
-  actuators: [Actuators.BASE, Actuators.ATTACK],
-  validators: [Validators.ATTACK],
+  uid: C.UIDS.DDT,
+  actuators: [C.Actuators.BASE, C.Actuators.ATTACK],
+  validators: [C.Validators.BASE, C.Validators.ATTACK],
   name: "DDT",
   img: "",
   description: "",
@@ -14,7 +12,7 @@ const DDT: Card = {
   intensity: 1,
   damage: 10,
   effects: [],
-  targets: [Targets.OPPONENT],
+  targets: [C.Targets.OPPONENT],
   reverseable: true
 };
 

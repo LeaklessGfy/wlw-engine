@@ -2,16 +2,16 @@ import * as _ from "lodash";
 import * as postal from "postal";
 import Kernel from "./kernel";
 import WLWEventManager, { EventManager } from "./event-manager";
-import Actuator from "./interfaces/actuator";
-import Validator from "./interfaces/validator";
-import Card from "./models/card";
-import State from "./models/state";
+import { Actuator, Validator } from "./interfaces";
+import { Card, State } from "./models";
 import * as Events from "./consts/events";
 
 class WLW {
+  private readonly kernel: Kernel;
   private readonly eventManager: EventManager;
 
-  constructor(private readonly kernel: Kernel) {
+  constructor(kernel: Kernel = new Kernel()) {
+    this.kernel = kernel;
     this.eventManager = WLWEventManager;
   }
 

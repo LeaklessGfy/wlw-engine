@@ -1,6 +1,4 @@
-import Wrestler from "./models/wrestler";
-import Card from "./models/card";
-import State from "./models/state";
+import { Card, State, Wrestler } from "./models";
 
 export class Fetcher {
   /*

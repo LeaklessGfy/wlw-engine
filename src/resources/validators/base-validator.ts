@@ -1,6 +1,5 @@
 import Validator from "../../interfaces/validator";
-import Card from "../../models/card";
-import State from "../../models/state";
+import { Card, State } from "../../models";
 import { BASE } from "../../consts/validators";
 import { getWrestler } from "../../utils/utils";
 

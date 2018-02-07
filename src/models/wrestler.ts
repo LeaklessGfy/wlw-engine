@@ -11,7 +11,7 @@ import Status from "./status";
 import Official from "./official";
 
 interface Wrestler {
-  id: number;
+  id?: number;
   uid: string;
   name: string;
   img: string;

@@ -1,12 +1,12 @@
 interface Requirement {
   number?: number;
-  status?: number;
+  status?: string;
 }
 
 interface Requirements {
-  SELF?: Requirement[];
-  OPPONENT?: Requirement[];
-  PARTNER?: Requirement[];
+  self?: Requirement[];
+  opponent?: Requirement[];
+  partner?: Requirement[];
 }
 
 export default Requirements;

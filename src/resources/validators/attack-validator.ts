@@ -1,6 +1,5 @@
 import Validator from "../../interfaces/validator";
-import Card from "../../models/card";
-import State from "../../models/state";
+import { Card, State } from "../../models";
 import { ATTACK } from "../../consts/validators";
 
 class AttackValidator implements Validator {
