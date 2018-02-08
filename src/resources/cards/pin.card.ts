@@ -1,4 +1,4 @@
-import Card from "../../models/Card";
+import Card from "../../models/card";
 import * as C from "../../consts";
 
 const Pin: Card = {

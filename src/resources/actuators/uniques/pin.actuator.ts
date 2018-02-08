@@ -1,9 +1,9 @@
 import * as Chance from "chance";
-import Actuator from "../../interfaces/actuator";
-import { State, Wrestler } from "../../models";
-import { PIN } from "../../consts/actuators";
-import * as Status from "../../consts/status";
-import { getWrestler } from "../../utils";
+import Actuator from "../../../interfaces/actuator";
+import { State, Wrestler } from "../../../models";
+import { PIN } from "../../../consts/actuators";
+import * as Status from "../../../consts/status";
+import { getWrestler } from "../../../utils";
 
 class PinActuator implements Actuator {
   private readonly chance;

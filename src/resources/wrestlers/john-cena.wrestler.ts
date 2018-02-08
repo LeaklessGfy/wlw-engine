@@ -1,4 +1,4 @@
-import Wrestler from "../../models/Wrestler";
+import Wrestler from "../../models/wrestler";
 import * as C from "../../consts";
 
 const JohnCena: Wrestler = {
@@ -16,7 +16,8 @@ const JohnCena: Wrestler = {
   cards: [],
   hand: [],
   dead: [],
-  status: [C.Status.NORMAL]
+  status: [C.Status.NORMAL],
+  distributors: [C.Distributors.BASE]
 }
 
 export default JohnCena;

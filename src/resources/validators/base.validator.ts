@@ -1,5 +1,5 @@
 import Validator from "../../interfaces/validator";
-import { Card, State } from "../../models";
+import { Card, State, Wrestler } from "../../models";
 import { BASE } from "../../consts/validators";
 import { getWrestler } from "../../utils";
 
@@ -8,12 +8,13 @@ class BaseValidator implements Validator {
     return BASE;
   }
 
-  isValid(card: Readonly<Card>, state: Readonly<State>): boolean {
+  validate(card: Card, state: Readonly<State>): void {
     const active = getWrestler(state.active, state.players);
-    if (active.stamina >= card.stamina && active.intensity > card.intensity) {
-      return true;
-    }
-    return false;
+    card.valid = this.isValid(active, card);
+  }
+
+  private isValid(active: Wrestler, card: Card): boolean {
+    return active.stamina >= card.stamina && active.intensity > card.intensity;
   }
 }
 

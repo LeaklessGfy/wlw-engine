@@ -1,13 +1,5 @@
-import Show from "./show";
 import Bar from "./bar";
-import CombatStat from "./CombatStat";
-import CrowdStat from "./CrowdStat";
-import MoralStat from "./MoralStat";
-import BodyStat from "./BodyStat";
 import Card from "./card";
-import Effect from "./effect";
-import Team from "./team";
-import Official from "./official";
 
 interface Wrestler {
   id?: number;
@@ -23,6 +15,7 @@ interface Wrestler {
   hand: Card[]; //Main
   dead: Card[]; //Defausse
   status: string[];
+  distributors: string[];
   //show: Show; * COMING SOON *
   //combat: CombatStat; * COMING SOON *
   //moral: MoralStat; * COMING SOON *

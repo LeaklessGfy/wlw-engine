@@ -3,7 +3,7 @@ import * as Players from "./src/consts/players";
 import WLW from "./src";
 import * as R from "./src/resources";
 
-const state: State = {
+const defState: State = {
   turn: 0,
   active: Players.PLAYER1,
   targets: [Players.CPU],
@@ -11,17 +11,27 @@ const state: State = {
     [Players.PLAYER1]: R.Wrestlers.TripleH,
     [Players.CPU]: R.Wrestlers.JohnCena
   },
-  card: R.Cards.DDT
+  card: null
 };
 
 const app = new WLW();
-const newState = app.cardPlay(state);
+const distState = app.cardDistribution(defState);
 
-console.log("base health : ", state.players.CPU.health.val);
-console.log("new health : ", newState.players.CPU.health.val);
+console.log("def: ", defState.players.P1.hand);
+console.log("dist: ", distState.players.P1.hand);
 
-newState.card = R.Cards.Pin;
-const pinState = app.cardPlay(newState);
+const iaState = app.cardIA(distState);
 
-console.log("base stamina : ", state.players.P1.stamina);
+console.log("dist: ", distState.card);
+console.log("ia: ", iaState.card);
+
+const playState = app.cardPlay(iaState);
+
+console.log("base health: ", defState.players.CPU.health.val);
+console.log("new health: ", playState.players.CPU.health.val);
+
+playState.card = R.Cards.Pin;
+const pinState = app.cardPlay(playState);
+
+console.log("base stamina : ", defState.players.P1.stamina);
 console.log("new stamina : ", pinState.players.P1.stamina);

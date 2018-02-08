@@ -1,2 +1,2 @@
-export { default as TripleH } from "./TripleH";
-export { default as JohnCena } from "./JohnCena";
+export { default as JohnCena } from "./john-cena.wrestler";
+export { default as TripleH } from "./triple-h.wrestler";

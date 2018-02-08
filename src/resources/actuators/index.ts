@@ -1,6 +1,6 @@
-import BaseActuator from "./BaseActuator";
-import AttackActuator from "./AttackActuator";
-import PinActuator from "./PinActuator";
+import BaseActuator from "./groups/base.actuator";
+import AttackActuator from "./groups/attack.actuator";
+import PinActuator from "./uniques/pin.actuator";
 
 export default [
   new BaseActuator(),

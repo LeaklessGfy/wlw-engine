@@ -1,7 +1,7 @@
-import Actuator from "../../interfaces/actuator";
-import { State, Wrestler } from "../../models";
-import { ATTACK } from "../../consts/actuators";
-import { getWrestler } from "../../utils";
+import Actuator from "../../../interfaces/actuator";
+import { State, Wrestler } from "../../../models";
+import { ATTACK } from "../../../consts/actuators";
+import { getWrestler } from "../../../utils";
 
 class AttackActuator implements Actuator {
   key(): string {

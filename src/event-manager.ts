@@ -1,8 +1,7 @@
 import * as postal from "postal";
-import Envelope from "./models/Envelope";
-import EventManager from "./interfaces/EventManager";
+import Envelope from "./models/envelope";
 
-class DefaultEventManager implements EventManager {
+export class EventManager {
   private readonly channel = postal.channel("wlw-engine");
   
   subscribe(key: string, callback: (data: any, envelope: Envelope) => void): void {
@@ -14,4 +13,5 @@ class DefaultEventManager implements EventManager {
   }
 }
 
-export default new DefaultEventManager();
+const GlobalEventManager: EventManager = new EventManager();
+export default GlobalEventManager;

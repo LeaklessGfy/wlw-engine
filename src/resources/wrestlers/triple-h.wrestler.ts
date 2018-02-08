@@ -1,4 +1,5 @@
-import Wrestler from "../../models/Wrestler";
+import Wrestler from "../../models/wrestler";
+import * as Cards from "../cards";
 import * as C from "../../consts";
 
 const TripleH: Wrestler = {
@@ -13,10 +14,11 @@ const TripleH: Wrestler = {
   },
   stamina: 10,
   intensity: 3,
-  cards: [],
+  cards: [Cards.Ddt],
   hand: [],
   dead: [],
-  status: []
+  status: [],
+  distributors: [C.Distributors.BASE]
 };
 
 export default TripleH;

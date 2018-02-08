@@ -7,8 +7,8 @@ class AttackValidator implements Validator {
     return ATTACK;
   }
 
-  isValid(card: Readonly<Card>, state: Readonly<State>): boolean {
-    return true;
+  validate(card: Card, state: Readonly<State>): void {
+    card.valid = true;
   }
 }
 

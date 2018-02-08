@@ -1,50 +1,57 @@
-import { Actuator, Validator } from "./interfaces";
-import State from "./models/State";
+import { Actuator, Validator, Distributor } from "./interfaces";
+import State from "./models/state";
 /* DEFAULTS */
 import actuators from "./resources/actuators";
 import validators from "./resources/validators";
+import distributors from "./resources/distributors";
 
 class Kernel {
   private actuators: any;
   private validators: any;
+  private distributors: any;
 
-  constructor(actuatorList: Actuator[] = [], validatorList: Validator[] = []) {
+  constructor(
+    actuatorList: Actuator[] = [],
+    validatorList: Validator[] = [],
+    distributorList: Distributor[] = []
+  ) {
     this.actuators = {};
     this.validators = {};
+    this.distributors = {};
+    this.defaults();
     actuatorList.forEach(actuator => this.addActuator(actuator));
     validatorList.forEach(validator => this.addValidator(validator));
-    this.defaults();
+    distributorList.forEach(distributor => this.addDistributor(distributor));
   }
 
   public addActuator(actuator: Actuator): void {
-    this.add(this.actuators, actuator.key(), actuator);
+    this.actuators[actuator.key()] = actuator;
   }
 
-  public getActuators(key: string): Actuator[] {
-    return this.get(this.actuators, key);
+  public getActuator(key: string): Actuator {
+    return this.actuators[key];
   }
 
   public addValidator(validator: Validator): void {
-    this.add(this.validators, validator.key(), validator);
+    this.validators[validator.key()] = validator;
   }
 
-  public getValidators(key: string): Validator[] {
-    return this.get(this.validators, key);
+  public getValidator(key: string): Validator {
+    return this.validators[key];
+  }
+
+  public addDistributor(distributor: Distributor): void {
+    this.distributors[distributor.key()] = distributor;
+  }
+
+  public getDistributor(key: string): Distributor {
+    return this.distributors[key];
   }
 
   private defaults(): void {
     actuators.forEach(actuator => this.addActuator(actuator));
     validators.forEach(validator => this.addValidator(validator));
-  }
-
-  private add(holder: any, key: string, obj: any): void {
-    if (!holder[key]) holder[key] = [];
-    holder[key].push(obj);
-  }
-
-  private get(arr: Array<any>, key: string): Array<any> {
-    if (!arr[key]) return [];
-    return arr[key];
+    distributors.forEach(distributor => this.addDistributor(distributor));
   }
 }
 

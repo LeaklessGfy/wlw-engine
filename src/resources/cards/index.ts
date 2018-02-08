@@ -1,2 +1,2 @@
-export { default as DDT } from "./ddt";
-export { default as Pin } from "./pin";
+export { default as Ddt } from "./ddt.card";
+export { default as Pin } from "./pin.card";
