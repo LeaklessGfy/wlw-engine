@@ -10,8 +10,8 @@ class BaseActuator implements Actuator {
 
   operate(mutable: State, original: Readonly<State>): void {
     const active = getWrestler(mutable.active, mutable.players);
-    active.stamina -= mutable.card.stamina;
-    active.intensity -= mutable.card.intensity;
+    active.stamina = Math.max(active.stamina - mutable.card.stamina, 0);
+    active.intensity = Math.max(active.intensity - mutable.card.intensity, 0);
   }
 }
 
