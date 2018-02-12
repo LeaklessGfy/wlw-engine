@@ -10,6 +10,8 @@ class Kernel {
   private validators: any;
   private distributors: any;
 
+  private readonly cards: any[];
+
   constructor(
     actuatorList: Actuator[] = [],
     validatorList: Validator[] = [],
