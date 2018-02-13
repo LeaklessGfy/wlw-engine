@@ -7,6 +7,7 @@ const defState: State = {
   turn: 0,
   active: Players.PLAYER1,
   targets: [Players.CPU],
+  next: [Players.CPU],
   players: {
     [Players.PLAYER1]: R.Wrestlers.TripleH,
     [Players.CPU]: R.Wrestlers.JohnCena

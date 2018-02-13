@@ -1,6 +1,5 @@
 import * as _ from "lodash";
-import { Card, State, Wrestler } from "../models";
-import { Engine } from "../interfaces";
+import { Card, State, Engine, Wrestler } from "../models";
 import { Targets } from "../consts";
 
 abstract class AbstractCard implements Card {
@@ -20,13 +19,11 @@ abstract class AbstractCard implements Card {
   valid?: boolean;
 
   public consume(active: Wrestler): void {
-    active.stamina = Math.max(0, active.stamina - this.stamina);
-    active.intensity = Math.max(0, active.intensity - this.intensity);
+    active.stamina.val = Math.max(0, active.stamina.val - this.stamina);
+    active.intensity.val = Math.max(0, active.intensity.val - this.intensity);
   }
 
-  public operate(state: State, engine: Engine): void {
-
-  }
+  public operate(state: State, engine: Engine): void {}
 }
 
 export default AbstractCard;

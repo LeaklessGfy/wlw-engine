@@ -1,55 +1,30 @@
-import 'mocha';
-import { expect } from 'chai';
+import "mocha";
+import { expect } from "chai";
 import Kernel from "./kernel";
 
-const fakeActuator = {
-  key: () => "fake",
-  operate: (mutable, original) => null
-}
+const fake1 = {};
+const fake2 = {};
+const fake3 = {};
 
-const fakeValidator = {
-  key: () => "fake",
-  validate: (card, original) => null
-}
-
-const fakeDistributor = {
-  key: () => "fake",
-  distribute: (wrestler, original) => null
-}
-
-describe('Kernel', () => {
-  it('should be able to add actuator', () => {
+describe("Kernel", () => {
+  it("should be able to add one card", () => {
     const k = new Kernel();
-    k.addActuator(fakeActuator);
-    expect(k.getActuator("fake")).to.equal(fakeActuator);
+    k.add(fake1);
+    expect(k.get("fake1")).to.equal(fake1);
   });
 
-  it('should be able to add validator', () => {
+  it("should be able to add multiple cards", () => {
     const k = new Kernel();
-    k.addValidator(fakeValidator);
-    expect(k.getValidator("fake")).to.equal(fakeValidator);
+    k.addAll(fake1, fake2, fake3);
+    expect(k.get("fake1")).to.equal(fake1);
+    expect(k.get("fake2")).to.equal(fake2);
+    expect(k.get("fake3")).to.equal(fake3);
   });
 
-  it('should be able to add distributor', () => {
-    const k = new Kernel();
-    k.addDistributor(fakeDistributor);
-    expect(k.getDistributor("fake")).to.equal(fakeDistributor);
-  });
-
-  it('should be able to add directly from constructor', () => {
-    const k = new Kernel([fakeActuator], [fakeValidator], [fakeDistributor]);
-    expect(k.getActuator("fake")).to.equal(fakeActuator);
-    expect(k.getValidator("fake")).to.equal(fakeValidator);
-    expect(k.getDistributor("fake")).to.equal(fakeDistributor);
-  });
-
-  it('should be able to not confuse actuator, validator and distributor', () => {
-    const k = new Kernel();
-    k.addActuator(fakeActuator);
-    k.addValidator(fakeValidator);
-    k.addDistributor(fakeDistributor);
-    expect(k.getActuator("fake")).to.not.equal(fakeValidator);
-    expect(k.getDistributor("fake")).to.equal(fakeDistributor);
-    expect(k.getValidator("fake")).to.not.equal(fakeActuator);
+  it("should be able to add directly from constructor", () => {
+    const k = new Kernel([fake1, fake2, fake3]);
+    expect(k.get("fake1")).to.equal(fake1);
+    expect(k.get("fake2")).to.equal(fake2);
+    expect(k.get("fake3")).to.equal(fake3);
   });
 });

@@ -1,32 +1,42 @@
 import * as _ from "lodash";
 import * as Chance from "chance";
-import { Actuators, Events, Validators } from "./consts";
-import { State, Card, Wrestler } from "./models";
-import { Engine, Validator } from "./interfaces";
+import { Events } from "./consts";
+import { State, Card, Engine, Validator, Wrestler } from "./models";
 import GlobalEventManager, { EventManager } from "./event-manager";
 
 class CoreEngine implements Engine {
   private readonly $e: EventManager;
-  private readonly $random;
+  private readonly $random: any;
   private readonly $validators: Function[];
   private readonly $distributors: Function[];
 
   constructor() {
     this.$e = GlobalEventManager;
     this.$random = new Chance(Math.random);
+    this.$validators = [];
+    this.$distributors = [];
   }
 
   public newTurn(_state: State): State {
     this.checkState(_state);
     const mutable = this.clone(_state);
     const original = this.freeze(_state);
-  
+
     this.$e.publish(Events.PRE_TURN_NEW, { mutable, original });
+
+    if (mutable.next.length < 1) {
+      this.generateNext(mutable);
+    }
+    mutable.active = mutable.next.shift();
+    this.generateClean(mutable);
+    mutable.turn++;
+    this.generateRecovery(this.getActive(mutable));
+
     this.$e.publish(Events.POST_TURN_NEW, { mutable, original });
 
     return mutable;
   }
-  
+
   public validateCard(_card: Card): boolean {
     this.checkCard(_card);
     const card = this.clone(_card);
@@ -70,51 +80,61 @@ class CoreEngine implements Engine {
     return [];
   }
 
-  /*
-  public makeCardIA(mutable: State, original: Readonly<State>): State {
+  public chooseRandomCard(_state: State): State {
+    this.checkState(_state);
+    const mutable = this.clone(_state);
+    const original = this.freeze(_state);
+
     this.$e.publish(Events.PRE_CARD_IA, { mutable, original });
-    
+
     const active: Wrestler = mutable.players[mutable.active];
     const validCard = active.hand.filter(card => card.valid);
     if (validCard.length === 0) {
-      return this.makeNewTurn(mutable, original);
+      return this.newTurn(_state);
     }
-    const index = randomInt(0, validCard.length - 1);
+    const index = this.randomInt(0, validCard.length - 1);
     mutable.card = validCard[index];
 
     this.$e.publish(Events.POST_CARD_IA, { mutable, original });
 
     return mutable;
   }
-  */
 
   public getOriginalState(): Readonly<State> {
     return null;
   }
 
-  public getActive(mutable: State): Wrestler {
-    return mutable.players[mutable.active];
+  public getActive(state: State): Wrestler {
+    return state.players[state.active];
   }
 
-  public getTargets(mutable: State): Wrestler[] {
-    return mutable.targets.map(target => mutable.players[target]);
+  public getFirstTarget(state: State): Wrestler {
+    return state.players[state.targets[0]];
   }
 
-  public getWrestler = (key: string, mutable: State): Wrestler => {
-    return mutable.players[key];
+  public getTargets(state: State): Wrestler[] {
+    return state.targets.map(target => state.players[target]);
   }
-  
-  public getWrestlers = (mutable: State): Wrestler[] => {
-    return _.values(mutable.players);
-  }
-  
+
+  public getWrestlers = (state: State): Wrestler[] => {
+    return _.values(state.players);
+  };
+
+  public getOpponents = (wrestler: Wrestler, state: State): Wrestler[] => {
+    return [];
+  };
+
+  public getParteners = (wrestler: Wrestler, state: State): Wrestler[] => {
+    return [];
+  };
+
   public randomBool = (percent: number = 50): boolean => {
     return this.$random.bool({ likelihood: percent });
-  }
-  
+  };
+
   public randomInt = (min: number = 0, max: number = 1): number => {
     return this.$random.integer({ min, max });
-  }
+  };
 
   public addValidator(validator): void {
     this.$validators.push(validator);
@@ -122,6 +142,36 @@ class CoreEngine implements Engine {
 
   public addDistributor(distributor): void {
     this.$distributors.push(distributor);
+  }
+
+  /*
+  ** PRIVATE
+  */
+
+  private generateNext(mutable: State): void {
+    const keys = _.keys(mutable.players);
+    const wrestlers = this.getWrestlers(mutable);
+    console.log(keys, wrestlers);
+    const tmp = wrestlers.map(wrestler =>
+      this.randomInt(0, wrestler.combat.speed)
+    );
+    mutable.next = [];
+  }
+
+  private generateClean(mutable: State): void {
+    mutable.targets = [];
+    mutable.card = null;
+  }
+
+  private generateRecovery(wrestler: Wrestler): void {
+    wrestler.stamina.val = Math.min(
+      wrestler.stamina.max,
+      this.randomInt(0, wrestler.combat.recovery)
+    );
+    wrestler.intensity.val = Math.min(
+      wrestler.intensity.max,
+      this.randomInt(0, wrestler.combat.recovery)
+    );
   }
 
   private checkState(state: State) {
@@ -142,7 +192,9 @@ class CoreEngine implements Engine {
     }
     for (let target of state.targets) {
       if (!state.players[target]) {
-        throw new Error("INVALID STATE - State target doesn't exist (" + target + ")")
+        throw new Error(
+          "INVALID STATE - State target doesn't exist (" + target + ")"
+        );
       }
     }
   }
@@ -162,7 +214,7 @@ class CoreEngine implements Engine {
   private clone<T>(o: T): T {
     return _.cloneDeep(o);
   }
-  
+
   private freeze<T>(o: T): Readonly<T> {
     return Object.freeze(o);
   }

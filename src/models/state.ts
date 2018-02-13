@@ -1,12 +1,13 @@
 import Players from "./players";
-import AbstractCard from "../entities/abstract-card";
+import Card from "./card";
 
 interface State {
-  turn: number;
-  active: string;
-  targets: string[];
+  turn: number; // => 1, 2, 3 ...
+  active: string; // => P1, P2, CPU ...
+  targets: string[]; // => [P1, P2, CPU ...]
+  next: string[]; // => [P1, P2, CPU ...]
   players: Players;
-  card: AbstractCard;
+  card: Card;
 }
 
 export default State;

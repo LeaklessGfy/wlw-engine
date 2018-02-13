@@ -1,23 +1,23 @@
 import Bar from "./bar";
 import Card from "./card";
+import CombatStat from "./combat-stat";
 
 interface Wrestler {
   id?: number;
   uid: string;
   name: string;
   img: string;
-  gender: string;
-  category: string;
+  gender: string; // MALE, FEMALE
+  category: string; // HEAVYWEIGHT ...
   health: Bar;
-  stamina: number; // Energy
-  intensity: number; // Finisher
+  stamina: Bar;
+  intensity: Bar;
   cards: Card[]; //Paquet
   hand: Card[]; //Main
   dead: Card[]; //Defausse
   status: string[];
-  distributors: string[];
+  combat: CombatStat;
   //show: Show; * COMING SOON *
-  //combat: CombatStat; * COMING SOON *
   //moral: MoralStat; * COMING SOON *
   //crowd: CrowdStat; * COMING SOON *
   //quirks: any; * COMING SOON *
