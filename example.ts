@@ -13,14 +13,31 @@ const defState: State = {
     [Players.PLAYER1]: R.Wrestlers.TripleH,
     [Players.CPU]: R.Wrestlers.JohnCena
   },
-  card: null
+  card: null,
+  mode: {
+    name: "",
+    img: "",
+    description: "",
+    numbers: 2
+  }
 };
 
-const kernel = new CoreKernel();
+const kernel = new CoreKernel([{ uid: "ddt", fn: R.Cards.Ddt }]);
 const engine = new CoreEngine(kernel);
 engine.addDistributor(R.Distributors.BaseDistributor);
+engine.addValidator(R.Validators.BaseValidator);
 
-const newState = engine.newTurn(defState);
+let newState = engine.newTurn(defState);
+newState = engine.distributeCards(newState);
+newState = engine.validateCards(newState);
+newState = engine.chooseRandomCard(newState);
 
-console.log("def : ", defState);
-console.log("new : ", newState);
+if (newState.card === null) {
+  //It means there's no available card for active.
+  //New turn required
+  console.log(newState.active);
+} else {
+  newState = engine.chooseRandomTargets(newState);
+  newState = engine.playCard(newState);
+  console.log(JSON.stringify(newState.players.CPU, null, 1));
+}

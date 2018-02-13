@@ -1,6 +1,6 @@
 import Validator from "../../models/validator";
 
-const AttackValidator: Validator = (card, engine) => {
+const AttackValidator: Validator = (card, mutable, engine) => {
   card.valid = true;
 };
 

@@ -22,7 +22,10 @@ abstract class AbstractCard implements Card {
     active.intensity.val = Math.max(0, active.intensity.val - this.intensity);
   }
 
-  public operate(state: State, engine: Engine): void {}
+  public operate(state: State, engine: Engine): void {
+    const target = engine.getFirstTarget(state);
+    target.health.val = Math.max(0, target.health.val - this.damage);
+  }
 }
 
 export default AbstractCard;

@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import * as Chance from "chance";
-import { Events } from "./consts";
+import { Events, Targets } from "./consts";
 import {
   Card,
   Distributor,
@@ -59,8 +59,8 @@ class CoreEngine implements Engine {
     }
     mutable.active = mutable.next.shift();
     this.generateClean(mutable);
+    this.generateRecovery(this.getActive(mutable), mutable.turn);
     mutable.turn++;
-    this.generateRecovery(this.getActive(mutable));
 
     this.$e.publish(Events.POST_TURN_NEW, { mutable, original });
 
@@ -102,7 +102,7 @@ class CoreEngine implements Engine {
     this.$e.publish(Events.PRE_CARD_DISTRIBUTION, { mutable, original });
     for (let wrestler of this.getWrestlers(mutable)) {
       for (let distributor of this.$distributors) {
-        distributor(wrestler, this);
+        distributor(wrestler, mutable, this);
       }
     }
     this.$e.publish(Events.POST_CARD_DISTRIBUTION, { mutable, original });
@@ -126,7 +126,7 @@ class CoreEngine implements Engine {
     for (let wrestler of this.getWrestlers(mutable)) {
       for (let card of wrestler.hand) {
         for (let validator of this.$validators) {
-          validator(card, this);
+          validator(card, mutable, this);
           if (!card.valid) break;
         }
       }
@@ -150,15 +150,37 @@ class CoreEngine implements Engine {
 
     this.$e.publish(Events.PRE_CARD_IA, { mutable, original });
 
-    const active: Wrestler = mutable.players[mutable.active];
-    const validCard = active.hand.filter(card => card.valid);
-    if (validCard.length === 0) {
-      return this.newTurn(_state);
+    const active = this.getActive(mutable);
+    const validCard = active.hand.filter(card => card && card.valid);
+    if (validCard.length > 0) {
+      const index = this.randomInt(0, validCard.length - 1);
+      mutable.card = validCard[index];
     }
-    const index = this.randomInt(0, validCard.length - 1);
-    mutable.card = validCard[index];
 
     this.$e.publish(Events.POST_CARD_IA, { mutable, original });
+
+    return mutable;
+  }
+
+  public chooseRandomTargets(_state: State): State {
+    this.checkState(_state);
+    const mutable = this.clone(_state);
+    const original = this.freeze(_state);
+
+    this.$e.publish("", { mutable, original });
+
+    for (let target of mutable.card.targets) {
+      switch (target) {
+        case Targets.OPPONENT:
+          const opponents = this.getOpponents(mutable.active, mutable);
+          const len = opponents.length ? opponents.length - 1 : 0;
+          const random = this.randomInt(0, len);
+          mutable.targets.push(opponents[random]);
+          break;
+      }
+    }
+
+    this.$e.publish("", { mutable, original });
 
     return mutable;
   }
@@ -227,12 +249,16 @@ class CoreEngine implements Engine {
   /**
    * Return an array of wrestler object for all opponents.
    *
-   * @param {Wrestler} wrestler the wrestler to get opponents
+   * @param {string} key the wrestler key to get opponents
    * @param {State} state state
    *
-   * @return {Wrestler[]} array of opponents wrestler
+   * @return {string[]} array of opponents key
    */
-  public getOpponents = (wrestler: Wrestler, state: State): Wrestler[] => {
+  public getOpponents = (key: string, state: State): string[] => {
+    if (!state.mode.team) {
+      return _.keys(state.players).filter(k => key !== k);
+    }
+
     return [];
   };
 
@@ -317,14 +343,14 @@ class CoreEngine implements Engine {
     mutable.card = null;
   }
 
-  private generateRecovery(wrestler: Wrestler): void {
-    wrestler.stamina.val = Math.min(
-      wrestler.stamina.max,
-      this.randomInt(0, wrestler.combat.recovery)
+  private generateRecovery(w: Wrestler, turn: number): void {
+    w.stamina.val = Math.min(
+      w.stamina.max,
+      w.stamina.val + this.randomInt(turn, turn + w.combat.recovery)
     );
-    wrestler.intensity.val = Math.min(
-      wrestler.intensity.max,
-      this.randomInt(0, wrestler.combat.recovery)
+    w.intensity.val = Math.min(
+      w.intensity.max,
+      w.intensity.val + this.randomInt(turn, turn + w.combat.recovery)
     );
   }
 

@@ -27,7 +27,7 @@ const TripleH: Wrestler = {
   combat: {
     accuracy: 0,
     damage: 0,
-    speed: 0,
+    speed: 5,
     crit: 0,
     dodge: 0,
     agility: 0,

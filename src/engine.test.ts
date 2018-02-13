@@ -16,7 +16,13 @@ const fakeState: Readonly<State> = Object.freeze({
     P1: W.TripleH,
     CPU: W.JohnCena
   },
-  card: new C.Ddt()
+  card: new C.Ddt(),
+  mode: {
+    name: "",
+    img: "",
+    description: "",
+    numbers: 2
+  }
 });
 
 describe("Engine", () => {

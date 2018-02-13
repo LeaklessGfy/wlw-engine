@@ -1,5 +1,6 @@
 import Players from "./players";
 import Card from "./card";
+import Mode from "./mode";
 
 interface State {
   turn: number; // => 1, 2, 3 ...
@@ -8,6 +9,7 @@ interface State {
   next: string[]; // => [P1, P2, CPU ...]
   players: Players;
   card: Card;
+  mode: Mode;
 }
 
 export default State;

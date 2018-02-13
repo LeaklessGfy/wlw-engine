@@ -8,7 +8,7 @@ class Ddt extends AbstractCard {
   img = "";
   description = "";
   stamina = 3;
-  intensity = 1;
+  intensity = 0;
   damage = 10;
   effects = []; //blood
   targets = [C.Targets.OPPONENT];

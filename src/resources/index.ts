@@ -1,6 +1,6 @@
-import validators from "./validators";
-import * as Distributors from "./distributors";
 import * as Cards from "./cards";
+import * as Distributors from "./distributors";
+import * as Validators from "./validators";
 import * as Wrestlers from "./wrestlers";
 
-export { validators, Distributors, Cards, Wrestlers };
+export { Cards, Distributors, Validators, Wrestlers };

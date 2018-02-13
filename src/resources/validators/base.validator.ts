@@ -1,11 +1,10 @@
 import Validator from "../../models/validator";
 
-const BaseValidator: Validator = (card, engine) => {
-  const state = engine.getOriginalState();
-  const a = engine.getActive(state);
+const BaseValidator: Validator = (card, mutable, engine) => {
+  const a = engine.getActive(mutable);
 
   card.valid =
-    a.stamina.val >= card.stamina && a.intensity.val > card.intensity;
+    a.stamina.val >= card.stamina && a.intensity.val >= card.intensity;
 };
 
 export default BaseValidator;

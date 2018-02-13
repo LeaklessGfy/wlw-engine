@@ -14,6 +14,7 @@ class CoreKernel implements Kernel {
   private readonly cards: any;
 
   constructor(cards: CardEntry[] = []) {
+    this.cards = {};
     this.addAll(...cards);
   }
 
