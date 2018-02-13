@@ -16,8 +16,8 @@ interface Card {
   effects?: Effect[];
   targets: string[];
   reverseable: boolean;
+  rarity: string;
   valid?: boolean;
-  rarity?: string;
 
   consume(active: Wrestler): void;
   operate(mutable: State, engine): void;

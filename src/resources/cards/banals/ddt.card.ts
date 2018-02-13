@@ -1,6 +1,6 @@
-import AbstractCard from "../../entities/abstract-card";
-import { State, Engine } from "../../models";
-import * as C from "../../consts";
+import AbstractCard from "../../../entities/abstract-card";
+import { State, Engine } from "../../../models";
+import * as C from "../../../consts";
 
 class Ddt extends AbstractCard {
   uid = "ddt";
@@ -12,6 +12,7 @@ class Ddt extends AbstractCard {
   damage = 10;
   effects = []; //blood
   targets = [C.Targets.OPPONENT];
+  rarity = C.Rarities.BANAL;
 }
 
 export default Ddt;

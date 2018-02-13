@@ -4,8 +4,6 @@ import { Targets } from "../consts";
 
 abstract class AbstractCard implements Card {
   abstract uid;
-  actuators: string[];
-  validators: string[];
   abstract name;
   abstract img;
   abstract description;
@@ -14,8 +12,9 @@ abstract class AbstractCard implements Card {
   abstract intensity;
   damage;
   effects;
-  targets = [Targets.OPPONENT];
+  abstract targets;
   reverseable = true;
+  abstract rarity;
   valid?: boolean;
 
   public consume(active: Wrestler): void {

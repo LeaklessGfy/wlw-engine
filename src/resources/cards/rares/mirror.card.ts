@@ -1,6 +1,6 @@
-import AbstractCard from "../../entities/abstract-card";
-import { State, Engine } from "../../models";
-import * as C from "../../consts";
+import AbstractCard from "../../../entities/abstract-card";
+import { State, Engine } from "../../../models";
+import * as C from "../../../consts";
 
 class Mirror extends AbstractCard {
   uid = "mirror";
@@ -10,6 +10,7 @@ class Mirror extends AbstractCard {
   stamina = 3;
   intensity = 1;
   targets = [C.Targets.OPPONENT];
+  rarity = C.Rarities.RARE;
 
   operate(mutable: State, engine: Engine): void {
     const active = engine.getActive(mutable);

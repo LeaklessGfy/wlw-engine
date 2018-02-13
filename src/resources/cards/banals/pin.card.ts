@@ -1,6 +1,6 @@
-import AbstractCard from "../../entities/abstract-card";
-import { State, Engine } from "../../models";
-import * as C from "../../consts";
+import AbstractCard from "../../../entities/abstract-card";
+import { State, Engine } from "../../../models";
+import * as C from "../../../consts";
 
 class Pin extends AbstractCard {
   uid = "pin";
@@ -10,6 +10,7 @@ class Pin extends AbstractCard {
   stamina = 3;
   intensity = 0;
   targets = [C.Targets.OPPONENT];
+  rarity = C.Rarities.BANAL;
 
   public operate(mutable: State, engine: Engine): void {
     const active = engine.getActive(mutable);
