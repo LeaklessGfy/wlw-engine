@@ -1,25 +1,35 @@
 import Card from "./models/card";
+import Kernel from "./models/kernel";
 
-class Kernel {
+interface CardConstructor {
+  new (): Card;
+}
+
+type CardEntry = {
+  uid: string;
+  fn: CardConstructor;
+};
+
+class CoreKernel implements Kernel {
   private readonly cards: any;
 
-  constructor(cards: Card[] = []) {
+  constructor(cards: CardEntry[] = []) {
     this.addAll(...cards);
   }
 
-  public add(card: Card) {
-    this.cards[card.uid] = card;
+  public add(card: CardEntry) {
+    this.cards[card.uid] = card.fn;
   }
 
-  public addAll(...cards: Card[]) {
+  public addAll(...cards: CardEntry[]) {
     for (let card of cards) {
       this.add(card);
     }
   }
 
   public get(key: string): Card {
-    return this.cards[key] ? this.cards[key] : null;
+    return this.cards[key] ? new this.cards[key]() : null;
   }
 }
 
-export default Kernel;
+export default CoreKernel;

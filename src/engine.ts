@@ -5,6 +5,7 @@ import {
   Card,
   Distributor,
   Engine,
+  Kernel,
   State,
   Validator,
   Wrestler
@@ -19,6 +20,7 @@ import GlobalEventManager, { EventManager } from "./event-manager";
  */
 class CoreEngine implements Engine {
   private readonly $e: EventManager;
+  private readonly $k: Kernel;
   private readonly $random: any;
   private readonly $validators: Validator[];
   private readonly $distributors: Distributor[];
@@ -27,8 +29,9 @@ class CoreEngine implements Engine {
    * Creates an instance of CoreEngine.
    * @memberof CoreEngine
    */
-  constructor() {
+  constructor(kernel: Kernel) {
     this.$e = GlobalEventManager;
+    this.$k = kernel;
     this.$random = new Chance(Math.random);
     this.$validators = [];
     this.$distributors = [];
@@ -46,7 +49,6 @@ class CoreEngine implements Engine {
    * @return {State} new state
    */
   public newTurn(_state: State): State {
-    this.checkState(_state);
     const mutable = this.clone(_state);
     const original = this.freeze(_state);
 
@@ -99,11 +101,9 @@ class CoreEngine implements Engine {
 
     this.$e.publish(Events.PRE_CARD_DISTRIBUTION, { mutable, original });
     for (let wrestler of this.getWrestlers(mutable)) {
-      let cards: Card[] = [];
       for (let distributor of this.$distributors) {
-        distributor(wrestler, cards);
+        distributor(wrestler, this);
       }
-      wrestler.hand = cards;
     }
     this.$e.publish(Events.POST_CARD_DISTRIBUTION, { mutable, original });
 
@@ -125,14 +125,10 @@ class CoreEngine implements Engine {
     this.$e.publish(Events.PRE_CARD_VALIDATION, { mutable, original });
     for (let wrestler of this.getWrestlers(mutable)) {
       for (let card of wrestler.hand) {
-        let status = true;
         for (let validator of this.$validators) {
-          if (!validator(card, original)) {
-            status = false;
-            break;
-          }
+          validator(card, this);
+          if (!card.valid) break;
         }
-        card.valid = status;
       }
     }
     this.$e.publish(Events.POST_CARD_VALIDATION, { mutable, original });
@@ -170,6 +166,15 @@ class CoreEngine implements Engine {
   /*
   ** HELPERS
   */
+
+  /**
+   * Return the kernel.
+   *
+   * @return {Kernel} kernel
+   */
+  public getKernel(): Kernel {
+    return this.$k;
+  }
 
   public getOriginalState(): Readonly<State> {
     return null;
@@ -267,18 +272,20 @@ class CoreEngine implements Engine {
   };
 
   /**
+   * Add a validator
    *
-   * @param validator
+   * @param {Validator} validator
    */
-  public addValidator(validator): void {
+  public addValidator(validator: Validator): void {
     this.$validators.push(validator);
   }
 
   /**
+   * Add a distributor
    *
-   * @param distributor
+   * @param {Distributor} distributor
    */
-  public addDistributor(distributor): void {
+  public addDistributor(distributor: Distributor): void {
     this.$distributors.push(distributor);
   }
 
@@ -288,12 +295,21 @@ class CoreEngine implements Engine {
 
   private generateNext(mutable: State): void {
     const keys = _.keys(mutable.players);
-    const wrestlers = this.getWrestlers(mutable);
-    console.log(keys, wrestlers);
-    const tmp = wrestlers.map(wrestler =>
-      this.randomInt(0, wrestler.combat.speed)
-    );
-    mutable.next = [];
+    const tmp = keys.map(key => {
+      const w = mutable.players[key];
+      const speed = this.randomInt(0, w.combat.speed);
+
+      return { key, speed };
+    });
+
+    tmp.sort((a, b) => {
+      if (a.speed > b.speed) {
+        return -1;
+      }
+      return 1;
+    });
+
+    mutable.next = tmp.map(t => t.key);
   }
 
   private generateClean(mutable: State): void {

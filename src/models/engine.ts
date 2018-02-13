@@ -1,4 +1,11 @@
-import { Card, State, Wrestler } from "../models";
+import {
+  Card,
+  Distributor,
+  Kernel,
+  State,
+  Validator,
+  Wrestler
+} from "../models";
 
 interface Engine {
   /** MUTATORS */
@@ -9,6 +16,7 @@ interface Engine {
   chooseRandomCard(_state: State): State;
 
   /** HELPERS */
+  getKernel(): Kernel;
   getOriginalState(): Readonly<State>;
   getActive(state: State): Wrestler;
   getFirstTarget(state: State): Wrestler;
@@ -18,8 +26,8 @@ interface Engine {
   getParteners(wrestler: Wrestler, state: State): Wrestler[];
   randomBool(percent?: number): boolean;
   randomInt(min?: number, max?: number): number;
-  addValidator(validator): void;
-  addDistributor(distributor): void;
+  addValidator(validator: Validator): void;
+  addDistributor(distributor: Distributor): void;
 }
 
 export default Engine;

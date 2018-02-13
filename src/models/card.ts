@@ -1,4 +1,5 @@
 import Effect from "./effect";
+import Engine from "./engine";
 import Requirements from "./requirements";
 import State from "./state";
 import Wrestler from "./wrestler";
@@ -20,7 +21,7 @@ interface Card {
   valid?: boolean;
 
   consume(active: Wrestler): void;
-  operate(mutable: State, engine): void;
+  operate(mutable: State, engine: Engine): void;
 }
 
 export default Card;

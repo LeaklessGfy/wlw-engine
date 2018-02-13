@@ -2,27 +2,71 @@ import "mocha";
 import { expect } from "chai";
 import Kernel from "./kernel";
 
-const fake1 = {};
-const fake2 = {};
-const fake3 = {};
+const fake1 = class F1 {
+  uid = "fake3";
+  name = "fake";
+  img = "";
+  description = "";
+  stamina = 0;
+  intensity = 0;
+  targets = [];
+  reverseable = true;
+  rarity = "";
+  consume(active) {}
+  operate(mutable, engine) {}
+};
+const fake2 = class F2 {
+  uid = "fake2";
+  name = "fake";
+  img = "";
+  description = "";
+  stamina = 0;
+  intensity = 0;
+  targets = [];
+  reverseable = true;
+  rarity = "";
+  consume(active) {}
+  operate(mutable, engine) {}
+};
+const fake3 = class F3 {
+  uid = "fake3";
+  name = "fake";
+  img = "";
+  description = "";
+  stamina = 0;
+  intensity = 0;
+  targets = [];
+  reverseable = true;
+  rarity = "";
+  consume(active) {}
+  operate(mutable, engine) {}
+};
 
 describe("Kernel", () => {
   it("should be able to add one card", () => {
     const k = new Kernel();
-    k.add(fake1);
+    k.add({ uid: "fake1", fn: fake1 });
     expect(k.get("fake1")).to.equal(fake1);
   });
 
   it("should be able to add multiple cards", () => {
     const k = new Kernel();
-    k.addAll(fake1, fake2, fake3);
+    k.addAll(
+      { uid: "fake1", fn: fake1 },
+      { uid: "fake2", fn: fake2 },
+      { uid: "fake3", fn: fake3 }
+    );
     expect(k.get("fake1")).to.equal(fake1);
     expect(k.get("fake2")).to.equal(fake2);
     expect(k.get("fake3")).to.equal(fake3);
   });
 
   it("should be able to add directly from constructor", () => {
-    const k = new Kernel([fake1, fake2, fake3]);
+    const k = new Kernel([
+      { uid: "fake1", fn: fake1 },
+      { uid: "fake2", fn: fake2 },
+      { uid: "fake3", fn: fake3 }
+    ]);
     expect(k.get("fake1")).to.equal(fake1);
     expect(k.get("fake2")).to.equal(fake2);
     expect(k.get("fake3")).to.equal(fake3);

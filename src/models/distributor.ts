@@ -1,5 +1,5 @@
-import { Card, Wrestler } from "../models";
+import { Engine, Wrestler } from "../models";
 
-type Distributor = (wrestler: Wrestler, cards: Card[]) => void;
+type Distributor = (wrestler: Wrestler, engine: Engine) => void;
 
 export default Distributor;

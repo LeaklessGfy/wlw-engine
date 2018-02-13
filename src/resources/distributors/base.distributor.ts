@@ -1,14 +1,15 @@
-import Distributor from "../../interfaces/distributor";
-import { State, Wrestler } from "../../models";
+import { Distributor, State, Wrestler } from "../../models";
 
-class BaseDistributor implements Distributor {
-  key(): string {
-    return "base";
-  }
+const BaseDistributor: Distributor = (wrestler, engine) => {
+  for (let i = 0; i < 5; i++) {
+    const kernel = engine.getKernel();
+    const random = engine.randomInt(0, wrestler.cards.length);
+    const card = kernel.get(wrestler.cards[random]);
 
-  distribute(wrestler: Wrestler, state: Readonly<State>): void {
-    wrestler.hand = wrestler.cards;
+    console.log(card);
+
+    wrestler.hand.push(card);
   }
-}
+};
 
 export default BaseDistributor;

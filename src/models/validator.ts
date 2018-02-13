@@ -1,5 +1,5 @@
-import { Card, State } from "../models";
+import { Card, Engine } from "../models";
 
-type Validator = (card: Card, state: State) => boolean;
+type Validator = (card: Card, engine: Engine) => void;
 
 export default Validator;

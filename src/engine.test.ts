@@ -1,6 +1,7 @@
 import "mocha";
 import * as _ from "lodash";
 import { expect } from "chai";
+import Kernel from "./kernel";
 import Engine from "./engine";
 import { State } from "./models";
 import * as W from "./resources/wrestlers";
@@ -19,7 +20,7 @@ const fakeState: Readonly<State> = Object.freeze({
 });
 
 describe("Engine", () => {
-  const engine = new Engine();
+  const engine = new Engine(new Kernel());
 
   it("should be able to make a new turn", () => {
     const mutable = engine.newTurn(fakeState);
@@ -82,7 +83,6 @@ describe("Engine", () => {
   });
 
   it("should be able to return all wrestlers", () => {
-    const engine = new Engine();
     const wrestlers = engine.getWrestlers(fakeState);
     expect(wrestlers.length).to.equal(2);
     expect(wrestlers).eql([fakeState.players.CPU, fakeState.players.P1]);
