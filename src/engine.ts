@@ -4,12 +4,22 @@ import { Events } from "./consts";
 import { State, Card, Engine, Validator, Wrestler } from "./models";
 import GlobalEventManager, { EventManager } from "./event-manager";
 
+/**
+ * The engine of the WLW game
+ *
+ * @class CoreEngine
+ * @implements {Engine}
+ */
 class CoreEngine implements Engine {
   private readonly $e: EventManager;
   private readonly $random: any;
   private readonly $validators: Function[];
   private readonly $distributors: Function[];
 
+  /**
+   * Creates an instance of CoreEngine.
+   * @memberof CoreEngine
+   */
   constructor() {
     this.$e = GlobalEventManager;
     this.$random = new Chance(Math.random);
@@ -17,6 +27,13 @@ class CoreEngine implements Engine {
     this.$distributors = [];
   }
 
+  /**
+   * Create a new turn.
+   *
+   * @param {State} _state initial state
+   *
+   * @return {State} new state
+   */
   public newTurn(_state: State): State {
     this.checkState(_state);
     const mutable = this.clone(_state);
@@ -54,6 +71,13 @@ class CoreEngine implements Engine {
     return status;
   }
 
+  /**
+   * Play the active card.
+   *
+   * @param {State} _state initial state
+   *
+   * @return {State} new state
+   */
   public playCard(_state: State): State {
     this.checkState(_state);
     const mutable = this.clone(_state);
@@ -67,19 +91,38 @@ class CoreEngine implements Engine {
     return mutable;
   }
 
-  public distributeCard(_wrestler: Wrestler): Card[] {
-    this.checkWrestler(_wrestler);
-    const wrestler = this.clone(_wrestler);
+  /**
+   * Distribute an hand for every wrestler.
+   *
+   * @param {State} _state initial state
+   *
+   * @return {State} new state
+   */
+  public distributeCard(_state: State): State {
+    this.checkState(_state);
+    const mutable = this.clone(_state);
+    const original = this.freeze(_state);
 
-    this.$e.publish(Events.PRE_CARD_DISTRIBUTION, { wrestler });
-    for (let distributor of this.$distributors) {
-      //distributor(wrestler);
+    this.$e.publish(Events.PRE_CARD_DISTRIBUTION, { mutable, original });
+    for (let wrestler of this.getWrestlers(mutable)) {
+      let cards: Card[] = [];
+      for (let distributor of this.$distributors) {
+        distributor(wrestler, cards);
+      }
+      wrestler.hand = cards;
     }
-    this.$e.publish(Events.POST_CARD_DISTRIBUTION, { wrestler });
+    this.$e.publish(Events.POST_CARD_DISTRIBUTION, { mutable, original });
 
-    return [];
+    return mutable;
   }
 
+  /**
+   * Choose a random card for the active player.
+   *
+   * @param {State} _state initial state
+   *
+   * @return {State} new state
+   */
   public chooseRandomCard(_state: State): State {
     this.checkState(_state);
     const mutable = this.clone(_state);
@@ -100,52 +143,123 @@ class CoreEngine implements Engine {
     return mutable;
   }
 
+  /*
+  ** HELPERS
+  */
+
   public getOriginalState(): Readonly<State> {
     return null;
   }
 
+  /**
+   * Return the wrestler object for the active player.
+   *
+   * @param {State} state state
+   *
+   * @return {Wrestler} the active wrestler
+   */
   public getActive(state: State): Wrestler {
     return state.players[state.active];
   }
 
+  /**
+   * Return the wrestler object for the first target.
+   *
+   * @param {State} state state
+   *
+   * @return {Wrestler} the first target wrestler
+   */
   public getFirstTarget(state: State): Wrestler {
     return state.players[state.targets[0]];
   }
 
+  /**
+   * Return an array of wrestler object for the targets.
+   *
+   * @param {State} state state
+   *
+   * @return {Wrestler[]} array of targets wrestler
+   */
   public getTargets(state: State): Wrestler[] {
     return state.targets.map(target => state.players[target]);
   }
 
+  /**
+   * Return an array of wrestler object for all players.
+   *
+   * @param {State} state state
+   *
+   * @return {Wrestler[]} array of players wrestler
+   */
   public getWrestlers = (state: State): Wrestler[] => {
     return _.values(state.players);
   };
 
+  /**
+   * Return an array of wrestler object for all opponents.
+   *
+   * @param {Wrestler} wrestler the wrestler to get opponents
+   * @param {State} state state
+   *
+   * @return {Wrestler[]} array of opponents wrestler
+   */
   public getOpponents = (wrestler: Wrestler, state: State): Wrestler[] => {
     return [];
   };
 
+  /**
+   * Return an array of wrestler object for all parteners.
+   *
+   * @param {Wrestler} wrestler the wrestler to get parteners
+   * @param {State} state state
+   *
+   * @return {Wrestler[]} array of parteners wrestler
+   */
   public getParteners = (wrestler: Wrestler, state: State): Wrestler[] => {
     return [];
   };
 
+  /**
+   * Return a random boolean. Can be influenced by percent parameter.
+   *
+   * @param {number} percent a number that represent the percent of success
+   *
+   * @return {boolean} random boolean
+   */
   public randomBool = (percent: number = 50): boolean => {
     return this.$random.bool({ likelihood: percent });
   };
 
+  /**
+   * Return a random integer. Can be influenced by min and max parameter (inclusive).
+   *
+   * @param {number} min minimum that random int can be
+   * @param {number} max maximum that random int can be
+   *
+   * @return {number} random integer
+   */
   public randomInt = (min: number = 0, max: number = 1): number => {
     return this.$random.integer({ min, max });
   };
 
+  /**
+   *
+   * @param validator
+   */
   public addValidator(validator): void {
     this.$validators.push(validator);
   }
 
+  /**
+   *
+   * @param distributor
+   */
   public addDistributor(distributor): void {
     this.$distributors.push(distributor);
   }
 
   /*
-  ** PRIVATE
+  ** PRIVATES
   */
 
   private generateNext(mutable: State): void {

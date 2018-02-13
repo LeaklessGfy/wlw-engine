@@ -4,7 +4,7 @@ interface Engine {
   newTurn(_state: State): State;
   validateCard(_card: Card): boolean;
   playCard(_state: State): State;
-  distributeCard(_wrestler: Wrestler): Card[];
+  distributeCard(_state: State): State;
   chooseRandomCard(_state: State): State;
   getOriginalState(): Readonly<State>;
   getActive(state: State): Wrestler;
