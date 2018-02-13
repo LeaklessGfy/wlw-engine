@@ -2,7 +2,7 @@ import Wrestler from "../../models/wrestler";
 import * as C from "../../consts";
 
 const JohnCena: Wrestler = {
-  uid: C.Uids.JOHN_CENA,
+  uid: "john-cena",
   name: "John Cena",
   img: "",
   gender: C.Genders.MALE,
@@ -11,13 +11,28 @@ const JohnCena: Wrestler = {
     val: 100,
     max: 100
   },
-  stamina: 10,
-  intensity: 3,
+  stamina: {
+    val: 10,
+    max: 10
+  },
+  intensity: {
+    val: 0,
+    max: 10
+  },
   cards: [],
   hand: [],
   dead: [],
   status: [C.Status.NORMAL],
-  distributors: [C.Distributors.BASE]
-}
+  combat: {
+    accuracy: 0,
+    damage: 0,
+    speed: 0,
+    crit: 0,
+    dodge: 0,
+    agility: 0,
+    recovery: 0,
+    submission: 0
+  }
+};
 
 export default JohnCena;

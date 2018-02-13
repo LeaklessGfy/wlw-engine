@@ -3,7 +3,7 @@ import * as Cards from "../cards";
 import * as C from "../../consts";
 
 const TripleH: Wrestler = {
-  uid: C.Uids.TRIPLE_H,
+  uid: "triple-h",
   name: "Triple H",
   img: "",
   gender: C.Genders.MALE,
@@ -12,13 +12,28 @@ const TripleH: Wrestler = {
     val: 100,
     max: 100
   },
-  stamina: 10,
-  intensity: 3,
-  cards: [Cards.Ddt],
+  stamina: {
+    val: 10,
+    max: 10
+  },
+  intensity: {
+    val: 0,
+    max: 10
+  },
+  cards: ["ddt"],
   hand: [],
   dead: [],
   status: [],
-  distributors: [C.Distributors.BASE]
+  combat: {
+    accuracy: 0,
+    damage: 0,
+    speed: 0,
+    crit: 0,
+    dodge: 0,
+    agility: 0,
+    recovery: 0,
+    submission: 0
+  }
 };
 
 export default TripleH;
