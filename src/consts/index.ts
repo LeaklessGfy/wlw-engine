@@ -2,7 +2,7 @@ import * as Categories from "./categories";
 import * as Events from "./events";
 import * as Genders from "./genders";
 import * as Players from "./players";
-import * as Rarities from "./rarity";
+import * as Rarities from "./rarities";
 import * as Status from "./status";
 import * as Targets from "./targets";
 
