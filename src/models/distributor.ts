@@ -1,8 +1,5 @@
-import { State, Wrestler } from "../models";
+import { Card, Wrestler } from "../models";
 
-interface Distributor {
-  key(): string;
-  distribute(wrestler: Wrestler, state: Readonly<State>): void;
-}
+type Distributor = (wrestler: Wrestler, cards: Card[]) => void;
 
 export default Distributor;

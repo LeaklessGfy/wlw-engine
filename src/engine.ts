@@ -1,7 +1,14 @@
 import * as _ from "lodash";
 import * as Chance from "chance";
 import { Events } from "./consts";
-import { State, Card, Engine, Validator, Wrestler } from "./models";
+import {
+  Card,
+  Distributor,
+  Engine,
+  State,
+  Validator,
+  Wrestler
+} from "./models";
 import GlobalEventManager, { EventManager } from "./event-manager";
 
 /**
@@ -13,8 +20,8 @@ import GlobalEventManager, { EventManager } from "./event-manager";
 class CoreEngine implements Engine {
   private readonly $e: EventManager;
   private readonly $random: any;
-  private readonly $validators: Function[];
-  private readonly $distributors: Function[];
+  private readonly $validators: Validator[];
+  private readonly $distributors: Distributor[];
 
   /**
    * Creates an instance of CoreEngine.
@@ -26,6 +33,10 @@ class CoreEngine implements Engine {
     this.$validators = [];
     this.$distributors = [];
   }
+
+  /*
+  ** MUTATORS
+  */
 
   /**
    * Create a new turn.
@@ -54,23 +65,6 @@ class CoreEngine implements Engine {
     return mutable;
   }
 
-  public validateCard(_card: Card): boolean {
-    this.checkCard(_card);
-    const card = this.clone(_card);
-
-    this.$e.publish(Events.PRE_CARD_VALIDATION, { card });
-    let status = true;
-    for (let validator of this.$validators) {
-      if (!validator(card)) {
-        status = false;
-        break;
-      }
-    }
-    this.$e.publish(Events.POST_CARD_VALIDATION, { card, status });
-
-    return status;
-  }
-
   /**
    * Play the active card.
    *
@@ -92,13 +86,13 @@ class CoreEngine implements Engine {
   }
 
   /**
-   * Distribute an hand for every wrestler.
+   * Distribute an hand for every wrestlers.
    *
    * @param {State} _state initial state
    *
    * @return {State} new state
    */
-  public distributeCard(_state: State): State {
+  public distributeCards(_state: State): State {
     this.checkState(_state);
     const mutable = this.clone(_state);
     const original = this.freeze(_state);
@@ -112,6 +106,36 @@ class CoreEngine implements Engine {
       wrestler.hand = cards;
     }
     this.$e.publish(Events.POST_CARD_DISTRIBUTION, { mutable, original });
+
+    return mutable;
+  }
+
+  /**
+   * Validate hand cards for every wrestlers.
+   *
+   * @param {State} _state initial state
+   *
+   * @return {State} new state
+   */
+  public validateCards(_state: State): State {
+    this.checkState(_state);
+    const mutable = this.clone(_state);
+    const original = this.freeze(_state);
+
+    this.$e.publish(Events.PRE_CARD_VALIDATION, { mutable, original });
+    for (let wrestler of this.getWrestlers(mutable)) {
+      for (let card of wrestler.hand) {
+        let status = true;
+        for (let validator of this.$validators) {
+          if (!validator(card, original)) {
+            status = false;
+            break;
+          }
+        }
+        card.valid = status;
+      }
+    }
+    this.$e.publish(Events.POST_CARD_VALIDATION, { mutable, original });
 
     return mutable;
   }

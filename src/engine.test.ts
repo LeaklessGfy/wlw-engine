@@ -10,7 +10,7 @@ const fakeState: Readonly<State> = Object.freeze({
   turn: 0,
   active: "P1",
   targets: ["CPU"],
-  next: [],
+  next: ["CPU"],
   players: {
     P1: W.TripleH,
     CPU: W.JohnCena
@@ -18,22 +18,21 @@ const fakeState: Readonly<State> = Object.freeze({
   card: new C.Ddt()
 });
 
-describe("Action Manager", () => {
+describe("Engine", () => {
   const engine = new Engine();
 
   it("should be able to make a new turn", () => {
     const mutable = engine.newTurn(fakeState);
 
     /* NO CHANGES */
+    expect(mutable.players).to.eql(fakeState.players);
 
     /* CHANGES */
     expect(mutable.turn).to.equal(1);
     expect(mutable.targets).to.equal([]);
-  });
-
-  it("should be able to make a card validation", () => {
-    const result = engine.validateCard(new C.Ddt());
-    expect(result).to.eql(true);
+    expect(mutable.next.length).to.equal(0);
+    expect(mutable.card).to.equal(null);
+    expect(mutable.active).to.equal("CPU");
   });
 
   it("should be able to make a simple card play", () => {
@@ -57,7 +56,11 @@ describe("Action Manager", () => {
   });
 
   it("should be able to make a simple card distribution", () => {
-    const mutable = engine.distributeCard(fakeState);
+    const mutable = engine.distributeCards(fakeState);
+  });
+
+  it("should be able to make a card validation", () => {
+    const mutable = engine.validateCards(fakeState);
   });
 
   it("should be able to choose a random card", () => {});

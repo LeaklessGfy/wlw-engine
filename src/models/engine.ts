@@ -1,11 +1,14 @@
 import { Card, State, Wrestler } from "../models";
 
 interface Engine {
+  /** MUTATORS */
   newTurn(_state: State): State;
-  validateCard(_card: Card): boolean;
   playCard(_state: State): State;
-  distributeCard(_state: State): State;
+  distributeCards(_state: State): State;
+  validateCards(_state: State): State;
   chooseRandomCard(_state: State): State;
+
+  /** HELPERS */
   getOriginalState(): Readonly<State>;
   getActive(state: State): Wrestler;
   getFirstTarget(state: State): Wrestler;

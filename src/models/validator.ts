@@ -1,8 +1,5 @@
 import { Card, State } from "../models";
 
-interface Validator {
-  key(): string;
-  validate(card: Card, state: Readonly<State>): void;
-}
+type Validator = (card: Card, state: State) => boolean;
 
 export default Validator;
