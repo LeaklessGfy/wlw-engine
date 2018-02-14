@@ -6,33 +6,16 @@ import Engine from "./engine";
 import { State } from "./models";
 import * as W from "./resources/wrestlers";
 import * as C from "./resources/cards";
-
-const fakeState: Readonly<State> = Object.freeze({
-  turn: 0,
-  active: "P1",
-  targets: ["CPU"],
-  next: ["CPU"],
-  players: {
-    P1: W.TripleH,
-    CPU: W.JohnCena
-  },
-  card: new C.Ddt(),
-  mode: {
-    name: "",
-    img: "",
-    description: "",
-    numbers: 2
-  }
-});
+import FakeState from "./resources/fake-state";
 
 describe("Engine", () => {
   const engine = new Engine(new Kernel());
 
   it("should be able to make a new turn", () => {
-    const mutable = engine.newTurn(fakeState);
+    const mutable = engine.newTurn(FakeState);
 
     /* NO CHANGES */
-    expect(mutable.players).to.eql(fakeState.players);
+    expect(mutable.players).to.eql(FakeState.players);
 
     /* CHANGES */
     expect(mutable.turn).to.equal(1);
@@ -43,57 +26,57 @@ describe("Engine", () => {
   });
 
   it("should be able to make a simple card play", () => {
-    const mutable = engine.playCard(fakeState);
+    const mutable = engine.playCard(FakeState);
 
     /* NO CHANGES */
-    expect(mutable.active).to.equal(fakeState.active);
-    expect(mutable.targets[0]).to.equal(fakeState.targets[0]);
-    expect(mutable.turn).to.equal(fakeState.turn);
+    expect(mutable.active).to.equal(FakeState.active);
+    expect(mutable.targets[0]).to.equal(FakeState.targets[0]);
+    expect(mutable.turn).to.equal(FakeState.turn);
 
     /* CHANGES */
     expect(mutable.players.CPU.health.val).to.equal(
-      fakeState.players.CPU.health.val - fakeState.card.damage
+      FakeState.players.CPU.health.val - FakeState.card.damage
     );
     expect(mutable.players.P1.stamina.val).to.equal(
-      fakeState.players.P1.stamina.val - fakeState.card.stamina
+      FakeState.players.P1.stamina.val - FakeState.card.stamina
     );
     expect(mutable.players.P1.intensity.val).to.equal(
-      fakeState.players.P1.intensity.val - fakeState.card.intensity
+      FakeState.players.P1.intensity.val - FakeState.card.intensity
     );
   });
 
   it("should be able to make a simple card distribution", () => {
     // Add distributor
-    const mutable = engine.distributeCards(fakeState);
+    const mutable = engine.distributeCards(FakeState);
   });
 
   it("should be able to make a card validation", () => {
     // Add validator
-    const mutable = engine.validateCards(fakeState);
+    const mutable = engine.validateCards(FakeState);
   });
 
   it("should be able to choose a random card", () => {});
 
   it("should be able to return the active wrestler", () => {
-    const active = engine.getActive(fakeState);
-    expect(active).to.eql(fakeState.players.P1);
+    const active = engine.getActive(FakeState);
+    expect(active).to.eql(FakeState.players.P1);
   });
 
   it("should be able to return the first target", () => {
-    const target = engine.getFirstTarget(fakeState);
-    expect(target).to.eql(fakeState.players.CPU);
+    const target = engine.getFirstTarget(FakeState);
+    expect(target).to.eql(FakeState.players.CPU);
   });
 
   it("should be able to return the targets", () => {
-    const targets = engine.getTargets(fakeState);
+    const targets = engine.getTargets(FakeState);
     expect(targets.length).to.equal(1);
-    expect(targets).to.eql([fakeState.players.CPU]);
+    expect(targets).to.eql([FakeState.players.CPU]);
   });
 
   it("should be able to return all wrestlers", () => {
-    const wrestlers = engine.getWrestlers(fakeState);
+    const wrestlers = engine.getWrestlers(FakeState);
     expect(wrestlers.length).to.equal(2);
-    expect(wrestlers).eql([fakeState.players.P1, fakeState.players.CPU]);
+    expect(wrestlers).eql([FakeState.players.P1, FakeState.players.CPU]);
   });
 
   it("should be able to generate a random bool", () => {
@@ -110,7 +93,7 @@ describe("Engine", () => {
   });
 
   it("should be able to add validator", () => {
-    const f: State = _.cloneDeep(fakeState);
+    const f = engine.clone(FakeState);
     f.players.P1.hand.push(new C.Ddt());
     let counter = 0;
 
@@ -132,7 +115,11 @@ describe("Engine", () => {
       counter++;
     });
 
-    engine.distributeCards(fakeState);
+    engine.distributeCards(FakeState);
     expect(counter).to.equal(1);
   });
+
+  it("should be able to clone", () => {});
+
+  it("should be able to freeze", () => {});
 });

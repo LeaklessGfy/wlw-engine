@@ -317,6 +317,28 @@ class CoreEngine implements Engine {
     this.$distributors.push(distributor);
   }
 
+  /**
+   * Clone the object pass in parameter
+   *
+   * @param {T} o
+   *
+   * @return {T}
+   */
+  public clone<T>(o: T): T {
+    return _.cloneDeep(o);
+  }
+
+  /**
+   * Return a freeze copy of the object pass in parameter
+   *
+   * @param {T} o
+   *
+   * @return {T}
+   */
+  public freeze<T>(o: T): Readonly<T> {
+    return Object.freeze(o);
+  }
+
   /*
   ** PRIVATES
   */
@@ -391,14 +413,6 @@ class CoreEngine implements Engine {
     if (!wrestler) {
       throw new Error("INVALID STATE - Wrestler is null");
     }
-  }
-
-  private clone<T>(o: T): T {
-    return _.cloneDeep(o);
-  }
-
-  private freeze<T>(o: T): Readonly<T> {
-    return Object.freeze(o);
   }
 }
 
