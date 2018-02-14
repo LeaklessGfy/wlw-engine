@@ -27,17 +27,23 @@ const engine = new CoreEngine(kernel);
 engine.addDistributor(R.Distributors.BaseDistributor);
 engine.addValidator(R.Validators.BaseValidator);
 
+// Create and initialize new turn
 let newState = engine.newTurn(defState);
+// Distribute cards for active player
 newState = engine.distributeCards(newState);
+// Validate cards for active player
 newState = engine.validateCards(newState);
+// Choose a random valid card to play
 newState = engine.chooseRandomCard(newState);
 
 if (newState.card === null) {
-  //It means there's no available card for active.
-  //New turn required
+  // It means there's no available card for active.
+  // New turn required
   console.log(newState.active);
 } else {
+  // Choose random target(s) for the given card
   newState = engine.chooseRandomTargets(newState);
+  // Play the card
   newState = engine.playCard(newState);
   console.log(JSON.stringify(newState.players.CPU, null, 1));
 }

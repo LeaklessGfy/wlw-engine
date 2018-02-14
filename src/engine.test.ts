@@ -36,7 +36,7 @@ describe("Engine", () => {
 
     /* CHANGES */
     expect(mutable.turn).to.equal(1);
-    expect(mutable.targets).to.equal([]);
+    expect(mutable.targets.length).to.equal(0);
     expect(mutable.next.length).to.equal(0);
     expect(mutable.card).to.equal(null);
     expect(mutable.active).to.equal("CPU");
@@ -63,10 +63,12 @@ describe("Engine", () => {
   });
 
   it("should be able to make a simple card distribution", () => {
+    // Add distributor
     const mutable = engine.distributeCards(fakeState);
   });
 
   it("should be able to make a card validation", () => {
+    // Add validator
     const mutable = engine.validateCards(fakeState);
   });
 
@@ -91,7 +93,7 @@ describe("Engine", () => {
   it("should be able to return all wrestlers", () => {
     const wrestlers = engine.getWrestlers(fakeState);
     expect(wrestlers.length).to.equal(2);
-    expect(wrestlers).eql([fakeState.players.CPU, fakeState.players.P1]);
+    expect(wrestlers).eql([fakeState.players.P1, fakeState.players.CPU]);
   });
 
   it("should be able to generate a random bool", () => {
@@ -107,6 +109,30 @@ describe("Engine", () => {
       .and.lessThan(11);
   });
 
-  it("should be able to add validator", () => {});
-  it("should be able to add distributor", () => {});
+  it("should be able to add validator", () => {
+    const f: State = _.cloneDeep(fakeState);
+    f.players.P1.hand.push(new C.Ddt());
+    let counter = 0;
+
+    engine.addValidator((card, mutable, e) => {
+      expect(e).to.eql(engine);
+      counter++;
+    });
+
+    engine.validateCards(f);
+    expect(counter).to.equal(1);
+  });
+
+  it("should be able to add distributor", () => {
+    let counter = 0;
+
+    engine.addDistributor((wrestler, mutable, e) => {
+      expect(e).to.eql(engine);
+      wrestler.hand.push(new C.Ddt());
+      counter++;
+    });
+
+    engine.distributeCards(fakeState);
+    expect(counter).to.equal(1);
+  });
 });

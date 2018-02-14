@@ -88,7 +88,7 @@ class CoreEngine implements Engine {
   }
 
   /**
-   * Distribute an hand for every wrestlers.
+   * Distribute an hand for the active player.
    *
    * @param {State} _state initial state
    *
@@ -100,10 +100,9 @@ class CoreEngine implements Engine {
     const original = this.freeze(_state);
 
     this.$e.publish(Events.PRE_CARD_DISTRIBUTION, { mutable, original });
-    for (let wrestler of this.getWrestlers(mutable)) {
-      for (let distributor of this.$distributors) {
-        distributor(wrestler, mutable, this);
-      }
+    const active = this.getActive(mutable);
+    for (let distributor of this.$distributors) {
+      distributor(active, mutable, this);
     }
     this.$e.publish(Events.POST_CARD_DISTRIBUTION, { mutable, original });
 
@@ -111,7 +110,7 @@ class CoreEngine implements Engine {
   }
 
   /**
-   * Validate hand cards for every wrestlers.
+   * Validate hand cards for the active player.
    *
    * @param {State} _state initial state
    *
@@ -123,12 +122,11 @@ class CoreEngine implements Engine {
     const original = this.freeze(_state);
 
     this.$e.publish(Events.PRE_CARD_VALIDATION, { mutable, original });
-    for (let wrestler of this.getWrestlers(mutable)) {
-      for (let card of wrestler.hand) {
-        for (let validator of this.$validators) {
-          validator(card, mutable, this);
-          if (!card.valid) break;
-        }
+    const active = this.getActive(mutable);
+    for (let card of active.hand) {
+      for (let validator of this.$validators) {
+        validator(card, mutable, this);
+        if (!card.valid) break;
       }
     }
     this.$e.publish(Events.POST_CARD_VALIDATION, { mutable, original });
@@ -271,6 +269,10 @@ class CoreEngine implements Engine {
    * @return {Wrestler[]} array of parteners wrestler
    */
   public getParteners = (wrestler: Wrestler, state: State): Wrestler[] => {
+    if (!state.mode.team) {
+      return [];
+    }
+
     return [];
   };
 
