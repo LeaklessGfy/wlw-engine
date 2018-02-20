@@ -20,7 +20,6 @@ interface Card {
   rarity: string;
   valid?: boolean;
 
-  consume(active: Wrestler): void;
   operate(mutable: State, engine: Engine): void;
 }
 

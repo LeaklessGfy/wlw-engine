@@ -55,11 +55,11 @@ class CoreEngine implements Engine {
     this.$e.publish(Events.PRE_TURN_NEW, { mutable, original });
 
     if (mutable.next.length < 1) {
-      this.generateNext(mutable);
+      this.getNext(mutable);
     }
     mutable.active = mutable.next.shift();
-    this.generateClean(mutable);
-    this.generateRecovery(this.getActive(mutable), mutable.turn);
+    this.clean(mutable);
+    this.recovery(this.getActive(mutable), mutable.turn);
     mutable.turn++;
 
     this.$e.publish(Events.POST_TURN_NEW, { mutable, original });
@@ -80,7 +80,7 @@ class CoreEngine implements Engine {
     const original = this.freeze(_state);
 
     this.$e.publish(Events.PRE_CARD_PLAY, { mutable, original });
-    mutable.card.consume(this.getActive(mutable));
+    this.consume(this.getActive(mutable), mutable.card);
     mutable.card.operate(mutable, this);
     this.$e.publish(Events.POST_CARD_PLAY, { mutable, original });
 
@@ -343,7 +343,7 @@ class CoreEngine implements Engine {
   ** PRIVATES
   */
 
-  private generateNext(mutable: State): void {
+  private getNext(mutable: State): void {
     const keys = _.keys(mutable.players);
     const tmp = keys.map(key => {
       const w = mutable.players[key];
@@ -362,12 +362,12 @@ class CoreEngine implements Engine {
     mutable.next = tmp.map(t => t.key);
   }
 
-  private generateClean(mutable: State): void {
+  private clean(mutable: State): void {
     mutable.targets = [];
     mutable.card = null;
   }
 
-  private generateRecovery(w: Wrestler, turn: number): void {
+  private recovery(w: Wrestler, turn: number): void {
     w.stamina.val = Math.min(
       w.stamina.max,
       w.stamina.val + this.randomInt(turn, turn + w.combat.recovery)
@@ -376,6 +376,11 @@ class CoreEngine implements Engine {
       w.intensity.max,
       w.intensity.val + this.randomInt(turn, turn + w.combat.recovery)
     );
+  }
+
+  private consume(w: Wrestler, c: Card) {
+    w.stamina.val = Math.max(0, w.stamina.val - c.stamina);
+    w.intensity.val = Math.max(0, w.intensity.val - c.intensity);
   }
 
   private checkState(state: State) {

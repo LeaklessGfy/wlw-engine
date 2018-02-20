@@ -11,6 +11,7 @@ interface State {
   players: Players;
   card: Card;
   mode: Mode;
+  reversed?: boolean; //Maybe useless
 }
 
 export default State;
