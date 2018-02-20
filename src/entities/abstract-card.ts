@@ -17,10 +17,14 @@ abstract class AbstractCard implements Card {
   abstract rarity;
   valid?: boolean;
 
-  public operate(state: State, engine: Engine): void {
-    const target = engine.getFirstTarget(state);
+  public preOperate(mutable: State, engine: Engine) {}
+
+  public operate(mutable: State, engine: Engine): void {
+    const target = engine.getFirstTarget(mutable);
     target.health.val = Math.max(0, target.health.val - this.damage);
   }
+
+  public postOperate(mutable: State, engine: Engine) {}
 }
 
 export default AbstractCard;

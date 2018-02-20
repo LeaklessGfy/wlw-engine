@@ -20,7 +20,9 @@ interface Card {
   rarity: string;
   valid?: boolean;
 
+  preOperate(mutable: State, engine: Engine): void;
   operate(mutable: State, engine: Engine): void;
+  postOperate(mutable: State, engine: Engine): void;
 }
 
 export default Card;
