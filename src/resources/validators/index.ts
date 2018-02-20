@@ -1,7 +1,2 @@
-import BaseValidator from "./base.validator";
-import AttackValidator from "./attack.validator";
-
-export default [
-  new BaseValidator(),
-  new AttackValidator()
-];
+export { default as BaseValidator } from "./base.validator";
+export { default as AttackValidator } from "./attack.validator";

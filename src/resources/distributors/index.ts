@@ -1,5 +1,1 @@
-import BaseDistributor from "./base.distributor";
-
-export default [
-  new BaseDistributor()
-];
+export { default as BaseDistributor } from "./base.distributor";

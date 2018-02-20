@@ -1,21 +1,10 @@
-import Validator from "../../interfaces/validator";
-import { Card, State, Wrestler } from "../../models";
-import { BASE } from "../../consts/validators";
-import { getWrestler } from "../../utils";
+import Validator from "../../models/validator";
 
-class BaseValidator implements Validator {
-  key(): string {
-    return BASE;
-  }
+const BaseValidator: Validator = (card, mutable, engine) => {
+  const a = engine.getActive(mutable);
 
-  validate(card: Card, state: Readonly<State>): void {
-    const active = getWrestler(state.active, state.players);
-    card.valid = this.isValid(active, card);
-  }
-
-  private isValid(active: Wrestler, card: Card): boolean {
-    return active.stamina >= card.stamina && active.intensity > card.intensity;
-  }
-}
+  card.valid =
+    a.stamina.val >= card.stamina && a.intensity.val >= card.intensity;
+};
 
 export default BaseValidator;

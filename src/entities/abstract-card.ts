@@ -1,10 +1,9 @@
 import * as _ from "lodash";
-import { Card, Wrestler } from "../models";
+import { Card, State, Engine, Wrestler } from "../models";
+import { Targets } from "../consts";
 
 abstract class AbstractCard implements Card {
   abstract uid;
-  actuators: string[];
-  validators: string[];
   abstract name;
   abstract img;
   abstract description;
@@ -13,13 +12,15 @@ abstract class AbstractCard implements Card {
   abstract intensity;
   damage;
   effects;
-  targets = ["OPPONENT"];
+  abstract targets;
   reverseable = true;
+  abstract rarity;
   valid?: boolean;
 
-  public run(active: Wrestler, targets: Wrestler[], engine) {}
-
-  public validate(engine) {}
+  public operate(state: State, engine: Engine): void {
+    const target = engine.getFirstTarget(state);
+    target.health.val = Math.max(0, target.health.val - this.damage);
+  }
 }
 
 export default AbstractCard;

@@ -9,3 +9,4 @@ export const ENRAGED = "enraged";
 export const COMEBACK = "comeback";
 export const DOWN = "down";
 export const KO = "ko";
+export const VULNERABLE = "vulnerable";

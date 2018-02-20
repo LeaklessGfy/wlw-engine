@@ -1,15 +1,7 @@
-import Validator from "../../interfaces/validator";
-import { Card, State } from "../../models";
-import { ATTACK } from "../../consts/validators";
+import Validator from "../../models/validator";
 
-class AttackValidator implements Validator {
-  key(): string {
-    return ATTACK;
-  }
-
-  validate(card: Card, state: Readonly<State>): void {
-    card.valid = true;
-  }
-}
+const AttackValidator: Validator = (card, mutable, engine) => {
+  card.valid = true;
+};
 
 export default AttackValidator;

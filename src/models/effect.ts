@@ -1,8 +1,8 @@
 interface Effect {
   id: number;
-  handlers: string[];
+  uid: string;
   name: string;
-  desc: string;
+  description: string;
   duration: number;
   luck: number;
   target: number;
