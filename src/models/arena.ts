@@ -1,5 +1,5 @@
 interface Arena {
-  id: number;
+  uid: string;
   name: string;
   location: string;
   img: string;

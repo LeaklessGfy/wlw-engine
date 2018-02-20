@@ -4,6 +4,7 @@ import JohnCena from "./wrestlers/john-cena.wrestler";
 import Ddt from "./cards/banals/ddt.card";
 
 const FakeState: Readonly<State> = Object.freeze({
+  viewer: "P1",
   turn: 0,
   active: "P1",
   targets: ["CPU"],
@@ -14,6 +15,7 @@ const FakeState: Readonly<State> = Object.freeze({
   },
   card: new Ddt(),
   mode: {
+    uid: "",
     name: "",
     img: "",
     description: "",

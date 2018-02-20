@@ -5,7 +5,6 @@ import State from "./state";
 import Wrestler from "./wrestler";
 
 interface Card {
-  id?: number;
   uid: string;
   name: string;
   img: string;

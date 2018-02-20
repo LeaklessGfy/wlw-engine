@@ -3,7 +3,6 @@ import Card from "./card";
 import CombatStat from "./combat-stat";
 
 interface Wrestler {
-  id?: number;
   uid: string;
   name: string;
   img: string;

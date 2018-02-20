@@ -1,5 +1,5 @@
 interface Channel {
-  id: number;
+  uid: string;
   name: string;
   img: string;
   audience: number;

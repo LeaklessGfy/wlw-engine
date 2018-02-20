@@ -1,5 +1,4 @@
 interface Effect {
-  id: number;
   uid: string;
   name: string;
   description: string;

@@ -1,5 +1,5 @@
 class Mode {
-  id?: string;
+  uid: string;
   name: string;
   img: string;
   description: string;

@@ -1,9 +1,9 @@
 interface Show {
-  id: number;
+  uid: string;
   name: string;
   color: string;
   img: string;
-  type: number; //0 => Minor, 1 => Major, 2 => PPV
+  type: number;
   arena?: any;
   channel?: any;
   referee?: any;
