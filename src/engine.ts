@@ -6,6 +6,7 @@ import {
   Distributor,
   Engine,
   Kernel,
+  Mode,
   State,
   Validator,
   Wrestler
@@ -35,6 +36,24 @@ class CoreEngine implements Engine {
     this.$random = new Chance(Math.random);
     this.$validators = [];
     this.$distributors = [];
+  }
+
+  /**
+   * Return an initial valid state.
+   *
+   * @return {State} initial valid state
+   */
+  public initState(): State {
+    return {
+      viewer: "",
+      turn: 0,
+      active: "",
+      targets: [],
+      next: [],
+      players: {},
+      card: null,
+      mode: null
+    };
   }
 
   /*
@@ -417,6 +436,12 @@ class CoreEngine implements Engine {
   private checkWrestler(wrestler: Wrestler) {
     if (!wrestler) {
       throw new Error("INVALID STATE - Wrestler is null");
+    }
+  }
+
+  private checkMode(mode: Mode) {
+    if (!mode) {
+      throw new Error("INVALID STATE - Mode is null");
     }
   }
 }
