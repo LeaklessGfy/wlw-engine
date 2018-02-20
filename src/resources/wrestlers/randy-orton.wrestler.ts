@@ -1,10 +1,11 @@
 import Wrestler from "../../models/wrestler";
 import * as C from "../../consts";
 
-const JohnCena: Wrestler = {
-  uid: "john-cena",
-  name: "John Cena",
-  img: "https://www.wowkeren.com/images/photo/john_cena.jpg",
+const RandyOrton: Wrestler = {
+  uid: "randy-orton",
+  name: "Randy Orton",
+  img:
+    "http://www.borntoworkout.com/wp-content/uploads/2016/02/Randy-Orton-Body-300x300.jpg",
   gender: C.Genders.MALE,
   category: C.Categories.HEAVYWEIGHT,
   health: {
@@ -35,4 +36,4 @@ const JohnCena: Wrestler = {
   }
 };
 
-export default JohnCena;
+export default RandyOrton;

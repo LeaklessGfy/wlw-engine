@@ -5,7 +5,7 @@ import * as C from "../../consts";
 const TripleH: Wrestler = {
   uid: "triple-h",
   name: "Triple H",
-  img: "",
+  img: "https://www.therichest.com/wp-content/uploads/Triple-H-.jpg",
   gender: C.Genders.MALE,
   category: C.Categories.HEAVYWEIGHT,
   health: {
@@ -17,7 +17,7 @@ const TripleH: Wrestler = {
     max: 10
   },
   intensity: {
-    val: 0,
+    val: 5,
     max: 10
   },
   cards: ["ddt"],
