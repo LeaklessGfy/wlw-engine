@@ -18,6 +18,7 @@ interface Engine {
 
   /** HELPERS */
   getKernel(): Kernel;
+  getInitialState(): State;
   getOriginalState(): Readonly<State>;
   getActive(state: State): Wrestler;
   getFirstTarget(state: State): Wrestler;

@@ -38,24 +38,6 @@ class CoreEngine implements Engine {
     this.$distributors = [];
   }
 
-  /**
-   * Return an initial valid state.
-   *
-   * @return {State} initial valid state
-   */
-  public initState(): State {
-    return {
-      viewer: "",
-      turn: 0,
-      active: "",
-      targets: [],
-      next: [],
-      players: {},
-      card: null,
-      mode: null
-    };
-  }
-
   /*
   ** MUTATORS
   */
@@ -213,6 +195,24 @@ class CoreEngine implements Engine {
    */
   public getKernel(): Kernel {
     return this.$k;
+  }
+
+  /**
+   * Return an initial valid state.
+   *
+   * @return {State} initial valid state
+   */
+  public getInitialState(): State {
+    return {
+      viewer: "",
+      turn: 0,
+      active: "",
+      targets: [],
+      next: [],
+      players: {},
+      card: null,
+      mode: null
+    };
   }
 
   public getOriginalState(): Readonly<State> {
