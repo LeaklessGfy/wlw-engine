@@ -1,9 +1,9 @@
-import AbstractCard from "../../../entities/abstract-card";
-import { State, Engine } from "../../../models";
+import { Card, State, Engine } from "../../../models";
 import * as C from "../../../consts";
 
-class Clothesline extends AbstractCard {
+class Clothesline implements Card {
   uid = "clothesline";
+  actuators = [];
   name = "Clothesline";
   img = "";
   description = "";
@@ -13,6 +13,7 @@ class Clothesline extends AbstractCard {
   effects = []; //down 100%
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.BANAL;
+  reverseable = true;
 }
 
 export default Clothesline;

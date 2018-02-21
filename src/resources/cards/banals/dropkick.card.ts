@@ -1,9 +1,9 @@
-import AbstractCard from "../../../entities/abstract-card";
-import { State, Engine } from "../../../models";
+import { Card, State, Engine } from "../../../models";
 import * as C from "../../../consts";
 
-class Dropkick extends AbstractCard {
+class Dropkick implements Card {
   uid = "dropkick";
+  actuators = [];
   name = "Dropkick";
   img = "";
   description = "";
@@ -13,6 +13,7 @@ class Dropkick extends AbstractCard {
   effects = []; //down 40%
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.BANAL;
+  reverseable = false;
 }
 
 export default Dropkick;

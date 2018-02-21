@@ -1,18 +1,9 @@
-import Card from "./card";
-
-interface CardConstructor {
-  new (): Card;
-}
-
-type CardEntry = {
-  uid: string;
-  fn: CardConstructor;
-};
+import Actuator from "./actuator";
 
 interface Kernel {
-  add(card: CardEntry);
-  addAll(...card: CardEntry[]);
-  get(key: string): Card;
+  add(actuator: Actuator);
+  addAll(...actuators: Actuator[]);
+  get(key: string): Actuator | null;
 }
 
 export default Kernel;

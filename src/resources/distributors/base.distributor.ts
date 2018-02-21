@@ -2,7 +2,6 @@ import * as _ from "lodash";
 import { Distributor, State, Wrestler } from "../../models";
 
 const BaseDistributor: Distributor = (wrestler, mutable, engine) => {
-  const kernel = engine.getKernel();
   const length = wrestler.cards.length ? wrestler.cards.length - 1 : 0;
   wrestler.hand = [];
 
@@ -10,10 +9,10 @@ const BaseDistributor: Distributor = (wrestler, mutable, engine) => {
 
   for (let i = 0; i < 5; i++) {
     const random = engine.randomInt(0, length);
-    const card = kernel.get(wrestler.cards[random]);
+    const card = wrestler.cards[random];
 
     if (card) {
-      wrestler.hand.push(card);
+      wrestler.hand.push(_.cloneDeep(card));
     }
   }
 };

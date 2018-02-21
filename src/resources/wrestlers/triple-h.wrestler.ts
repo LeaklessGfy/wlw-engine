@@ -20,7 +20,7 @@ const TripleH: Wrestler = {
     val: 5,
     max: 10
   },
-  cards: ["ddt"],
+  cards: [new Cards.Ddt()],
   hand: [],
   dead: [],
   status: [],

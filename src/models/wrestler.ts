@@ -11,7 +11,7 @@ interface Wrestler {
   health: Bar;
   stamina: Bar;
   intensity: Bar;
-  cards: string[]; //Paquet
+  cards: Card[]; //Paquet
   hand: Card[]; //Main
   dead: Card[]; //Defausse
   status: string[];

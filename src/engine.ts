@@ -82,7 +82,11 @@ class CoreEngine implements Engine {
 
     this.$e.publish(Events.PRE_CARD_PLAY, { mutable, original });
     this.consume(this.getActive(mutable), mutable.card);
-    mutable.card.operate(mutable, this);
+    for (let actuator of mutable.card.actuators) {
+      const a = this.$k.get(actuator);
+      a ? a.operate(mutable, this) : null;
+    }
+    this.effects();
     this.$e.publish(Events.POST_CARD_PLAY, { mutable, original });
 
     return mutable;
@@ -401,6 +405,8 @@ class CoreEngine implements Engine {
     w.stamina.val = Math.max(0, w.stamina.val - c.stamina);
     w.intensity.val = Math.max(0, w.intensity.val - c.intensity);
   }
+
+  private effects() {}
 
   private checkState(state: State) {
     if (!state) {

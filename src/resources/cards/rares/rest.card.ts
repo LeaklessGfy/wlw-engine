@@ -1,8 +1,7 @@
-import AbstractCard from "../../../entities/abstract-card";
 import { State, Engine } from "../../../models";
 import * as C from "../../../consts";
 
-class Rest extends AbstractCard {
+class Rest {
   uid = "rest";
   name = "Rest";
   img = "";

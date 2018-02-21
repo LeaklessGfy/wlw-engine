@@ -7,6 +7,7 @@ import { State } from "./models";
 import * as W from "./resources/wrestlers";
 import * as C from "./resources/cards";
 import FakeState from "./resources/fake-state";
+import DamageActuator from "./resources/actuators/damage.actuator";
 
 describe("Engine", () => {
   const engine = new Engine(new Kernel());
@@ -26,6 +27,7 @@ describe("Engine", () => {
   });
 
   it("should be able to make a simple card play", () => {
+    const engine = new Engine(new Kernel([new DamageActuator()]));
     const mutable = engine.playCard(FakeState);
 
     /* NO CHANGES */

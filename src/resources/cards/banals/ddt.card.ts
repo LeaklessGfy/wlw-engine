@@ -1,9 +1,9 @@
-import AbstractCard from "../../../entities/abstract-card";
-import { State, Engine } from "../../../models";
+import { Card, State, Engine } from "../../../models";
 import * as C from "../../../consts";
 
-class Ddt extends AbstractCard {
+class Ddt implements Card {
   uid = "ddt";
+  actuators = ["damage"];
   name = "DDT";
   img = "https://pm1.narvii.com/5851/697f239d9cd6ec27e14c40b2b8b2ccd01bb9c6b6_hq.jpg";
   description = "";
@@ -13,6 +13,7 @@ class Ddt extends AbstractCard {
   effects = []; //blood
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.BANAL;
+  reverseable = true;
 }
 
 export default Ddt;
