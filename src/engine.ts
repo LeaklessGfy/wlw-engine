@@ -105,11 +105,11 @@ class CoreEngine implements Engine {
     const original = this.freeze(_state);
 
     this.$e.publish(Events.PRE_CARD_DISTRIBUTION, { mutable, original });
-    const active = this.getActive(mutable);
-    for (let distributor of this.$distributors) {
-      distributor(active, mutable, this);
+    for (let w of this.getWrestlers(mutable)) {
+      this.distribute(w);
     }
     this.$e.publish(Events.POST_CARD_DISTRIBUTION, { mutable, original });
+    mutable.status = 1;
 
     return mutable;
   }
@@ -407,6 +407,26 @@ class CoreEngine implements Engine {
   }
 
   private effects() {}
+
+  private distribute(w: Wrestler) {
+    const length = w.cards.length ? w.cards.length - 1 : 0;
+    w.hand = [];
+
+    _.shuffle(w.cards);
+
+    for (let i = 0; i < 5; i++) {
+      const random = this.randomInt(0, length);
+      const card = w.cards[random];
+
+      if (card) {
+        w.hand.push(_.cloneDeep(card));
+      }
+    }
+  }
+
+  /*
+  ** CHECKERS
+  */
 
   private checkState(state: State) {
     if (!state) {

@@ -108,19 +108,6 @@ describe("Engine", () => {
     expect(counter).to.equal(1);
   });
 
-  it("should be able to add distributor", () => {
-    let counter = 0;
-
-    engine.addDistributor((wrestler, mutable, e) => {
-      expect(e).to.eql(engine);
-      wrestler.hand.push(new C.Ddt());
-      counter++;
-    });
-
-    engine.distributeCards(FakeState);
-    expect(counter).to.equal(1);
-  });
-
   it("should be able to clone", () => {});
 
   it("should be able to freeze", () => {});
