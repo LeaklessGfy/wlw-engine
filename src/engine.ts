@@ -24,7 +24,6 @@ class CoreEngine implements Engine {
   private readonly $k: Kernel;
   private readonly $random: any;
   private readonly $validators: Validator[];
-  private readonly $distributors: Distributor[];
 
   /**
    * Creates an instance of CoreEngine.
@@ -35,7 +34,6 @@ class CoreEngine implements Engine {
     this.$k = kernel;
     this.$random = new Chance(Math.random);
     this.$validators = [];
-    this.$distributors = [];
   }
 
   /*
@@ -329,15 +327,6 @@ class CoreEngine implements Engine {
    */
   public addValidator(validator: Validator): void {
     this.$validators.push(validator);
-  }
-
-  /**
-   * Add a distributor
-   *
-   * @param {Distributor} distributor
-   */
-  public addDistributor(distributor: Distributor): void {
-    this.$distributors.push(distributor);
   }
 
   /**

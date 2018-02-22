@@ -29,7 +29,6 @@ interface Engine {
   randomBool(percent?: number): boolean;
   randomInt(min?: number, max?: number): number;
   addValidator(validator: Validator): void;
-  addDistributor(distributor: Distributor): void;
   clone<T>(o: T): T;
   freeze<T>(o: T): T;
 }
