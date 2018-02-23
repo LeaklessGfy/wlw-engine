@@ -1,5 +1,7 @@
 import { Actuator, State, Engine } from "../../models";
 import * as C from "../../consts";
+import { getActive, getFirstTarget } from "../../utils/state.utils";
+import { randomBool } from "../../utils/general.utils";
 
 class PinActuactor implements Actuator {
   key = "pin";
@@ -7,8 +9,8 @@ class PinActuactor implements Actuator {
   preOperate(mutable, engine) {}
 
   operate(mutable: State, engine: Engine): void {
-    const active = engine.getActive(mutable);
-    const target = engine.getFirstTarget(mutable);
+    const active = getActive(mutable);
+    const target = getFirstTarget(mutable);
     let chance = 100 - target.health.val;
 
     // Active status
@@ -21,7 +23,7 @@ class PinActuactor implements Actuator {
       chance += this.targetStatus(status, chance);
     });
 
-    const win = engine.randomBool(Math.max(chance, 0));
+    const win = randomBool(Math.max(chance, 0));
 
     // Trigger win event ? Put target health to 0 ? Special state value ?
   }

@@ -4,7 +4,8 @@
   "description": "WLW Engine is the game engine for wrestling card game",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec --require ts-node/register src/**/*.test.ts"
+    "test":
+      "mocha --reporter spec --require ts-node/register $(find -name '*.test.ts')"
   },
   "repository": {
     "type": "git",

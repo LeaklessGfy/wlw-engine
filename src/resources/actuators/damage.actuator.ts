@@ -1,4 +1,5 @@
 import { Actuator, State, Engine } from "../../models";
+import { getFirstTarget } from "../../utils/state.utils";
 
 class DamageActuactor implements Actuator {
   key = "damage";
@@ -6,7 +7,7 @@ class DamageActuactor implements Actuator {
   preOperate(mutable, engine) {}
 
   operate(mutable: State, engine: Engine): void {
-    const target = engine.getFirstTarget(mutable);
+    const target = getFirstTarget(mutable);
     const card = mutable.card;
     target.health.val = Math.max(0, target.health.val - card.damage);
   }

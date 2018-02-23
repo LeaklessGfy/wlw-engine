@@ -33,7 +33,8 @@ describe("State Utils", () => {
   });
 
   it("should be able to generate next", () => {
-    const state = utils.getInitialState();
+    const state = getFakeState();
+    state.next = [];
     utils.generateNext(state);
 
     expect(state.next.length).to.be.greaterThan(1);

@@ -18,7 +18,6 @@ describe("General Utils", () => {
     const B = utils.freeze(A);
 
     expect(A).to.eql(B);
-    expect(A).to.not.equal(B);
   });
 
   it("should be able to generate a random bool", () => {
