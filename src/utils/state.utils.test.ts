@@ -1,10 +1,10 @@
 import "mocha";
 import { expect } from "chai";
 import * as utils from "./state.utils";
-import getFakeState from "../resources/fake-state";
+import FakeState from "../resources/fake-state";
 
 describe("State Utils", () => {
-  const F = getFakeState();
+  const F = new FakeState();
 
   it("should be able to deliver initial state", () => {
     const state = utils.getInitialState();
@@ -33,7 +33,7 @@ describe("State Utils", () => {
   });
 
   it("should be able to generate next", () => {
-    const state = getFakeState();
+    const state = new FakeState();
     state.next = [];
     utils.generateNext(state);
 
@@ -42,18 +42,7 @@ describe("State Utils", () => {
 
   it("should be able to clean state", () => {
     const state = utils.getInitialState();
-    state.card = {
-      uid: "",
-      actuators: [],
-      name: "",
-      img: "",
-      description: "",
-      stamina: 0,
-      intensity: 0,
-      targets: [],
-      reverseable: false,
-      rarity: ""
-    };
+    state.card = 0;
     state.targets = ["SMTH", "JOHN"];
 
     utils.cleanState(state);

@@ -6,8 +6,6 @@ import { randomBool } from "../../utils/general.utils";
 class PinActuactor implements Actuator {
   key = "pin";
 
-  preOperate(mutable, engine) {}
-
   operate(mutable: State, engine: Engine): void {
     const active = getActive(mutable);
     const target = getFirstTarget(mutable);
@@ -27,8 +25,6 @@ class PinActuactor implements Actuator {
 
     // Trigger win event ? Put target health to 0 ? Special state value ?
   }
-
-  postOperate(mutable, engine) {}
 
   private activeStatus(status: string, chance: number): number {
     switch (status) {

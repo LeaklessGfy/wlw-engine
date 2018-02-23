@@ -9,7 +9,7 @@ interface State {
   targets: string[]; // => [P1, P2, CPU ...]
   next: string[]; // => [P1, P2, CPU ...]
   players: Players;
-  card: Card;
+  card: number;
   mode: Mode;
   status?: number;
 }

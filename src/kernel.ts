@@ -10,11 +10,11 @@ class CoreKernel implements Kernel {
     this.addAll(...actuators);
   }
 
-  public add(actuator: Actuator) {
+  public add(actuator: Actuator): void {
     this.actuators[actuator.key] = actuator;
   }
 
-  public addAll(...actuators: Actuator[]) {
+  public addAll(...actuators: Actuator[]): void {
     for (let actuator of actuators) {
       this.add(actuator);
     }

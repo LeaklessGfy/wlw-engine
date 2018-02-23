@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { State, Wrestler } from "../models";
+import { Card, State, Wrestler } from "../models";
 import { randomInt } from "./general.utils";
 
 /**
@@ -96,14 +96,25 @@ export const getParteners = (wrestler: Wrestler, state: State): Wrestler[] => {
   return [];
 };
 
-export const generateNext = (mutable: State): void => {
-  if (mutable.next.length > 0) {
+/**
+ * Return the active card.
+ *
+ * @param {State} state
+ *
+ * @return {Card} active card
+ */
+export const getActiveCard = (state: State): Card => {
+  return getActive(state).hand[state.card];
+};
+
+export const generateNext = (state: State): void => {
+  if (state.next.length > 0) {
     return;
   }
 
-  const keys = _.keys(mutable.players);
+  const keys = _.keys(state.players);
   const tmp = keys.map(key => {
-    const w = mutable.players[key];
+    const w = state.players[key];
     const speed = randomInt(0, w.combat.speed);
 
     return { key, speed };
@@ -116,15 +127,15 @@ export const generateNext = (mutable: State): void => {
     return 1;
   });
 
-  mutable.next = tmp.map(t => t.key);
+  state.next = tmp.map(t => t.key);
 };
 
 /**
  * Clean the state by removing active card and targets.
  *
- * @param {State} mutable
+ * @param {State} state
  */
-export const cleanState = (mutable: State): void => {
-  mutable.targets = [];
-  mutable.card = null;
+export const cleanState = (state: State): void => {
+  state.targets = [];
+  state.card = null;
 };

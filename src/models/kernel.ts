@@ -1,8 +1,8 @@
 import Actuator from "./actuator";
 
 interface Kernel {
-  add(actuator: Actuator);
-  addAll(...actuators: Actuator[]);
+  add(actuator: Actuator): void;
+  addAll(...actuators: Actuator[]): void;
   get(key: string): Actuator | null;
 }
 

@@ -128,12 +128,11 @@ class CoreEngine implements Engine {
     this.$e.publish(Events.PRE_CARD_PLAY, { mutable, original });
 
     const active = utilsS.getActive(mutable);
-    utilsC.consumeCard(active, mutable.card);
-    utilsC
-      .getActuators(mutable.card, this.$k)
-      .forEach(a => a.operate(mutable, this));
+    const card = utilsS.getActiveCard(mutable);
+    utilsC.consumeCard(active, card);
+    utilsC.getActuators(card, this.$k).forEach(a => a.operate(mutable, this));
     utilsC.applyEffects();
-    utilsC.discardCard(active, mutable.card);
+    utilsC.discardCard(active, card);
     utilsS.cleanState(mutable);
 
     this.$e.publish(Events.POST_CARD_PLAY, { mutable, original });
@@ -156,7 +155,7 @@ class CoreEngine implements Engine {
     this.$e.publish(Events.PRE_CARD_IA, { mutable, original });
 
     const active = utilsS.getActive(mutable);
-    mutable.card = utilsC.randomValidCard(active);
+    //mutable.card = utilsC.randomValidCard(active);
 
     this.$e.publish(Events.POST_CARD_IA, { mutable, original });
 
@@ -170,7 +169,8 @@ class CoreEngine implements Engine {
 
     this.$e.publish("", { mutable, original });
 
-    for (let target of mutable.card.targets) {
+    const card = utilsS.getActiveCard(mutable);
+    for (let target of card.targets) {
       switch (target) {
         case Targets.OPPONENT:
           const opponents = utilsS.getOpponents(mutable.active, mutable);

@@ -1,30 +1,29 @@
 import Wrestler from "../../models/wrestler";
 import * as C from "../../consts";
 
-const RandyOrton: Wrestler = {
-  uid: "randy-orton",
-  name: "Randy Orton",
-  img:
-    "http://www.borntoworkout.com/wp-content/uploads/2016/02/Randy-Orton-Body-300x300.jpg",
-  gender: C.Genders.MALE,
-  category: C.Categories.HEAVYWEIGHT,
-  health: {
+class RandyOrton implements Wrestler {
+  uid = "randy-orton";
+  name = "Randy Orton";
+  img = "http://www.borntoworkout.com/wp-content/uploads/2016/02/Randy-Orton-Body-300x300.jpg";
+  gender = C.Genders.MALE;
+  category = C.Categories.HEAVYWEIGHT;
+  health = {
     val: 100,
     max: 100
-  },
-  stamina: {
+  };
+  stamina = {
     val: 10,
     max: 10
-  },
-  intensity: {
+  };
+  intensity = {
     val: 0,
     max: 10
-  },
-  cards: [],
-  hand: [],
-  dead: [],
-  status: [C.Status.NORMAL],
-  combat: {
+  };
+  cards = [];
+  hand = [];
+  dead = [];
+  status = [C.Status.NORMAL];
+  combat = {
     accuracy: 0,
     damage: 0,
     speed: 0,
@@ -33,7 +32,7 @@ const RandyOrton: Wrestler = {
     agility: 0,
     recovery: 0,
     submission: 0
-  }
-};
+  };
+}
 
 export default RandyOrton;
