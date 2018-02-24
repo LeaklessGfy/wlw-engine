@@ -18,6 +18,13 @@ describe("Card Utils", () => {
     expect(w.hand.length).to.equal(1);
   });
 
+  it("should be able to validate hand", () => {
+    const w = fakeState().players.P1;
+    w.hand = w.deck;
+    utils.validateHand(w);
+    expect(w.hand[0].valid).to.equal(true);
+  });
+
   it("should be able to consume card", () => {
     const w = fakeState().players.P1;
     w.stamina.val = 7;

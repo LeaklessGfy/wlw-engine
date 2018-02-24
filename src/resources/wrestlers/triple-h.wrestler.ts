@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import Wrestler from "../../models/wrestler";
 import * as Cards from "../cards";
 import * as C from "../../consts";
@@ -20,7 +21,7 @@ class TripleH implements Wrestler {
     val: 5,
     max: 10
   };
-  deck = [new Cards.Ddt()];
+  deck = [_.toPlainObject(new Cards.Ddt())];
   hand = [];
   dead = [];
   status = [];

@@ -1,15 +1,5 @@
-import * as _ from "lodash";
-import { Events, Targets } from "./consts";
-import {
-  Card,
-  Distributor,
-  Engine,
-  Kernel,
-  Mode,
-  State,
-  Validator,
-  Wrestler
-} from "./models";
+import { Events, States, Targets } from "./consts";
+import { Engine, Kernel, State, Validator } from "./models";
 import GlobalEventManager, { EventManager } from "./event-manager";
 import * as check from "./checker";
 import { utilsC, utilsG, utilsS, utilsW } from "./utils";
@@ -23,7 +13,6 @@ import { utilsC, utilsG, utilsS, utilsW } from "./utils";
 class CoreEngine implements Engine {
   private readonly $e: EventManager;
   private readonly $k: Kernel;
-  private readonly $validators: Validator[];
 
   /**
    * Creates an instance of CoreEngine.
@@ -32,12 +21,7 @@ class CoreEngine implements Engine {
   constructor(kernel: Kernel) {
     this.$e = GlobalEventManager;
     this.$k = kernel;
-    this.$validators = [];
   }
-
-  /*
-  ** MUTATORS
-  */
 
   /**
    * Create a new turn.
@@ -49,9 +33,8 @@ class CoreEngine implements Engine {
   public newTurn(_state: State): State {
     check.checkState(_state);
     const mutable = utilsG.clone(_state);
-    const original = utilsG.freeze(_state);
 
-    this.$e.publish(Events.PRE_TURN_NEW, { mutable, original });
+    this.$e.publish(Events.PRE_TURN_NEW, mutable);
 
     utilsS.generateNext(mutable);
     utilsS.getWrestlers(mutable).forEach(w => utilsC.shuffleDeck(w));
@@ -59,8 +42,9 @@ class CoreEngine implements Engine {
     utilsW.applyRecovery(utilsS.getActive(mutable), mutable.turn);
     utilsS.cleanState(mutable);
     mutable.turn++;
+    mutable.state = States.REQUEST_DISTRIBUTE;
 
-    this.$e.publish(Events.POST_TURN_NEW, { mutable, original });
+    this.$e.publish(Events.POST_TURN_NEW, mutable);
 
     return mutable;
   }
@@ -72,44 +56,44 @@ class CoreEngine implements Engine {
    *
    * @return {State} new state
    */
-  public distributeCards(_state: State): State {
+  public distributeHand(_state: State): State {
     check.checkState(_state);
+
+    if (_state.state !== States.REQUEST_DISTRIBUTE) {
+      return _state;
+    }
+
     const mutable = utilsG.clone(_state);
-    const original = utilsG.freeze(_state);
-
-    this.$e.publish(Events.PRE_CARD_DISTRIBUTION, { mutable, original });
-
+    this.$e.publish(Events.PRE_CARD_DISTRIBUTION, mutable);
     utilsS.getWrestlers(mutable).forEach(w => utilsC.distributeHand(w));
-    mutable.state = 1;
-
-    this.$e.publish(Events.POST_CARD_DISTRIBUTION, { mutable, original });
+    mutable.state = States.REQUEST_VALIDATION;
+    this.$e.publish(Events.POST_CARD_DISTRIBUTION, mutable);
 
     return mutable;
   }
 
   /**
-   * Validate hand cards for the active player.
+   * Validate hand for each player.
    *
    * @param {State} _state initial state
    *
    * @return {State} new state
    */
-  public validateCards(_state: State): State {
+  public validateHand(_state: State): State {
     check.checkState(_state);
-    const mutable = utilsG.clone(_state);
-    const original = utilsG.freeze(_state);
 
-    this.$e.publish(Events.PRE_CARD_VALIDATION, { mutable, original });
-
-    const active = utilsS.getActive(mutable);
-    for (let card of active.hand) {
-      for (let validator of this.$validators) {
-        validator(card, mutable, this);
-        if (!card.valid) break;
-      }
+    if (_state.state !== States.REQUEST_VALIDATION) {
+      return _state;
     }
 
-    this.$e.publish(Events.POST_CARD_VALIDATION, { mutable, original });
+    const mutable = utilsG.clone(_state);
+    this.$e.publish(Events.PRE_CARD_VALIDATION, mutable);
+    utilsS.getWrestlers(mutable).forEach(w => utilsC.validateHand(w));
+    mutable.state = States.REQUEST_CHOOSE_RANDOM_CARD;
+    if (utilsW.isInteractive(mutable.active)) {
+      mutable.state = States.REQUEST_PLAYER_ACTION;
+    }
+    this.$e.publish(Events.POST_CARD_VALIDATION, mutable);
 
     return mutable;
   }
@@ -123,10 +107,14 @@ class CoreEngine implements Engine {
    */
   public playCard(_state: State): State {
     check.checkState(_state);
-    const mutable = utilsG.clone(_state);
-    const original = utilsG.freeze(_state);
+    check.checkCard(utilsS.getActiveCard(_state));
 
-    this.$e.publish(Events.PRE_CARD_PLAY, { mutable, original });
+    if (_state.state !== States.REQUEST_PLAY) {
+      return _state;
+    }
+
+    const mutable = utilsG.clone(_state);
+    this.$e.publish(Events.PRE_CARD_PLAY, mutable);
 
     const active = utilsS.getActive(mutable);
     const card = utilsS.getActiveCard(mutable);
@@ -136,13 +124,13 @@ class CoreEngine implements Engine {
     utilsC.discardCard(active, card);
     utilsS.cleanState(mutable);
 
-    this.$e.publish(Events.POST_CARD_PLAY, { mutable, original });
+    this.$e.publish(Events.POST_CARD_PLAY, mutable);
 
     return mutable;
   }
 
   /**
-   * Choose a random card for the active player.
+   * Choose a random valid card for the active player.
    *
    * @param {State} _state initial state
    *
@@ -150,25 +138,34 @@ class CoreEngine implements Engine {
    */
   public chooseRandomCard(_state: State): State {
     check.checkState(_state);
+
+    if (_state.state !== States.REQUEST_CHOOSE_RANDOM_CARD) {
+      return _state;
+    }
+
     const mutable = utilsG.clone(_state);
-    const original = utilsG.freeze(_state);
-
-    this.$e.publish(Events.PRE_CARD_IA, { mutable, original });
-
+    this.$e.publish(Events.PRE_CARD_IA, mutable);
     const active = utilsS.getActive(mutable);
     //mutable.card = utilsC.randomValidCard(active);
-
-    this.$e.publish(Events.POST_CARD_IA, { mutable, original });
+    mutable.state =
+      mutable.card !== null
+        ? States.REQUEST_CHOOSE_RANDOM_TARGET
+        : States.REQUEST_NEW_TURN;
+    this.$e.publish(Events.POST_CARD_IA, mutable);
 
     return mutable;
   }
 
   public chooseRandomTargets(_state: State): State {
     check.checkState(_state);
-    const mutable = utilsG.clone(_state);
-    const original = utilsG.freeze(_state);
+    check.checkCard(utilsS.getActiveCard(_state));
 
-    this.$e.publish("", { mutable, original });
+    if (_state.state !== States.REQUEST_CHOOSE_RANDOM_TARGET) {
+      return _state;
+    }
+
+    const mutable = utilsG.clone(_state);
+    this.$e.publish("", mutable);
 
     const card = utilsS.getActiveCard(mutable);
     for (let target of card.targets) {
@@ -182,31 +179,9 @@ class CoreEngine implements Engine {
       }
     }
 
-    this.$e.publish("", { mutable, original });
+    this.$e.publish("", mutable);
 
     return mutable;
-  }
-
-  /*
-  ** HELPERS
-  */
-
-  /**
-   * Return the kernel.
-   *
-   * @return {Kernel} kernel
-   */
-  public getKernel(): Kernel {
-    return this.$k;
-  }
-
-  /**
-   * Add a validator
-   *
-   * @param {Validator} validator
-   */
-  public addValidator(validator: Validator): void {
-    this.$validators.push(validator);
   }
 }
 

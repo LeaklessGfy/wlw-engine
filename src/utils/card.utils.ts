@@ -31,6 +31,18 @@ export const distributeHand = (w: Wrestler, length: number = 3): void => {
 };
 
 /**
+ * Validate the hand of the given wrestler.
+ *
+ * @param {Wrestler} w
+ */
+export const validateHand = (w: Wrestler): void => {
+  // Maybe adding a Validator[] to arguments for special behaviour
+  for (let c of w.hand) {
+    c.valid = w.stamina.val >= c.stamina && w.intensity.val >= c.intensity;
+  }
+};
+
+/**
  * Consume stamina and intensity of the given wrestler.
  *
  * @param {Wrestler} w

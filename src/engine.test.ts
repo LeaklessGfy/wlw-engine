@@ -8,6 +8,7 @@ import * as W from "./resources/wrestlers";
 import * as C from "./resources/cards";
 import DamageActuator from "./resources/actuators/damage.actuator";
 import fakeState from "./resources/fake-state";
+import { States } from "./consts";
 
 describe("Engine", () => {
   const engine = new Engine(new Kernel());
@@ -31,10 +32,12 @@ describe("Engine", () => {
     const f = fakeState();
     f.players.P1.hand = f.players.P1.deck;
     f.card = 0;
+    f.state = States.REQUEST_PLAY;
     const engine = new Engine(new Kernel([new DamageActuator()]));
     const mutable = engine.playCard(f);
 
     /* NO CHANGES */
+    expect(mutable).to.not.equal(f);
     expect(mutable.active).to.equal(f.active);
     expect(mutable.turn).to.equal(f.turn);
 
@@ -56,7 +59,8 @@ describe("Engine", () => {
 
   it("should be able to make a simple card distribution", () => {
     const f = fakeState();
-    const mutable = engine.distributeCards(f);
+    f.state = States.REQUEST_DISTRIBUTE;
+    const mutable = engine.distributeHand(f);
 
     expect(mutable).to.not.equal(f);
     expect(mutable.players.P1.hand.length).to.equal(1);
@@ -65,22 +69,8 @@ describe("Engine", () => {
   it("should be able to make a card validation", () => {
     // Add validator
     const f = fakeState();
-    const mutable = engine.validateCards(f);
+    const mutable = engine.validateHand(f);
   });
 
   it("should be able to choose a random card", () => {});
-
-  it("should be able to add validator", () => {
-    const f = fakeState();
-    f.players.P1.hand = [new C.Ddt()];
-    let counter = 0;
-
-    engine.addValidator((card, mutable) => {
-      expect(mutable).to.eql(f);
-      counter++;
-    });
-
-    engine.validateCards(f);
-    expect(counter).to.equal(1);
-  });
 });

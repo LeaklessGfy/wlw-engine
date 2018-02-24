@@ -3,7 +3,17 @@ import * as Events from "./events";
 import * as Genders from "./genders";
 import * as Players from "./players";
 import * as Rarities from "./rarities";
+import * as States from "./states";
 import * as Status from "./status";
 import * as Targets from "./targets";
 
-export { Categories, Events, Genders, Players, Rarities, Status, Targets };
+export {
+  Categories,
+  Events,
+  Genders,
+  Players,
+  Rarities,
+  States,
+  Status,
+  Targets
+};
