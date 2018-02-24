@@ -9,11 +9,11 @@ class FakeState implements State {
   turn = 0;
   viewer = "P1";
   active = "P1";
-  targets = ["CPU"];
-  next = ["CPU"];
+  targets = ["CPU1"];
+  next = ["CPU1"];
   players = {
     P1: _.toPlainObject(new TripleH()),
-    CPU: _.toPlainObject(new JohnCena())
+    CPU1: _.toPlainObject(new JohnCena())
   };
   card = null;
   mode = _.toPlainObject(new Normal());

@@ -24,7 +24,7 @@ describe("Engine", () => {
     expect(mutable.targets.length).to.equal(0);
     expect(mutable.next.length).to.equal(0);
     expect(mutable.card).to.equal(null);
-    expect(mutable.active).to.equal("CPU");
+    expect(mutable.active).to.equal("CPU1");
   });
 
   it("should be able to make a simple card play", () => {
@@ -41,8 +41,8 @@ describe("Engine", () => {
     /* CHANGES */
     expect(mutable.card).to.equal(null);
     expect(mutable.targets.length).to.equal(0);
-    expect(mutable.players.CPU.health.val).to.equal(
-      f.players.CPU.health.val - f.players.P1.hand[0].damage
+    expect(mutable.players.CPU1.health.val).to.equal(
+      f.players.CPU1.health.val - f.players.P1.hand[0].damage
     );
     expect(mutable.players.P1.stamina.val).to.equal(
       f.players.P1.stamina.val - f.players.P1.hand[0].stamina

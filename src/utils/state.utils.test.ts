@@ -17,19 +17,19 @@ describe("State Utils", () => {
 
   it("should be able to return the first target", () => {
     const target = utils.getFirstTarget(F);
-    expect(target).to.eql(F.players.CPU);
+    expect(target).to.eql(F.players.CPU1);
   });
 
   it("should be able to return the targets", () => {
     const targets = utils.getTargets(F);
     expect(targets.length).to.equal(1);
-    expect(targets).to.eql([F.players.CPU]);
+    expect(targets).to.eql([F.players.CPU1]);
   });
 
   it("should be able to return all wrestlers", () => {
     const wrestlers = utils.getWrestlers(F);
     expect(wrestlers.length).to.equal(2);
-    expect(wrestlers).eql([F.players.P1, F.players.CPU]);
+    expect(wrestlers).eql([F.players.P1, F.players.CPU1]);
   });
 
   it("should be able to generate next", () => {
