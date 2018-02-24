@@ -14,6 +14,7 @@ class Ddt implements Card {
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.BANAL;
   reverseable = true;
+  valid = false;
 }
 
 export default Ddt;

@@ -47,6 +47,7 @@ class CoreEngine implements Engine {
    * @return {State} new state
    */
   public newTurn(_state: State): State {
+    check.checkState(_state);
     const mutable = utilsG.clone(_state);
     const original = utilsG.freeze(_state);
 
@@ -79,7 +80,7 @@ class CoreEngine implements Engine {
     this.$e.publish(Events.PRE_CARD_DISTRIBUTION, { mutable, original });
 
     utilsS.getWrestlers(mutable).forEach(w => utilsC.distributeHand(w));
-    mutable.status = 1;
+    mutable.state = 1;
 
     this.$e.publish(Events.POST_CARD_DISTRIBUTION, { mutable, original });
 

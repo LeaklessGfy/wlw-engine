@@ -2,12 +2,12 @@ import * as _ from "lodash";
 import { Actuator, Card, Kernel, Wrestler } from "../models";
 
 /**
- * Shuffle the cards of the given wrestler.
+ * Shuffle the deck of the given wrestler.
  *
  * @param {Wrestler} w
  */
 export const shuffleDeck = (w: Wrestler): void => {
-  w.cards = _.shuffle(w.cards);
+  w.deck = _.shuffle(w.deck);
 };
 
 /**
@@ -19,14 +19,14 @@ export const shuffleDeck = (w: Wrestler): void => {
 export const distributeHand = (w: Wrestler, length: number = 3): void => {
   w.hand = [];
 
-  if (w.cards.length <= length) {
-    w.hand = w.cards;
-    w.cards = [];
+  if (w.deck.length <= length) {
+    w.hand = w.deck;
+    w.deck = [];
     return;
   }
 
   for (let i = 0; i < length; i++) {
-    w.hand.push(w.cards.shift());
+    w.hand.push(w.deck.shift());
   }
 };
 

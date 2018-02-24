@@ -1,2 +1,2 @@
-export const MALE = "male";
-export const FEMALE = "female";
+export const MALE = 0;
+export const FEMALE = 1;

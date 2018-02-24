@@ -6,12 +6,12 @@ interface Wrestler {
   uid: string;
   name: string;
   img: string;
-  gender: string; // MALE, FEMALE
-  category: string; // HEAVYWEIGHT ...
+  gender: number;
+  category: number;
   health: Bar;
   stamina: Bar;
   intensity: Bar;
-  cards: Card[]; //Paquet
+  deck: Card[]; //Paquet
   hand: Card[]; //Main
   dead: Card[]; //Defausse
   status: string[];

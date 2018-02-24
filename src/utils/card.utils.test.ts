@@ -1,25 +1,25 @@
 import "mocha";
 import { expect } from "chai";
 import * as utils from "./card.utils";
-import CoreKernel from "../../../api/wlw-engine/src/kernel";
-import FakeState from "../resources/fake-state";
+import CoreKernel from "../kernel";
+import fakeState from "../resources/fake-state";
 
 describe("Card Utils", () => {
   it("should be able to shuffle deck", () => {
-    const w = new FakeState().players.P1;
-    const cards = w.cards;
+    const w = fakeState().players.P1;
+    const cards = w.deck;
     utils.shuffleDeck(w);
-    expect(w.cards).to.not.equal(cards);
+    expect(w.deck).to.not.equal(cards);
   });
 
   it("should be able to distribute hand", () => {
-    const w = new FakeState().players.P1;
+    const w = fakeState().players.P1;
     utils.distributeHand(w);
     expect(w.hand.length).to.equal(1);
   });
 
   it("should be able to consume card", () => {
-    const w = new FakeState().players.P1;
+    const w = fakeState().players.P1;
     w.stamina.val = 7;
     w.intensity.val = 3;
     const c = {
@@ -32,7 +32,8 @@ describe("Card Utils", () => {
       intensity: 1,
       targets: [],
       reverseable: true,
-      rarity: ""
+      rarity: "",
+      valid: true
     };
 
     utils.consumeCard(w, c);
@@ -66,7 +67,8 @@ describe("Card Utils", () => {
       intensity: 1,
       targets: [],
       reverseable: true,
-      rarity: ""
+      rarity: "",
+      valid: true
     };
 
     const act = utils.getActuators(c, kernel);
@@ -80,7 +82,7 @@ describe("Card Utils", () => {
   it("should be able to discard card", () => {});
 
   it("should be able to return a random valid card", () => {
-    const w = new FakeState().players.P1;
+    const w = fakeState().players.P1;
     const c = {
       uid: "",
       actuators: ["test", "test2"],

@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import { Card, State, Wrestler } from "../models";
 import { randomInt } from "./general.utils";
+import { REQUEST_INIT } from "../consts/state";
 
 /**
  * Return a valid initial state.
@@ -9,14 +10,15 @@ import { randomInt } from "./general.utils";
  */
 export const getInitialState = (): State => {
   return {
-    viewer: "",
     turn: 0,
+    viewer: "",
     active: "",
     targets: [],
     next: [],
     players: {},
     card: null,
-    mode: null
+    mode: null,
+    state: REQUEST_INIT
   };
 };
 

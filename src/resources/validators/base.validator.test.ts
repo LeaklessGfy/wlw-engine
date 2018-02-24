@@ -1,20 +1,17 @@
 import "mocha";
 import { expect } from "chai";
 import BaseValidator from "./base.validator";
-import CoreKernel from "../../kernel";
-import CoreEngine from "../../engine";
 import { getActiveCard } from "../../utils/state.utils";
-import FakeState from "../fake-state";
+import fakeState from "../fake-state";
 
-describe("Base Validator", () => {
+describe("[VALIDATOR] Base", () => {
   it("should be able to validate correctly", () => {
-    const kernel = new CoreKernel();
-    const engine = new CoreEngine(kernel);
-    const mutable = new FakeState();
-    mutable.players.P1.hand = mutable.players.P1.cards;
+    const mutable = fakeState();
+    mutable.players.P1.hand = mutable.players.P1.deck;
+    mutable.card = 0;
     const card = getActiveCard(mutable);
 
-    BaseValidator(card, mutable, engine);
+    BaseValidator(card, mutable);
 
     expect(card.valid).to.equal(true);
   });

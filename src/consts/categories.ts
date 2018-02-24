@@ -1,1 +1,1 @@
-export const HEAVYWEIGHT = "heavyweight";
+export const HEAVYWEIGHT = 0;

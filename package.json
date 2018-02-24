@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test":
-      "mocha --reporter spec --require ts-node/register $(find -name '*.test.ts')"
+      "mocha --reporter spec --require ts-node/register $(find -name '*.test.ts')",
+    "test-win":
+      "mocha --reporter spec --require ts-node/register --recursive src\\**\\*.test.ts"
   },
   "repository": {
     "type": "git",

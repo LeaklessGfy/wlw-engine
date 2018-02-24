@@ -1,25 +1,27 @@
+import * as _ from "lodash";
 import State from "../models/state";
 import TripleH from "./wrestlers/triple-h.wrestler";
 import JohnCena from "./wrestlers/john-cena.wrestler";
+import Normal from "./modes/normal.mode";
+import { REQUEST_INIT } from "../consts/state";
 
 class FakeState implements State {
-  viewer = "P1";
   turn = 0;
+  viewer = "P1";
   active = "P1";
   targets = ["CPU"];
   next = ["CPU"];
   players = {
-    P1: new TripleH(),
-    CPU: new JohnCena()
+    P1: _.toPlainObject(new TripleH()),
+    CPU: _.toPlainObject(new JohnCena())
   };
-  card = 0;
-  mode = {
-    uid: "",
-    name: "",
-    img: "",
-    description: "",
-    numbers: 2
-  };
+  card = null;
+  mode = _.toPlainObject(new Normal());
+  state = REQUEST_INIT;
 }
 
-export default FakeState;
+function fakeState(): State {
+  return _.toPlainObject(new FakeState());
+}
+
+export default fakeState;

@@ -1,10 +1,10 @@
 import "mocha";
 import { expect } from "chai";
 import * as utils from "./state.utils";
-import FakeState from "../resources/fake-state";
+import fakeState from "../resources/fake-state";
 
 describe("State Utils", () => {
-  const F = new FakeState();
+  const F = fakeState();
 
   it("should be able to deliver initial state", () => {
     const state = utils.getInitialState();
@@ -33,7 +33,7 @@ describe("State Utils", () => {
   });
 
   it("should be able to generate next", () => {
-    const state = new FakeState();
+    const state = fakeState();
     state.next = [];
     utils.generateNext(state);
 

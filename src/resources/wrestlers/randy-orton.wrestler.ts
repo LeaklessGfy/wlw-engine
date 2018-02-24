@@ -19,7 +19,7 @@ class RandyOrton implements Wrestler {
     val: 0,
     max: 10
   };
-  cards = [];
+  deck = [];
   hand = [];
   dead = [];
   status = [C.Status.NORMAL];
