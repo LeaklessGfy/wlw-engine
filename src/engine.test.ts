@@ -17,10 +17,8 @@ describe("Engine", () => {
     const f = fakeState();
     const mutable = engine.newTurn(f);
 
-    /* NO CHANGES */
-    expect(mutable.players).to.eql(f.players);
-
     /* CHANGES */
+    expect(mutable.players).to.not.eql(f.players);
     expect(mutable.turn).to.equal(1);
     expect(mutable.targets.length).to.equal(0);
     expect(mutable.next.length).to.equal(0);
@@ -32,7 +30,7 @@ describe("Engine", () => {
     const f = fakeState();
     f.players.P1.hand = f.players.P1.deck;
     f.card = 0;
-    f.state = States.REQUEST_PLAY;
+    f.state = States.PLAYER_ACTION;
     const engine = new Engine(new Kernel([new DamageActuator()]));
     const mutable = engine.playCard(f);
 
@@ -59,11 +57,11 @@ describe("Engine", () => {
 
   it("should be able to make a simple card distribution", () => {
     const f = fakeState();
-    f.state = States.REQUEST_DISTRIBUTE;
+    f.state = States.DISTRIBUTE;
     const mutable = engine.distributeHand(f);
 
     expect(mutable).to.not.equal(f);
-    expect(mutable.players.P1.hand.length).to.equal(1);
+    expect(mutable.players.P1.hand.length).to.equal(3);
   });
 
   it("should be able to make a card validation", () => {

@@ -3,7 +3,7 @@ import State from "../models/state";
 import TripleH from "./wrestlers/triple-h.wrestler";
 import JohnCena from "./wrestlers/john-cena.wrestler";
 import Normal from "./modes/normal.mode";
-import { REQUEST_INIT } from "../consts/states";
+import { INIT } from "../consts/states";
 
 class FakeState implements State {
   turn = 0;
@@ -17,7 +17,7 @@ class FakeState implements State {
   };
   card = null;
   mode = _.toPlainObject(new Normal());
-  state = REQUEST_INIT;
+  state = INIT;
 }
 
 function fakeState(): State {

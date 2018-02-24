@@ -32,17 +32,25 @@ class CoreEngine implements Engine {
    */
   public newTurn(_state: State): State {
     check.checkState(_state);
-    const mutable = utilsG.clone(_state);
 
+    if (_state.state !== States.INIT && _state.state !== States.NEW_TURN) {
+      return _state;
+    }
+
+    const mutable = utilsG.clone(_state);
     this.$e.publish(Events.PRE_TURN_NEW, mutable);
 
-    utilsS.generateNext(mutable);
-    utilsS.getWrestlers(mutable).forEach(w => utilsC.shuffleDeck(w));
+    if (mutable.state === States.INIT) {
+      utilsS.getWrestlers(mutable).forEach(w => utilsC.shuffleDeck(w));
+    }
+    if (mutable.next.length < 1) {
+      mutable.next = utilsS.generateNext(mutable);
+    }
     mutable.active = mutable.next.shift();
     utilsW.applyRecovery(utilsS.getActive(mutable), mutable.turn);
     utilsS.cleanState(mutable);
     mutable.turn++;
-    mutable.state = States.REQUEST_DISTRIBUTE;
+    mutable.state = States.DISTRIBUTE;
 
     this.$e.publish(Events.POST_TURN_NEW, mutable);
 
@@ -59,14 +67,14 @@ class CoreEngine implements Engine {
   public distributeHand(_state: State): State {
     check.checkState(_state);
 
-    if (_state.state !== States.REQUEST_DISTRIBUTE) {
+    if (_state.state !== States.DISTRIBUTE) {
       return _state;
     }
 
     const mutable = utilsG.clone(_state);
     this.$e.publish(Events.PRE_CARD_DISTRIBUTION, mutable);
     utilsS.getWrestlers(mutable).forEach(w => utilsC.distributeHand(w));
-    mutable.state = States.REQUEST_VALIDATION;
+    mutable.state = States.VALIDATION;
     this.$e.publish(Events.POST_CARD_DISTRIBUTION, mutable);
 
     return mutable;
@@ -82,16 +90,16 @@ class CoreEngine implements Engine {
   public validateHand(_state: State): State {
     check.checkState(_state);
 
-    if (_state.state !== States.REQUEST_VALIDATION) {
+    if (_state.state !== States.VALIDATION) {
       return _state;
     }
 
     const mutable = utilsG.clone(_state);
     this.$e.publish(Events.PRE_CARD_VALIDATION, mutable);
     utilsS.getWrestlers(mutable).forEach(w => utilsC.validateHand(w));
-    mutable.state = States.REQUEST_CHOOSE_RANDOM_CARD;
+    mutable.state = States.CHOOSE_RANDOM_CARD;
     if (utilsW.isInteractive(mutable.active)) {
-      mutable.state = States.REQUEST_PLAYER_ACTION;
+      mutable.state = States.PLAYER_ACTION;
     }
     this.$e.publish(Events.POST_CARD_VALIDATION, mutable);
 
@@ -109,7 +117,7 @@ class CoreEngine implements Engine {
     check.checkState(_state);
     check.checkCard(utilsS.getActiveCard(_state));
 
-    if (_state.state !== States.REQUEST_PLAY) {
+    if (_state.state !== States.PLAYER_ACTION) {
       return _state;
     }
 
@@ -139,7 +147,7 @@ class CoreEngine implements Engine {
   public chooseRandomCard(_state: State): State {
     check.checkState(_state);
 
-    if (_state.state !== States.REQUEST_CHOOSE_RANDOM_CARD) {
+    if (_state.state !== States.CHOOSE_RANDOM_CARD) {
       return _state;
     }
 
@@ -148,9 +156,7 @@ class CoreEngine implements Engine {
     const active = utilsS.getActive(mutable);
     //mutable.card = utilsC.randomValidCard(active);
     mutable.state =
-      mutable.card !== null
-        ? States.REQUEST_CHOOSE_RANDOM_TARGET
-        : States.REQUEST_NEW_TURN;
+      mutable.card !== null ? States.CHOOSE_RANDOM_TARGET : States.NEW_TURN;
     this.$e.publish(Events.POST_CARD_IA, mutable);
 
     return mutable;
@@ -160,7 +166,7 @@ class CoreEngine implements Engine {
     check.checkState(_state);
     check.checkCard(utilsS.getActiveCard(_state));
 
-    if (_state.state !== States.REQUEST_CHOOSE_RANDOM_TARGET) {
+    if (_state.state !== States.CHOOSE_RANDOM_TARGET) {
       return _state;
     }
 

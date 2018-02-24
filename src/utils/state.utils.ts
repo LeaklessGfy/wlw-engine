@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { Card, State, Wrestler } from "../models";
 import { randomInt } from "./general.utils";
-import { REQUEST_INIT } from "../consts/states";
+import { INIT } from "../consts/states";
 
 /**
  * Return a valid initial state.
@@ -18,7 +18,7 @@ export const getInitialState = (): State => {
     players: {},
     card: null,
     mode: null,
-    state: REQUEST_INIT
+    state: INIT
   };
 };
 
@@ -109,11 +109,7 @@ export const getActiveCard = (state: State): Card => {
   return getActive(state).hand[state.card];
 };
 
-export const generateNext = (state: State): void => {
-  if (state.next.length > 0) {
-    return;
-  }
-
+export const generateNext = (state: State): string[] => {
   const keys = _.keys(state.players);
   const tmp = keys.map(key => {
     const w = state.players[key];
@@ -129,7 +125,7 @@ export const generateNext = (state: State): void => {
     return 1;
   });
 
-  state.next = tmp.map(t => t.key);
+  return tmp.map(t => t.key);
 };
 
 /**

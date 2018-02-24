@@ -35,9 +35,9 @@ describe("State Utils", () => {
   it("should be able to generate next", () => {
     const state = fakeState();
     state.next = [];
-    utils.generateNext(state);
+    const next = utils.generateNext(state);
 
-    expect(state.next.length).to.be.greaterThan(1);
+    expect(next.length).to.be.greaterThan(1);
   });
 
   it("should be able to clean state", () => {

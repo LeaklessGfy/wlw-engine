@@ -17,8 +17,14 @@ export const shuffleDeck = (w: Wrestler): void => {
  * @param {number} length
  */
 export const distributeHand = (w: Wrestler, length: number = 3): void => {
+  for (let card of w.hand) {
+    w.dead.push(card);
+  }
   w.hand = [];
-
+  if (w.deck.length === 0) {
+    w.deck = w.dead;
+    shuffleDeck(w);
+  }
   if (w.deck.length <= length) {
     w.hand = w.deck;
     w.deck = [];

@@ -15,7 +15,7 @@ describe("Card Utils", () => {
   it("should be able to distribute hand", () => {
     const w = fakeState().players.P1;
     utils.distributeHand(w);
-    expect(w.hand.length).to.equal(1);
+    expect(w.hand.length).to.equal(3);
   });
 
   it("should be able to validate hand", () => {
