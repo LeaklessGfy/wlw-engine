@@ -3,7 +3,7 @@ class Mode {
   name: string;
   img: string;
   description: string;
-  numbers: Number;
+  numbers: number;
   team?: boolean;
 }
 

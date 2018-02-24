@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { Card, State, Wrestler } from "../models";
 import { randomInt } from "./general.utils";
-import { REQUEST_INIT } from "../consts/state";
+import { REQUEST_INIT } from "../consts/states";
 
 /**
  * Return a valid initial state.
