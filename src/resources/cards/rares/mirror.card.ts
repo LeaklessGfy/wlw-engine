@@ -1,24 +1,18 @@
-import { State, Engine } from "../../../models";
+import { Card } from "../../../models";
 import * as C from "../../../consts";
 
-class Mirror {
+class Mirror implements Card {
   uid = "mirror";
+  actuators = ["mirror"];
   name = "Mirror";
-  img = "";
+  img = "http://images.indianexpress.com/2016/09/ambrose-m.jpg";
   description = "Exchange your card with opponent one";
-  stamina = 3;
-  intensity = 1;
+  stamina = 6;
+  intensity = 4;
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.RARE;
-
-  operate(mutable: State, engine: Engine): void {
-    const active = engine.getActive(mutable);
-    const target = engine.getFirstTarget(mutable);
-
-    const tmp = active.hand;
-    active.hand = target.hand;
-    target.hand = tmp;
-  }
+  reverseable = false;
+  valid = false;
 }
 
 export default Mirror;

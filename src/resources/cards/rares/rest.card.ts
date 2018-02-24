@@ -1,20 +1,19 @@
-import { State, Engine } from "../../../models";
+import { Card } from "../../../models";
 import * as C from "../../../consts";
 
-class Rest {
+class Rest implements Card {
   uid = "rest";
+  actuators = ["rest"];
   name = "Rest";
-  img = "";
-  description = "Gain <b>4</b> stamina point. 20% chance become <span style='color=red;'>VULNERABLE.</span>";
+  img = "https://uproxx.files.wordpress.com/2016/12/screen-shot-2016-12-13-at-8-53-35-pm.jpg?quality=95&w=650";
+  description = "Gain 4 stamina point and 8 pv. 20% chance become <span style='color=red;'>VULNERABLE.</span>";
   stamina = 0;
   intensity = 1;
+  effects = []; // 20% vulnerable
   targets = [C.Targets.SELF];
   rarity = C.Rarities.RARE;
-
-  operate(mutable: State, engine: Engine): void {
-    const active = engine.getActive(mutable);
-    active.stamina.val += 4;
-  }
+  reverseable = false;
+  valid = false;
 }
 
 export default Rest;

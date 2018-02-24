@@ -1,17 +1,20 @@
-import { State, Engine } from "../../../models";
+import { Card } from "../../../models";
 import * as C from "../../../consts";
 
-class AttitudeAdjustement {
+class AttitudeAdjustement implements Card {
   uid = "attitude_adjustement";
+  actuators = ["damage"];
   name = "Attitude Adjustement";
-  img = "";
+  img = "https://ekpoeze.files.wordpress.com/2014/02/image001.jpg";
   description = "";
-  stamina = 5;
-  intensity = 7;
+  stamina = 8;
+  intensity = 6;
   damage = 40;
   effects = [];
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.UNIQUE;
+  reverseable = false;
+  valid = false;
 }
 
 export default AttitudeAdjustement;

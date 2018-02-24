@@ -1,8 +1,9 @@
-import { State, Engine } from "../../../models";
+import { Card } from "../../../models";
 import * as C from "../../../consts";
 
-class Facebuster {
+class Facebuster implements Card {
   uid = "facebuster";
+  actuators = ["damage"];
   name = "Facebuster";
   img = "";
   description = "";
@@ -12,6 +13,8 @@ class Facebuster {
   effects = []; //Bleed, KO, self.UNLEASHED
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.SIGNATURE;
+  reverseable = false;
+  valid = false;
 }
 
 export default Facebuster;
