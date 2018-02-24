@@ -10,7 +10,17 @@ class Ddt implements Card {
   stamina = 3;
   intensity = 0;
   damage = 10;
-  effects = []; //blood
+  effects = [
+    {
+      uid: "",
+      name: "blood",
+      description: "",
+      duration: 0,
+      luck: 10,
+      target: C.Targets.OPPONENT,
+      icon: ""
+    }
+  ];
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.BANAL;
   reverseable = true;

@@ -42,7 +42,7 @@ class PinActuactor implements Actuator {
   private targetStatus(status: string, chance: number): number {
     switch (status) {
       case C.Status.KO:
-        return 60;
+        return 50;
       case C.Status.STUN:
         return 10;
       case C.Status.TIRED:

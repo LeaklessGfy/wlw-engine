@@ -21,7 +21,12 @@ class TripleH implements Wrestler {
     val: 5,
     max: 10
   };
-  deck = [_.toPlainObject(new Cards.Ddt())];
+  deck = [
+    _.toPlainObject(new Cards.Ddt()),
+    _.toPlainObject(new Cards.Clothesline()),
+    _.toPlainObject(new Cards.Dropkick()),
+    _.toPlainObject(new Cards.Pin())
+  ];
   hand = [];
   dead = [];
   status = [];
