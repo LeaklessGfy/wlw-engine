@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import * as Chance from "chance";
+import { Wrestler, Card } from "./models";
 
 const random = new Chance(Math.random);
 
@@ -46,4 +47,32 @@ export const randomInt = (min: number = 0, max: number = 1): number => {
  */
 export const randomBool = (percent: number = 50): boolean => {
   return random.bool({ likelihood: percent });
+};
+
+export const minMax = (min, max, val) => {
+  return Math.min(Math.max(min, val), max);
+};
+
+/**
+ * Return a random valid card or null.
+ *
+ * @param {Card} w
+ */
+export const randomValidCard = (w: Wrestler): Card | null => {
+  const validCard = w.hand.filter(card => card && card.valid);
+  if (validCard.length > 0) {
+    return _.sample(validCard);
+  }
+  return null;
+};
+
+/**
+ * Return true if the index/key of player represent an interactive one.
+ *
+ * @param {string} index
+ *
+ * @return {boolean}
+ */
+export const isInteractive = (index: string): boolean => {
+  return index.charAt(0) === "P";
 };

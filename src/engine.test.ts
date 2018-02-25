@@ -59,9 +59,25 @@ describe("Engine", () => {
     const f = fakeState();
     f.state = States.DISTRIBUTE;
     const mutable = engine.distributeHand(f);
-
     expect(mutable).to.not.equal(f);
     expect(mutable.players.P1.hand.length).to.equal(3);
+    expect(mutable.players.P1.dead.length).to.equal(0);
+
+    const mutable2 = engine.distributeHand(mutable);
+    expect(mutable2).to.not.equal(mutable);
+    expect(mutable2.players.P1.hand.length).to.equal(3);
+    expect(mutable2.players.P1.dead.length).to.equal(3);
+    expect(mutable2.players.P1.dead).to.eql(mutable.players.P1.hand);
+
+    const mutable3 = engine.distributeHand(mutable2);
+    expect(mutable3).to.not.equal(mutable2);
+    expect(mutable3.players.P1.hand.length).to.equal(1);
+    expect(mutable3.players.P1.dead.length).to.equal(6);
+
+    const mutable4 = engine.distributeHand(mutable3);
+    expect(mutable4).to.not.equal(mutable3);
+    expect(mutable4.players.P1.hand.length).to.equal(3);
+    expect(mutable4.players.P1.dead.length).to.equal(0);
   });
 
   it("should be able to make a card validation", () => {
