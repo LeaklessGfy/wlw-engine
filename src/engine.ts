@@ -107,7 +107,7 @@ class CoreEngine implements Engine {
     const mutator = new Mutator(accessor);
 
     this.$e.publish(Events.PRE_CARD_PLAY, mutable);
-    mutator.playCard();
+    mutator.playCard(this.$k);
     mutator.nextPlayCard();
     this.$e.publish(Events.POST_CARD_PLAY, mutable);
 

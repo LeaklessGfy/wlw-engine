@@ -1,7 +1,7 @@
 import * as _ from "lodash";
-import { Actuator, Card, Kernel, State, Wrestler } from "./models";
+import { Accessor, Actuator, Card, Kernel, State, Wrestler } from "./models";
 
-class Accessor {
+class CoreAccessor implements Accessor {
   constructor(readonly state: State) {}
 
   /**
@@ -98,4 +98,4 @@ class Accessor {
   }
 }
 
-export default Accessor;
+export default CoreAccessor;

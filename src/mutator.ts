@@ -1,18 +1,21 @@
 import * as _ from "lodash";
-import { State, Wrestler } from "./models";
+import { Kernel, State, Wrestler } from "./models";
 import Accessor from "./accessor";
 import { randomInt, isInteractive } from "./utils";
 import * as States from "./consts/states";
 import CardService from "./services/card.service";
 import StateService from "./services/state.service";
+import WrestlerService from "./services/wrestler.service";
 
 class Mutator {
   private readonly cardService: CardService;
   private readonly stateService: StateService;
+  private readonly wrestlerServicer: WrestlerService;
 
   constructor(private readonly accessor: Accessor) {
     this.cardService = new CardService();
     this.stateService = new StateService();
+    this.wrestlerServicer = new WrestlerService();
   }
 
   newTurn(): void {
@@ -25,8 +28,8 @@ class Mutator {
     if (state.next.length < 1) {
       this.stateService.next(state);
     }
-    this.recovery();
     state.active = state.next.shift();
+    this.wrestlerServicer.recovery(this.accessor.getActive(), state.turn);
     state.turn++;
   }
 
@@ -65,10 +68,10 @@ class Mutator {
     state.state = nstate;
   }
 
-  playCard(): void {
+  playCard(kernel: Kernel): void {
     const active = this.accessor.getActive();
     const card = this.accessor.getCard();
-    const actuators = this.accessor.getActuators(card);
+    const actuators = this.accessor.getActuators(card, kernel);
     const state = this.accessor.state;
 
     this.cardService.consumeCard(active, card);

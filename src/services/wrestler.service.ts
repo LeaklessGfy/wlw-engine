@@ -1,19 +1,18 @@
+import Wrestler from "../models/wrestler";
+import { randomInt, minMax } from "../utils";
+
 class WrestlerService {
   /**
    * Apply recovery on wrestlers.
    */
-  recovery(): void {
-    const turn = this.accessor.state.turn;
+  recovery(wrestler: Wrestler, turn: number): void {
+    const max = turn + wrestler.combat.recovery;
 
-    for (let w of this.accessor.getWrestlers()) {
-      const max = turn + w.combat.recovery;
+    const stamina = wrestler.stamina.val + randomInt(turn, max);
+    wrestler.stamina.val = minMax(0, wrestler.stamina.max, stamina);
 
-      const stamina = w.stamina.val + randomInt(turn, max);
-      this.accessor.setStaminaVal(w, stamina);
-
-      const intensity = w.intensity.val + randomInt(turn, max);
-      this.accessor.setIntensityVal(w, intensity);
-    }
+    const intensity = wrestler.intensity.val + randomInt(turn, max);
+    wrestler.intensity.val = minMax(0, wrestler.intensity.max, intensity);
   }
 }
 

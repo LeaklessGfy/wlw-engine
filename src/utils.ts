@@ -16,17 +16,6 @@ export const clone = <T>(o: T): T => {
 };
 
 /**
- * Return a freeze copy of the object pass in parameter
- *
- * @param {T} o
- *
- * @return {T}
- */
-export const freeze = <T>(o: T): Readonly<T> => {
-  return Object.freeze(o);
-};
-
-/**
  * Return a random integer. Can be influenced by min and max parameter (inclusive).
  *
  * @param {number} min minimum that random int can be
@@ -49,7 +38,7 @@ export const randomBool = (percent: number = 50): boolean => {
   return random.bool({ likelihood: percent });
 };
 
-export const minMax = (min, max, val) => {
+export const minMax = (min: number, max: number, val: number): number => {
   return Math.min(Math.max(min, val), max);
 };
 

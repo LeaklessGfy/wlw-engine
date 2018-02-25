@@ -53,7 +53,7 @@ class CardService {
   }
 
   operateCard(actuators: Actuator[], mutable: State): void {
-    actuators.forEach(a => a.operate(mutable));
+    actuators.forEach(a => a.operate(mutable, new Accessor(mutable)));
   }
 
   effectCard(): void {}

@@ -1,14 +1,13 @@
-import { Actuator, State, Engine } from "../../models";
+import { Accessor, Actuator, State, Engine } from "../../models";
 import * as C from "../../consts";
-import { getActive, getFirstTarget } from "../../utils/state.utils";
-import { randomBool } from "../../utils/general.utils";
+import { randomBool } from "../../utils";
 
 class PinActuactor implements Actuator {
   key = "pin";
 
-  operate(mutable: State, engine: Engine): void {
-    const active = getActive(mutable);
-    const target = getFirstTarget(mutable);
+  operate(mutable: State, accessor: Accessor): void {
+    const active = accessor.getActive();
+    const target = accessor.getFirstTarget();
     let chance = 100 - target.health.val;
 
     // Active status
