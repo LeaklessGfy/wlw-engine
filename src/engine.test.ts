@@ -81,9 +81,17 @@ describe("Engine", () => {
   });
 
   it("should be able to make a card validation", () => {
-    // Add validator
     const f = fakeState();
+    f.players.P1.hand = f.players.P1.deck;
     const mutable = engine.validateHands(f);
+
+    mutable.players.P1.hand.forEach(c => {
+      if (c.intensity > mutable.players.P1.intensity.val) {
+        expect(c.valid).to.equal(false);
+      } else {
+        expect(c.valid).to.equal(true);
+      }
+    });
   });
 
   it("should be able to choose a random card", () => {});

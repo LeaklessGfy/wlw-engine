@@ -1,9 +1,8 @@
-import Accessor from "./accessor";
-import State from "./state";
+import Accessor from "../accessors/accessor";
 
 interface Actuator {
   readonly key;
-  operate(mutable: State, accessor: Accessor): void;
+  operate(accessor: Accessor): void;
 }
 
 export default Actuator;

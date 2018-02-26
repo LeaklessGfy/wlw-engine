@@ -1,21 +1,24 @@
-import { Accessor, Actuator, State } from "../../models";
+import Actuator from "../../models/actuator";
+import Accessor from "../../accessors/accessor";
 import { randomInt } from "../../utils";
 
 class DamageActuactor implements Actuator {
   key = "damage";
 
-  operate(mutable: State, accessor: Accessor): void {
+  operate(accessor: Accessor): void {
     const active = accessor.getActive();
+    const combat = active.getCombat();
     const target = accessor.getFirstTarget();
     const card = accessor.getCard();
 
-    let damage = card.damage + randomInt(0, active.combat.damage);
+    let damage = card.getDamage() + randomInt(0, combat.getDamage());
     //Critical
-    if (randomInt(0, 100) <= active.combat.crit) {
+    if (randomInt(0, 100) <= combat.getCrit()) {
       damage = damage * 1.5;
     }
 
-    target.health.val = Math.max(0, target.health.val - damage);
+    const health = target.getHealth();
+    health.setVal(health.getVal() - damage);
   }
 }
 

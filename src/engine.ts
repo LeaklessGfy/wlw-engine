@@ -3,8 +3,8 @@ import { Engine, Kernel, State, Validator } from "./models";
 import GlobalEventManager, { EventManager } from "./event-manager";
 import * as check from "./checker";
 import { clone } from "./utils";
-import Accessor from "./accessor";
 import Mutator from "./mutator";
+import Accessor from "./accessors/accessor";
 
 /**
  * The engine of the WLW game

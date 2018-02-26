@@ -8,7 +8,7 @@ interface Card {
   name: string;
   img: string;
   description: string;
-  requirements?: Requirements;
+  //requirements?: Requirements;
   stamina: number;
   intensity: number;
   damage?: number;

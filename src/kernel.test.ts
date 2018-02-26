@@ -4,23 +4,17 @@ import Kernel from "./kernel";
 
 const fake1 = {
   key: "fake1",
-  preOperate(m, e) {},
-  operate(m, e) {},
-  postOperate(m, e) {}
+  operate(a) {}
 };
 
 const fake2 = {
   key: "fake2",
-  preOperate(m, e) {},
-  operate(m, e) {},
-  postOperate(m, e) {}
+  operate(a) {}
 };
 
 const fake3 = {
   key: "fake3",
-  preOperate(m, e) {},
-  operate(m, e) {},
-  postOperate(m, e) {}
+  operate(a) {}
 };
 
 describe("Kernel", () => {
