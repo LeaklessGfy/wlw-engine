@@ -54,7 +54,15 @@ class Mutator {
     const card = this.accessor.getCard();
     const actuators = card.getActuators(kernel);
 
+    let block = false;
+    let reverse = false;
+
     active.consumeCard(card);
+    this.accessor.getTargets().forEach(t => {
+      if (t.hasBlock(card, active)) {
+      }
+    });
+    // BLOCK + COUNTER
     actuators.forEach(a => a.operate(this.accessor));
     // effect card
     active.discardCard(card);

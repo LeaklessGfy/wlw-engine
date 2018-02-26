@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { Card, Wrestler } from "../models";
 import { ArrayAccessor, BarAccessor, CardAccessor, CombatAccessor } from "./";
-import { randomInt } from "../../../api/wlw-engine/src/utils";
+import { randomInt } from "../utils";
 
 class WrestlerAccessor {
   private readonly health: BarAccessor;
@@ -13,6 +13,8 @@ class WrestlerAccessor {
     this.stamina = new BarAccessor(this.wrestler.stamina);
     this.intensity = new BarAccessor(this.wrestler.intensity);
   }
+
+  // GETTERS
 
   getUid(): string {
     return this.wrestler.uid;
@@ -66,10 +68,14 @@ class WrestlerAccessor {
     return new CombatAccessor(this.wrestler.combat);
   }
 
+  // SETTERS
+
   setHand(hand: Card[]): WrestlerAccessor {
     this.wrestler.hand = hand;
     return this;
   }
+
+  // SPECIAL
 
   shuffleDeck(): void {
     this.wrestler.deck = _.shuffle(this.wrestler.deck);
@@ -131,6 +137,26 @@ class WrestlerAccessor {
 
     const intensity = this.getIntensity();
     intensity.addVal(randomInt(turn, max));
+  }
+
+  hasBlock(card: CardAccessor, src: WrestlerAccessor): boolean {
+    if (!card.isBlockable()) {
+      return false;
+    }
+
+    const accuracy =
+      randomInt(0, 10) + randomInt(0, src.wrestler.combat.accuracy);
+    const dodge = randomInt(0, 7) + randomInt(0, this.wrestler.combat.dodge);
+
+    return dodge > accuracy;
+  }
+
+  hasReverse(card: CardAccessor): boolean {
+    if (!card.isReverseable()) {
+      return false;
+    }
+
+    return true;
   }
 }
 

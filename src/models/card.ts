@@ -14,8 +14,9 @@ interface Card {
   damage?: number;
   effects?: Effect[];
   targets: string[];
-  reverseable: boolean;
   rarity: string;
+  blockable?: boolean;
+  reverseable?: boolean;
   valid?: boolean;
 }
 

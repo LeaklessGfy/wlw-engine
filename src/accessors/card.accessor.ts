@@ -52,12 +52,16 @@ class CardAccessor {
     return this.card.targets;
   }
 
-  isReverseable(): boolean {
-    return this.card.reverseable;
-  }
-
   getRarity(): string {
     return this.card.rarity;
+  }
+
+  isBlockable(): boolean {
+    return this.card.blockable;
+  }
+
+  isReverseable(): boolean {
+    return this.card.reverseable;
   }
 
   isValid(): boolean {
