@@ -2,7 +2,7 @@ import Actuator from "../../models/actuator";
 import Accessor from "../../accessors/accessor";
 import { randomInt } from "../../utils";
 
-class DamageActuactor implements Actuator {
+class DamageActuator implements Actuator {
   key = "damage";
 
   operate(accessor: Accessor): void {
@@ -18,8 +18,8 @@ class DamageActuactor implements Actuator {
     }
 
     const health = target.getHealth();
-    health.setVal(health.getVal() - damage);
+    health.addVal(-damage);
   }
 }
 
-export default DamageActuactor;
+export default DamageActuator;

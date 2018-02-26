@@ -16,7 +16,7 @@ interface Card {
   targets: string[];
   reverseable: boolean;
   rarity: string;
-  valid: boolean;
+  valid?: boolean;
 }
 
 export default Card;

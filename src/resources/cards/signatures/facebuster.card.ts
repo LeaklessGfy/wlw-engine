@@ -5,7 +5,7 @@ class Facebuster implements Card {
   uid = "facebuster";
   actuators = ["damage"];
   name = "Facebuster";
-  img = "";
+  img = "https://scontent.cdninstagram.com/hphotos-xaf1/t51.2885-15/s640x640/sh0.08/e35/12224435_566097080210702_1375145109_n.jpg";
   description = "";
   stamina = 5;
   intensity = 5;
@@ -14,7 +14,6 @@ class Facebuster implements Card {
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.SIGNATURE;
   reverseable = false;
-  valid = false;
 }
 
 export default Facebuster;

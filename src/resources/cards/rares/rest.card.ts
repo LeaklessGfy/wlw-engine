@@ -6,14 +6,13 @@ class Rest implements Card {
   actuators = ["rest"];
   name = "Rest";
   img = "https://uproxx.files.wordpress.com/2016/12/screen-shot-2016-12-13-at-8-53-35-pm.jpg?quality=95&w=650";
-  description = "Gain 4 stamina point and 8 pv. 20% chance become <span style='color=red;'>VULNERABLE.</span>";
+  description = "Gain 4STAMINA and 8PV. 20% chance to become VULNERABLE";
   stamina = 0;
   intensity = 1;
   effects = []; // 20% vulnerable
   targets = [C.Targets.SELF];
   rarity = C.Rarities.RARE;
   reverseable = false;
-  valid = false;
 }
 
 export default Rest;

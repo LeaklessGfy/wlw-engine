@@ -1,6 +1,17 @@
-const active = engine.getActive(mutable);
-const target = engine.getFirstTarget(mutable);
+import Actuator from "../../models/actuator";
+import Accessor from "../../accessors/accessor";
 
-const tmp = active.hand;
-active.hand = target.hand;
-target.hand = tmp;
+class MirrorActuator implements Actuator {
+  key = "mirror";
+
+  operate(accessor: Accessor): void {
+    const active = accessor.getActive();
+    const target = accessor.getFirstTarget();
+
+    const tmp = active.getHand().getRef();
+    active.setHand(target.getHand().getRef());
+    target.setHand(tmp);
+  }
+}
+
+export default MirrorActuator;

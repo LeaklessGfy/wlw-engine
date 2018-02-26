@@ -12,7 +12,6 @@ class Mirror implements Card {
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.RARE;
   reverseable = false;
-  valid = false;
 }
 
 export default Mirror;

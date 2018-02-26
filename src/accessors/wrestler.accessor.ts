@@ -1,29 +1,17 @@
 import * as _ from "lodash";
-import Wrestler from "../models/wrestler";
-import BarAccessor from "./bar.accessor";
-import CombatAccessor from "./combat.accessor";
-import ArrayAccessor from "./array.accessor";
-import CardAccessor from "./card.accessor";
-import Card from "../models/card";
+import { Card, Wrestler } from "../models";
+import { ArrayAccessor, BarAccessor, CardAccessor, CombatAccessor } from "./";
 import { randomInt } from "../../../api/wlw-engine/src/utils";
 
 class WrestlerAccessor {
   private readonly health: BarAccessor;
   private readonly stamina: BarAccessor;
   private readonly intensity: BarAccessor;
-  private readonly deck: ArrayAccessor<CardAccessor, Card>;
-  private readonly hand: ArrayAccessor<CardAccessor, Card>;
-  private readonly dead: ArrayAccessor<CardAccessor, Card>;
-  private readonly combat: CombatAccessor;
 
   constructor(private readonly wrestler: Wrestler) {
     this.health = new BarAccessor(this.wrestler.health);
     this.stamina = new BarAccessor(this.wrestler.stamina);
     this.intensity = new BarAccessor(this.wrestler.intensity);
-    this.deck = new ArrayAccessor(this.wrestler.deck, v => new CardAccessor(v));
-    this.hand = new ArrayAccessor(this.wrestler.hand, v => new CardAccessor(v));
-    this.dead = new ArrayAccessor(this.wrestler.dead, v => new CardAccessor(v));
-    this.combat = new CombatAccessor(this.wrestler.combat);
   }
 
   getUid(): string {
@@ -59,15 +47,15 @@ class WrestlerAccessor {
   }
 
   getDeck(): ArrayAccessor<CardAccessor, Card> {
-    return this.deck;
+    return new ArrayAccessor(this.wrestler.deck, v => new CardAccessor(v));
   }
 
   getHand(): ArrayAccessor<CardAccessor, Card> {
-    return this.hand;
+    return new ArrayAccessor(this.wrestler.hand, v => new CardAccessor(v));
   }
 
   getDead(): ArrayAccessor<CardAccessor, Card> {
-    return this.dead;
+    return new ArrayAccessor(this.wrestler.dead, v => new CardAccessor(v));
   }
 
   getStatus(): string[] {
@@ -75,7 +63,12 @@ class WrestlerAccessor {
   }
 
   getCombat(): CombatAccessor {
-    return this.combat;
+    return new CombatAccessor(this.wrestler.combat);
+  }
+
+  setHand(hand: Card[]): WrestlerAccessor {
+    this.wrestler.hand = hand;
+    return this;
   }
 
   shuffleDeck(): void {
@@ -119,10 +112,10 @@ class WrestlerAccessor {
 
   consumeCard(card: CardAccessor): void {
     const stamina = this.getStamina();
-    stamina.setVal(stamina.getVal() - card.getStamina());
+    stamina.addVal(-card.getStamina());
 
     const intensity = this.getIntensity();
-    intensity.setVal(intensity.getVal() - card.getIntensity());
+    intensity.addVal(-card.getIntensity());
   }
 
   discardCard(card: CardAccessor): void {
@@ -134,10 +127,10 @@ class WrestlerAccessor {
     const max = turn + this.wrestler.combat.recovery;
 
     const stamina = this.getStamina();
-    stamina.setVal(stamina.getVal() + randomInt(turn, max));
+    stamina.addVal(randomInt(turn, max));
 
     const intensity = this.getIntensity();
-    intensity.setVal(intensity.getVal() + randomInt(turn, max));
+    intensity.addVal(randomInt(turn, max));
   }
 }
 

@@ -23,6 +23,14 @@ class BarAccessor {
 
     return this;
   }
+
+  addVal(val: number): BarAccessor {
+    return this.setVal(this.bar.val + val);
+  }
+
+  addMax(max: number): BarAccessor {
+    return this.setMax(this.bar.max + max);
+  }
 }
 
 export default BarAccessor;

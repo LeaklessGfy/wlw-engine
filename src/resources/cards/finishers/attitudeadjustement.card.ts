@@ -14,7 +14,6 @@ class AttitudeAdjustement implements Card {
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.UNIQUE;
   reverseable = false;
-  valid = false;
 }
 
 export default AttitudeAdjustement;

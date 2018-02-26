@@ -1,7 +1,7 @@
 import "mocha";
 import { expect } from "chai";
 import fakeState from "../fake-state";
-import DamageActuactor from "./damage.actuator";
+import DamageActuator from "./damage.actuator";
 import Accessor from "../../accessors/accessor";
 
 describe("[ACTUATOR] Damage", () => {
@@ -12,7 +12,7 @@ describe("[ACTUATOR] Damage", () => {
     mutable.card = 0;
 
     const accessor = new Accessor(mutable);
-    const actuator = new DamageActuactor();
+    const actuator = new DamageActuator();
 
     actuator.operate(accessor);
 

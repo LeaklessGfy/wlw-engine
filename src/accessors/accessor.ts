@@ -16,6 +16,10 @@ class Accessor {
     return this.state.active;
   }
 
+  getNext(): string[] {
+    return this.state.next;
+  }
+
   /**
    * Return the wrestler accessor for the active player.
    *

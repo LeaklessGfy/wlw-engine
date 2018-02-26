@@ -14,7 +14,6 @@ class Dropkick implements Card {
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.BANAL;
   reverseable = false;
-  valid = false;
 }
 
 export default Dropkick;

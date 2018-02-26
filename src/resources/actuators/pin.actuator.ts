@@ -1,22 +1,23 @@
-import { Accessor, Actuator, State, Engine } from "../../models";
-import * as C from "../../consts";
+import Actuator from "../../models/actuator";
+import Accessor from "../../accessors/accessor";
+import * as Status from "../../consts/status";
 import { randomBool } from "../../utils";
 
 class PinActuactor implements Actuator {
   key = "pin";
 
-  operate(mutable: State, accessor: Accessor): void {
+  operate(accessor: Accessor): void {
     const active = accessor.getActive();
     const target = accessor.getFirstTarget();
-    let chance = 100 - target.health.val;
+    let chance = 100 - target.getHealth().getVal();
 
     // Active status
-    active.status.forEach(status => {
+    active.getStatus().forEach(status => {
       chance += this.activeStatus(status, chance);
     });
 
     // Target status
-    target.status.forEach(status => {
+    target.getStatus().forEach(status => {
       chance += this.targetStatus(status, chance);
     });
 
@@ -27,11 +28,11 @@ class PinActuactor implements Actuator {
 
   private activeStatus(status: string, chance: number): number {
     switch (status) {
-      case C.Status.TIRED:
+      case Status.TIRED:
         return -5;
-      case C.Status.CRAZY:
+      case Status.CRAZY:
         return 0; //return 10 or -10
-      case C.Status.UNLEASHED:
+      case Status.UNLEASHED:
         return 10;
       default:
         return 0;
@@ -40,17 +41,17 @@ class PinActuactor implements Actuator {
 
   private targetStatus(status: string, chance: number): number {
     switch (status) {
-      case C.Status.KO:
+      case Status.KO:
         return 50;
-      case C.Status.STUN:
+      case Status.STUN:
         return 10;
-      case C.Status.TIRED:
+      case Status.TIRED:
         return 2;
-      case C.Status.COMEBACK:
+      case Status.COMEBACK:
         return -20;
-      case C.Status.UNLEASHED:
+      case Status.UNLEASHED:
         return -150;
-      case C.Status.NORMAL:
+      case Status.NORMAL:
         return -(chance / 2);
       default:
         return 0;

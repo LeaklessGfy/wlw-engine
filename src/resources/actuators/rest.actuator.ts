@@ -1,14 +1,18 @@
-import { Accessor, Actuator, State } from "../../models";
+import Actuator from "../../models/actuator";
+import Accessor from "../../accessors/accessor";
 import { randomInt } from "../../utils";
 
 class RestActuactor implements Actuator {
   key = "rest";
 
-  operate(mutable: State, accessor: Accessor): void {
+  operate(accessor: Accessor): void {
     const active = accessor.getActive();
+    const stamina = active.getStamina();
+    const health = active.getHealth();
+
+    stamina.addVal(4);
+    health.addVal(8);
   }
 }
 
-const active = engine.getActive(mutable);
-active.stamina.val += 4;
-active.health.val += 8;
+export default RestActuactor;
