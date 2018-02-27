@@ -47,7 +47,7 @@ class CardAccessor {
     return new ArrayAccessor([], v => v);
   }
 
-  getTargets(): string[] {
+  getTargets(): number[] {
     return this.card.targets;
   }
 

@@ -122,10 +122,14 @@ export const checkBar = (bar: Bar, name: string): void => {
     throw new Error("INVALID STATE - Bar " + name + " is null or not object");
   }
   if (!_.isInteger(bar.val)) {
-    throw new Error("INVALID STATE - Bar " + name + " val is null or not integer");
+    throw new Error(
+      "INVALID STATE - Bar " + name + " val is null or not integer"
+    );
   }
   if (!_.isInteger(bar.max)) {
-    throw new Error("INVALID STATE - Bar " + name + " max is null or not integer");
+    throw new Error(
+      "INVALID STATE - Bar " + name + " max is null or not integer"
+    );
   }
 };
 
@@ -157,10 +161,16 @@ export const checkCombat = (combat: CombatStat): void => {
   if (!_.isInteger(combat.submission)) {
     throw new Error("INVALID STATE - Combat submission is null or not integer");
   }
-}
+};
 
 export const checkMode = (mode: Mode): void => {
   if (!_.isPlainObject(mode)) {
     throw new Error("INVALID STATE - Mode is null or not object");
+  }
+};
+
+export const advancedCheckState = (state: State): void => {
+  for (let target of state.targets) {
+    // check if target is ok for card card.
   }
 };

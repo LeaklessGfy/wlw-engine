@@ -8,13 +8,13 @@ interface Card {
   name: string;
   img: string;
   description: string;
-  //requirements?: Requirements;
   stamina: number;
   intensity: number;
   damage?: number;
+  targets: number[];
+  rarity: number;
   effects?: Effect[];
-  targets: string[];
-  rarity: string;
+  //requirements?: Requirements;
   blockable?: boolean;
   reverseable?: boolean;
   valid?: boolean;

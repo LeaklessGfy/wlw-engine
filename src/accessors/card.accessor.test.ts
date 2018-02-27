@@ -110,8 +110,8 @@ describe("[ACCESSOR] Card", () => {
     const c = new Ddt();
     const accessor = new CardAccessor(c);
     expect(accessor.getTargets()).to.equal(c.targets);
-    c.targets = ["test"];
-    expect(accessor.getTargets()).to.eql(["test"]);
+    c.targets = [0, 1];
+    expect(accessor.getTargets()).to.eql([0, 1]);
   });
 
   it("should be able to return rarity", () => {

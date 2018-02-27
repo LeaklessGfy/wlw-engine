@@ -4,7 +4,7 @@ interface Effect {
   description: string;
   duration: number;
   luck: number;
-  target: string;
+  target: number;
   icon: string;
 }
 
