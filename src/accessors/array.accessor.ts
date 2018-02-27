@@ -5,7 +5,7 @@ class ArrayAccessor<T, E> {
   ) {}
 
   get(index: number): T | null {
-    if (this.arr[index]) return this.transform(this.arr[index]);
+    if (this.arr[index] !== undefined) return this.transform(this.arr[index]);
     return null;
   }
 
@@ -22,9 +22,8 @@ class ArrayAccessor<T, E> {
     return this.arr;
   }
 
-  shift(): ArrayAccessor<T, E> {
-    this.arr.shift();
-    return this;
+  shift(): T {
+    return this.transform(this.arr.shift());
   }
 
   unshift(val: E): ArrayAccessor<T, E> {
