@@ -10,11 +10,13 @@ class WrestlerAccessor {
   private readonly health: BarAccessor;
   private readonly stamina: BarAccessor;
   private readonly intensity: BarAccessor;
+  private readonly combat: CombatAccessor;
 
   constructor(private readonly wrestler: Wrestler) {
-    this.health = new BarAccessor(this.wrestler.health);
-    this.stamina = new BarAccessor(this.wrestler.stamina);
-    this.intensity = new BarAccessor(this.wrestler.intensity);
+    this.health = new BarAccessor(wrestler.health);
+    this.stamina = new BarAccessor(wrestler.stamina);
+    this.intensity = new BarAccessor(wrestler.intensity);
+    this.combat = new CombatAccessor(wrestler.combat);
   }
 
   // GETTERS
@@ -63,12 +65,12 @@ class WrestlerAccessor {
     return new ArrayAccessor(this.wrestler.dead, v => new CardAccessor(v));
   }
 
-  getStatus(): string[] {
+  getStatus(): number[] {
     return this.wrestler.status;
   }
 
   getCombat(): CombatAccessor {
-    return new CombatAccessor(this.wrestler.combat);
+    return this.combat;
   }
 
   // SETTERS
@@ -142,7 +144,7 @@ class WrestlerAccessor {
     intensity.addVal(randomInt(turn, max));
   }
 
-  hasBlock(card: CardAccessor, src: WrestlerAccessor): boolean {
+  hasDodge(card: CardAccessor, src: WrestlerAccessor): boolean {
     if (!card.isBlockable()) {
       return false;
     }

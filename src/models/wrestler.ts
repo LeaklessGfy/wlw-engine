@@ -14,7 +14,7 @@ interface Wrestler {
   deck: Card[]; //Paquet
   hand: Card[]; //Main
   dead: Card[]; //Defausse
-  status: string[];
+  status: number[];
   combat: CombatStat;
   //show: Show; * COMING SOON *
   //moral: MoralStat; * COMING SOON *

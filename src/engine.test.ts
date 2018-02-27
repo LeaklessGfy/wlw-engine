@@ -8,7 +8,8 @@ import * as W from "./resources/wrestlers";
 import * as C from "./resources/cards";
 import DamageActuator from "./resources/actuators/damage.actuator";
 import fakeState from "./resources/fake-state";
-import { States } from "./consts";
+import { States, Reports } from "./consts";
+import { TOUCH, REVERSE } from "./consts/reports";
 
 describe("Engine", () => {
   const engine = new Engine(new Kernel());
@@ -30,7 +31,7 @@ describe("Engine", () => {
     const f = fakeState();
     f.players.P1.hand = f.players.P1.deck;
     f.card = 0;
-    f.state = States.PLAYER_ACTION;
+    f.state = States.PLAY_CARD;
     const engine = new Engine(new Kernel([new DamageActuator()]));
     const mutable = engine.playCard(f);
 
@@ -42,9 +43,16 @@ describe("Engine", () => {
     /* CHANGES */
     expect(mutable.card).to.equal(null);
     expect(mutable.targets.length).to.equal(0);
-    expect(mutable.players.CPU1.health.val).to.equal(
-      f.players.CPU1.health.val - f.players.P1.hand[0].damage
-    );
+
+    if (mutable.reports[0] === Reports.TOUCH) {
+      expect(mutable.players.CPU1.health.val).to.equal(
+        f.players.CPU1.health.val - f.players.P1.hand[0].damage
+      );
+    } else if (mutable.reports[0] === Reports.REVERSE) {
+      expect(mutable.players.P1.health.val).to.equal(
+        f.players.P1.health.val - f.players.P1.hand[0].damage
+      );
+    }
     expect(mutable.players.P1.stamina.val).to.equal(
       f.players.P1.stamina.val - f.players.P1.hand[0].stamina
     );
@@ -57,7 +65,7 @@ describe("Engine", () => {
 
   it("should be able to make a simple card distribution", () => {
     const f = fakeState();
-    f.state = States.DISTRIBUTE;
+    f.state = States.DISTRIBUTE_HANDS;
     const mutable = engine.distributeHands(f);
     expect(mutable).to.not.equal(f);
     expect(mutable.players.P1.hand.length).to.equal(3);

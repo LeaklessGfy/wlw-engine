@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { Actuator, Card, Kernel, State, Wrestler } from "../models";
+import { Actuator, Card, Kernel, State, Players, Wrestler } from "../models";
 import { randomInt } from "../utils";
 import ArrayAccessor from "./array.accessor";
 import CardAccessor from "./card.accessor";
@@ -12,12 +12,40 @@ class Accessor {
     return this.state.turn;
   }
 
+  getViewerKey(): string {
+    return this.state.viewer;
+  }
+
   getActiveKey(): string {
     return this.state.active;
   }
 
-  getNext(): string[] {
+  getTargetsKey(): string[] {
+    return this.state.targets;
+  }
+
+  getNextKey(): string[] {
     return this.state.next;
+  }
+
+  getPlayers(): Players {
+    return this.state.players;
+  }
+
+  getCardKey(): number {
+    return this.state.card;
+  }
+
+  getMode() {
+    return this.state.mode;
+  }
+
+  getState(): number {
+    return this.state.state;
+  }
+
+  getReports(): number[] {
+    return this.state.reports;
   }
 
   /**
@@ -122,6 +150,27 @@ class Accessor {
       .get(this.state.card);
   }
 
+  setCard(card: number): Accessor {
+    this.state.card = card;
+
+    return this;
+  }
+
+  setState(state: number): Accessor {
+    this.state.state = state;
+
+    return this;
+  }
+
+  setReports(reports: number[]): Accessor {
+    if (reports.length > this.state.targets.length) {
+      throw new Error("Illegal Argument. Reports bigger than targets");
+    }
+    this.state.reports = reports;
+
+    return this;
+  }
+
   nextTurn(): number {
     this.state.turn++;
 
@@ -140,12 +189,6 @@ class Accessor {
     this.state.active = this.state.next.shift();
 
     return this.getActive();
-  }
-
-  setState(state: number): Accessor {
-    this.state.state = state;
-
-    return this;
   }
 
   buildNext() {
@@ -167,6 +210,10 @@ class Accessor {
   clean(): void {
     this.state.card = null;
     this.state.targets = [];
+  }
+
+  cleanReports(): void {
+    this.state.reports = [];
   }
 }
 

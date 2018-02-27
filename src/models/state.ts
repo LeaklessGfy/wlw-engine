@@ -12,6 +12,7 @@ interface State {
   card: number;
   mode: Mode;
   state: number;
+  reports?: number[];
 }
 
 export default State;

@@ -1,9 +1,14 @@
-import { Actuator, Card, Kernel } from "../models";
+import { Actuator, Card, Effect, Kernel } from "../models";
 import ActuatorsAccessor from "./actuators.accessor";
 import ArrayAccessor from "./array.accessor";
+import EffectAccessor from "./effect.accessor";
 
 class CardAccessor {
-  constructor(private readonly card: Card) {}
+  private readonly effects: ArrayAccessor<EffectAccessor, Effect>;
+
+  constructor(private readonly card: Card) {
+    this.effects = new ArrayAccessor(card.effects, v => new EffectAccessor(v));
+  }
 
   getUid(): string {
     return this.card.uid;
@@ -43,15 +48,15 @@ class CardAccessor {
     return this.card.damage;
   }
 
-  getEffects(): ArrayAccessor<number, number> {
-    return new ArrayAccessor([], v => v);
+  getEffects(): ArrayAccessor<EffectAccessor, Effect> {
+    return this.effects;
   }
 
   getTargets(): number[] {
     return this.card.targets;
   }
 
-  getRarity(): string {
+  getRarity(): number {
     return this.card.rarity;
   }
 

@@ -1,5 +1,5 @@
 import { Events, States, Targets } from "./consts";
-import { Engine, Kernel, State, Validator } from "./models";
+import { Engine, Kernel, State } from "./models";
 import GlobalEventManager, { EventManager } from "./event-manager";
 import * as check from "./checker";
 import { clone } from "./utils";
@@ -61,10 +61,10 @@ class CoreEngine implements Engine {
     const accessor = new Accessor(mutable);
     const mutator = new Mutator(accessor);
 
-    this.$e.publish(Events.PRE_CARD_DISTRIBUTION, mutable);
+    this.$e.publish(Events.PRE_HANDS_DISTRIBUTION, mutable);
     mutator.distributeHands();
     mutator.nextDistributeHands();
-    this.$e.publish(Events.POST_CARD_DISTRIBUTION, mutable);
+    this.$e.publish(Events.POST_HANDS_DISTRIBUTION, mutable);
 
     return mutable;
   }
@@ -83,10 +83,10 @@ class CoreEngine implements Engine {
     const accessor = new Accessor(mutable);
     const mutator = new Mutator(accessor);
 
-    this.$e.publish(Events.PRE_CARD_VALIDATION, mutable);
+    this.$e.publish(Events.PRE_HANDS_VALIDATION, mutable);
     mutator.validateHands();
     mutator.nextValidateHands();
-    this.$e.publish(Events.POST_CARD_VALIDATION, mutable);
+    this.$e.publish(Events.POST_HANDS_VALIDATION, mutable);
 
     return mutable;
   }
@@ -121,42 +121,33 @@ class CoreEngine implements Engine {
    *
    * @return {State} new state
    */
-  public chooseRandomCard(_state: State): State {
+  public randomCard(_state: State): State {
     check.checkState(_state);
 
     const mutable = clone(_state);
-    this.$e.publish(Events.PRE_CARD_IA, mutable);
-    //const active = utilsS.getActive(mutable);
-    //mutable.card = utilsC.randomValidCard(active);
-    mutable.state =
-      mutable.card !== null ? States.CHOOSE_RANDOM_TARGET : States.NEW_TURN;
-    this.$e.publish(Events.POST_CARD_IA, mutable);
+    const accessor = new Accessor(mutable);
+    const mutator = new Mutator(accessor);
+
+    this.$e.publish(Events.PRE_CARD_RANDOM, mutable);
+    mutator.randomCard();
+    mutator.nextRandomCard();
+    this.$e.publish(Events.POST_CARD_RANDOM, mutable);
 
     return mutable;
   }
 
-  public chooseRandomTargets(_state: State): State {
+  public randomTargets(_state: State): State {
     check.checkState(_state);
     //check.checkCard(utilsS.getActiveCard(_state));
 
     const mutable = clone(_state);
-    this.$e.publish("", mutable);
+    const accessor = new Accessor(mutable);
+    const mutator = new Mutator(accessor);
 
-    /*
-    const card = utilsS.getActiveCard(mutable);
-    for (let target of card.targets) {
-      switch (target) {
-        case Targets.OPPONENT:
-          const opponents = utilsS.getOpponents(mutable.active, mutable);
-          const len = opponents.length ? opponents.length - 1 : 0;
-          const random = utilsG.randomInt(0, len);
-          mutable.targets.push(opponents[random]);
-          break;
-      }
-    }
-    */
-
-    this.$e.publish("", mutable);
+    this.$e.publish(Events.PRE_TARGETS_RANDOM, mutable);
+    mutator.randomTargets();
+    mutator.nextRandomTargets();
+    this.$e.publish(Events.POST_TARGETS_RANDOM, mutable);
 
     return mutable;
   }

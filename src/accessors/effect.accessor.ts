@@ -1,6 +1,6 @@
 import Effect from "../models/effect";
 
-class EffectActuator {
+class EffectAccessor {
   constructor(private readonly effect: Effect) {}
 
   getUid(): string {
@@ -35,3 +35,5 @@ class EffectActuator {
     return this.effect;
   }
 }
+
+export default EffectAccessor;

@@ -86,7 +86,7 @@ describe("[ACCESSOR] Wrestler", () => {
     const w = fakeState().players.P1;
     const accessor = new WrestlerAccessor(w);
     expect(accessor.getStatus()).to.equal(w.status);
-    w.status.push("TEST");
+    w.status.push(12);
     expect(accessor.getStatus()).to.equal(w.status);
   });
 
@@ -158,7 +158,7 @@ describe("[ACCESSOR] Wrestler", () => {
       intensity: 1,
       targets: [],
       reverseable: true,
-      rarity: "",
+      rarity: 0,
       valid: true
     };
 
