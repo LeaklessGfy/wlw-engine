@@ -1,14 +1,19 @@
 import Actuator from "../../models/actuator";
 import Accessor from "../../accessors/accessor";
+import CardAccessor from "../../accessors/card.accessor";
+import WrestlerAccessor from "../../accessors/wrestler.accessor";
 import * as Status from "../../consts/status";
 import { randomBool } from "../../utils";
 
 class PinActuactor implements Actuator {
   key = "pin";
 
-  operate(accessor: Accessor): void {
-    const active = accessor.getActive();
-    const target = accessor.getFirstTarget();
+  operate(
+    card: CardAccessor,
+    target: WrestlerAccessor,
+    active: WrestlerAccessor,
+    accessor: Accessor
+  ): void {
     let chance = 100 - target.getHealth().getVal();
 
     // Active status

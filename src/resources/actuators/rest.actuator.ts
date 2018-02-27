@@ -1,17 +1,20 @@
 import Actuator from "../../models/actuator";
 import Accessor from "../../accessors/accessor";
+import CardAccessor from "../../accessors/card.accessor";
+import WrestlerAccessor from "../../accessors/wrestler.accessor";
 import { randomInt } from "../../utils";
 
 class RestActuactor implements Actuator {
   key = "rest";
 
-  operate(accessor: Accessor): void {
-    const active = accessor.getActive();
-    const stamina = active.getStamina();
-    const health = active.getHealth();
-
-    stamina.addVal(4);
-    health.addVal(8);
+  operate(
+    card: CardAccessor,
+    target: WrestlerAccessor,
+    active: WrestlerAccessor,
+    accessor: Accessor
+  ): void {
+    active.getStamina().addVal(4);
+    active.getHealth().addVal(8);
   }
 }
 
