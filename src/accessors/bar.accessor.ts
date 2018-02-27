@@ -1,5 +1,5 @@
 import Bar from "../models/bar";
-import { minMax } from "../../../api/wlw-engine/src/utils";
+import { minMax } from "../utils";
 
 class BarAccessor {
   constructor(private readonly bar: Bar) {}

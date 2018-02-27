@@ -60,37 +60,6 @@ describe("Accessor", () => {
     expect(card.getUid()).to.equal(f.players.P1.hand[0].uid);
   });
 
-  it("should be able to return the actuators", () => {
-    const kernel = new Kernel();
-    const a1 = {
-      key: "test",
-      operate: function(a) {}
-    };
-    const a2 = {
-      key: "test2",
-      operate: function(a) {}
-    };
-    kernel.addAll(a1, a2);
-    const c = {
-      uid: "",
-      actuators: ["test", "test2"],
-      name: "",
-      img: "",
-      description: "",
-      stamina: 2,
-      intensity: 1,
-      targets: [],
-      reverseable: true,
-      rarity: "",
-      valid: true
-    };
-
-    const act = accessor.getActuators(c, kernel);
-    expect(act.length).to.equal(2);
-    expect(act[0]).to.equal(a1);
-    expect(act[1]).to.equal(a2);
-  });
-
   it("should be able to clean state", () => {
     const f = fakeState();
     f.card = 0;

@@ -1,7 +1,10 @@
 import * as _ from "lodash";
 import { Card, Wrestler } from "../models";
-import { ArrayAccessor, BarAccessor, CardAccessor, CombatAccessor } from "./";
 import { randomInt } from "../utils";
+import CardAccessor from "./card.accessor";
+import BarAccessor from "./bar.accessor";
+import ArrayAccessor from "./array.accessor";
+import CombatAccessor from "./combat.accessor";
 
 class WrestlerAccessor {
   private readonly health: BarAccessor;

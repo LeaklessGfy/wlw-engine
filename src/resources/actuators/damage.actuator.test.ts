@@ -14,7 +14,12 @@ describe("[ACTUATOR] Damage", () => {
     const accessor = new Accessor(mutable);
     const actuator = new DamageActuator();
 
-    actuator.operate(accessor);
+    actuator.operate(
+      accessor.getCard(),
+      accessor.getFirstTarget(),
+      accessor.getActive(),
+      accessor
+    );
 
     const card = accessor.getCard();
     expect(

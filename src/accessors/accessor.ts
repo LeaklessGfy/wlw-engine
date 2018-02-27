@@ -1,9 +1,9 @@
 import * as _ from "lodash";
 import { Actuator, Card, Kernel, State, Wrestler } from "../models";
+import { randomInt } from "../utils";
 import ArrayAccessor from "./array.accessor";
 import CardAccessor from "./card.accessor";
 import WrestlerAccessor from "./wrestler.accessor";
-import { randomInt } from "../../../api/wlw-engine/src/utils";
 
 class Accessor {
   constructor(private readonly state: State) {}
@@ -120,16 +120,6 @@ class Accessor {
     return this.getActive()
       .getHand()
       .get(this.state.card);
-  }
-
-  /**
-   * Get the actuators of the given card.
-   *
-   * @param {Card} c
-   * @param {Kernel} k
-   */
-  getActuators(c: Card, k: Kernel): Actuator[] {
-    return c.actuators.map(a => k.get(a)).filter(a => a !== null);
   }
 
   nextTurn(): number {

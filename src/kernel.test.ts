@@ -4,17 +4,17 @@ import Kernel from "./kernel";
 
 const fake1 = {
   key: "fake1",
-  operate(a) {}
+  operate(a, b, c, d) {}
 };
 
 const fake2 = {
   key: "fake2",
-  operate(a) {}
+  operate(a, b, c, d) {}
 };
 
 const fake3 = {
   key: "fake3",
-  operate(a) {}
+  operate(a, b, c, d) {}
 };
 
 describe("Kernel", () => {

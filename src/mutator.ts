@@ -50,20 +50,22 @@ class Mutator {
   }
 
   playCard(kernel: Kernel): void {
+    const targets = this.accessor.getTargets();
     const active = this.accessor.getActive();
     const card = this.accessor.getCard();
     const actuators = card.getActuators(kernel);
 
-    let block = false;
-    let reverse = false;
-
     active.consumeCard(card);
-    this.accessor.getTargets().forEach(t => {
-      if (t.hasBlock(card, active)) {
+    targets.forEach(target => {
+      if (!target.hasBlock(card, active)) {
+        actuators.operate(card, target, active, this.accessor);
+        return;
+      }
+
+      if (target.hasReverse(card)) {
+        actuators.operate(card, active, target, this.accessor);
       }
     });
-    // BLOCK + COUNTER
-    actuators.forEach(a => a.operate(this.accessor));
     // effect card
     active.discardCard(card);
   }
