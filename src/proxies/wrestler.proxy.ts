@@ -1,22 +1,22 @@
 import * as _ from "lodash";
 import { Card, Wrestler } from "../models";
+import ArrayProxy from "./array.proxy";
+import BarProxy from "./bar.proxy";
+import CardProxy from "./card.proxy";
+import CombatProxy from "./combat.proxy";
 import { randomInt } from "../utils";
-import CardAccessor from "./card.accessor";
-import BarAccessor from "./bar.accessor";
-import ArrayAccessor from "./array.accessor";
-import CombatAccessor from "./combat.accessor";
 
-class WrestlerAccessor {
-  private readonly health: BarAccessor;
-  private readonly stamina: BarAccessor;
-  private readonly intensity: BarAccessor;
-  private readonly combat: CombatAccessor;
+class WrestlerProxy {
+  private readonly health: BarProxy;
+  private readonly stamina: BarProxy;
+  private readonly intensity: BarProxy;
+  private readonly combat: CombatProxy;
 
   constructor(private readonly wrestler: Wrestler) {
-    this.health = new BarAccessor(wrestler.health);
-    this.stamina = new BarAccessor(wrestler.stamina);
-    this.intensity = new BarAccessor(wrestler.intensity);
-    this.combat = new CombatAccessor(wrestler.combat);
+    this.health = new BarProxy(wrestler.health);
+    this.stamina = new BarProxy(wrestler.stamina);
+    this.intensity = new BarProxy(wrestler.intensity);
+    this.combat = new CombatProxy(wrestler.combat);
   }
 
   // GETTERS
@@ -41,41 +41,41 @@ class WrestlerAccessor {
     return this.wrestler.category;
   }
 
-  getHealth(): BarAccessor {
+  getHealth(): BarProxy {
     return this.health;
   }
 
-  getStamina(): BarAccessor {
+  getStamina(): BarProxy {
     return this.stamina;
   }
 
-  getIntensity(): BarAccessor {
+  getIntensity(): BarProxy {
     return this.intensity;
   }
 
-  getDeck(): ArrayAccessor<CardAccessor, Card> {
-    return new ArrayAccessor(this.wrestler.deck, v => new CardAccessor(v));
+  getDeck(): ArrayProxy<CardProxy> {
+    return new ArrayProxy(this.wrestler.deck, v => new CardProxy(v));
   }
 
-  getHand(): ArrayAccessor<CardAccessor, Card> {
-    return new ArrayAccessor(this.wrestler.hand, v => new CardAccessor(v));
+  getHand(): ArrayProxy<CardProxy> {
+    return new ArrayProxy(this.wrestler.hand, v => new CardProxy(v));
   }
 
-  getDead(): ArrayAccessor<CardAccessor, Card> {
-    return new ArrayAccessor(this.wrestler.dead, v => new CardAccessor(v));
+  getDead(): ArrayProxy<CardProxy> {
+    return new ArrayProxy(this.wrestler.dead, v => new CardProxy(v));
   }
 
   getStatus(): number[] {
     return this.wrestler.status;
   }
 
-  getCombat(): CombatAccessor {
+  getCombat(): CombatProxy {
     return this.combat;
   }
 
   // SETTERS
 
-  setHand(hand: Card[]): WrestlerAccessor {
+  setHand(hand: Card[]): WrestlerProxy {
     this.wrestler.hand = hand;
     return this;
   }
@@ -121,7 +121,7 @@ class WrestlerAccessor {
     }
   }
 
-  consumeCard(card: CardAccessor): void {
+  consumeCard(card: CardProxy): void {
     const stamina = this.getStamina();
     stamina.addVal(-card.getStamina());
 
@@ -129,7 +129,7 @@ class WrestlerAccessor {
     intensity.addVal(-card.getIntensity());
   }
 
-  discardCard(card: CardAccessor): void {
+  discardCard(card: CardProxy): void {
     this.wrestler.hand = this.wrestler.hand.filter(c => c !== card.getRef());
     this.wrestler.dead.push(card.getRef());
   }
@@ -144,7 +144,7 @@ class WrestlerAccessor {
     intensity.addVal(randomInt(turn, max));
   }
 
-  hasDodge(card: CardAccessor, src: WrestlerAccessor): boolean {
+  hasDodge(card: CardProxy, src: WrestlerProxy): boolean {
     if (!card.isBlockable()) {
       return false;
     }
@@ -156,7 +156,7 @@ class WrestlerAccessor {
     return dodge > accuracy;
   }
 
-  hasReverse(card: CardAccessor): boolean {
+  hasReverse(card: CardProxy): boolean {
     if (!card.isReverseable()) {
       return false;
     }
@@ -165,4 +165,4 @@ class WrestlerAccessor {
   }
 }
 
-export default WrestlerAccessor;
+export default WrestlerProxy;

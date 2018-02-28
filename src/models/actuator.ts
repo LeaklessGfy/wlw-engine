@@ -1,14 +1,12 @@
-import Accessor from "../accessors/accessor";
-import CardAccessor from "../accessors/card.accessor";
-import WrestlerAccessor from "../accessors/wrestler.accessor";
+import { CardProxy, StateProxy, WrestlerProxy } from "../proxies";
 
 interface Actuator {
   readonly key;
   operate(
-    card: CardAccessor,
-    target: WrestlerAccessor,
-    active: WrestlerAccessor,
-    accessor: Accessor
+    card: CardProxy,
+    target: WrestlerProxy,
+    active: WrestlerProxy,
+    accessor: StateProxy
   ): void;
 }
 

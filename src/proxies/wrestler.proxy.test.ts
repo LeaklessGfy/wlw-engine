@@ -1,81 +1,81 @@
 import "mocha";
 import { expect } from "chai";
 import fakeState from "../resources/fake-state";
-import WrestlerAccessor from "./wrestler.accessor";
-import CardAccessor from "./card.accessor";
+import CardProxy from "./card.proxy";
+import WrestlerProxy from "./wrestler.proxy";
 
-describe("[ACCESSOR] Wrestler", () => {
+describe("[PROXY] Wrestler", () => {
   it("should be able to return uid", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.getUid()).to.equal(w.uid);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.getUid()).to.equal(w.uid);
     w.uid = "test";
-    expect(accessor.getUid()).to.equal(w.uid);
+    expect(proxy.getUid()).to.equal(w.uid);
   });
 
   it("should be able to return name", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.getName()).to.equal(w.name);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.getName()).to.equal(w.name);
     w.name = "test";
-    expect(accessor.getName()).to.equal(w.name);
+    expect(proxy.getName()).to.equal(w.name);
   });
 
   it("should be able to return img", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.getImg()).to.equal(w.img);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.getImg()).to.equal(w.img);
     w.img = "test";
-    expect(accessor.getImg()).to.equal(w.img);
+    expect(proxy.getImg()).to.equal(w.img);
   });
 
   it("should be able to return gender", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.getGender()).to.equal(w.gender);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.getGender()).to.equal(w.gender);
     w.gender = 12;
-    expect(accessor.getGender()).to.equal(w.gender);
+    expect(proxy.getGender()).to.equal(w.gender);
   });
 
   it("should be able to return category", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.getCategory()).to.equal(w.category);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.getCategory()).to.equal(w.category);
     w.category = 12;
-    expect(accessor.getCategory()).to.equal(w.category);
+    expect(proxy.getCategory()).to.equal(w.category);
   });
 
   it("should be able to return health", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.getHealth().getVal()).to.equal(w.health.val);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.getHealth().getVal()).to.equal(w.health.val);
     w.health.val = 12;
-    expect(accessor.getHealth().getVal()).to.equal(w.health.val);
-    expect(accessor.getHealth().getMax()).to.equal(w.health.max);
+    expect(proxy.getHealth().getVal()).to.equal(w.health.val);
+    expect(proxy.getHealth().getMax()).to.equal(w.health.max);
     w.health.max = 12;
-    expect(accessor.getHealth().getMax()).to.equal(w.health.max);
+    expect(proxy.getHealth().getMax()).to.equal(w.health.max);
   });
 
   it("should be able to return stamina", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.getStamina().getVal()).to.equal(w.stamina.val);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.getStamina().getVal()).to.equal(w.stamina.val);
     w.stamina.val = 12;
-    expect(accessor.getStamina().getVal()).to.equal(w.stamina.val);
-    expect(accessor.getStamina().getMax()).to.equal(w.stamina.max);
+    expect(proxy.getStamina().getVal()).to.equal(w.stamina.val);
+    expect(proxy.getStamina().getMax()).to.equal(w.stamina.max);
     w.stamina.max = 12;
-    expect(accessor.getStamina().getMax()).to.equal(w.stamina.max);
+    expect(proxy.getStamina().getMax()).to.equal(w.stamina.max);
   });
 
   it("should be able to return intensity", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.getIntensity().getVal()).to.equal(w.intensity.val);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.getIntensity().getVal()).to.equal(w.intensity.val);
     w.intensity.val = 12;
-    expect(accessor.getIntensity().getVal()).to.equal(w.intensity.val);
-    expect(accessor.getIntensity().getMax()).to.equal(w.intensity.max);
+    expect(proxy.getIntensity().getVal()).to.equal(w.intensity.val);
+    expect(proxy.getIntensity().getMax()).to.equal(w.intensity.max);
     w.intensity.max = 12;
-    expect(accessor.getIntensity().getMax()).to.equal(w.intensity.max);
+    expect(proxy.getIntensity().getMax()).to.equal(w.intensity.max);
   });
 
   it("should be able to return deck", () => {});
@@ -84,10 +84,10 @@ describe("[ACCESSOR] Wrestler", () => {
 
   it("should be able to return status", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.getStatus()).to.equal(w.status);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.getStatus()).to.equal(w.status);
     w.status.push(12);
-    expect(accessor.getStatus()).to.equal(w.status);
+    expect(proxy.getStatus()).to.equal(w.status);
   });
 
   it("should be able to return combat", () => {});
@@ -96,18 +96,18 @@ describe("[ACCESSOR] Wrestler", () => {
     const w = fakeState().players.P1;
     const cards = [...w.deck];
 
-    const accessor = new WrestlerAccessor(w);
-    accessor.shuffleDeck();
+    const proxy = new WrestlerProxy(w);
+    proxy.shuffleDeck();
 
     expect(w.deck).to.not.equal(cards);
   });
 
   it("should be able to say if should respawn deck", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    expect(accessor.shouldRespawnDeck()).to.equal(false);
+    const proxy = new WrestlerProxy(w);
+    expect(proxy.shouldRespawnDeck()).to.equal(false);
     w.deck = [];
-    expect(accessor.shouldRespawnDeck()).to.equal(true);
+    expect(proxy.shouldRespawnDeck()).to.equal(true);
   });
 
   it("should be able to respawn deck", () => {
@@ -116,8 +116,8 @@ describe("[ACCESSOR] Wrestler", () => {
     w.deck = [];
     const length = w.dead.length;
 
-    const accessor = new WrestlerAccessor(w);
-    accessor.respawnDeck();
+    const proxy = new WrestlerProxy(w);
+    proxy.respawnDeck();
 
     expect(w.deck.length).to.equal(length);
     expect(w.dead.length).to.equal(0);
@@ -128,8 +128,8 @@ describe("[ACCESSOR] Wrestler", () => {
   it("should be able to distribute hand", () => {
     const w = fakeState().players.P1;
 
-    const accessor = new WrestlerAccessor(w);
-    accessor.distributeHand(3);
+    const proxy = new WrestlerProxy(w);
+    proxy.distributeHand(3);
 
     expect(w.hand.length).to.equal(3);
   });
@@ -138,8 +138,8 @@ describe("[ACCESSOR] Wrestler", () => {
     const w = fakeState().players.P1;
     w.hand = w.deck;
 
-    const accessor = new WrestlerAccessor(w);
-    accessor.validateHand();
+    const proxy = new WrestlerProxy(w);
+    proxy.validateHand();
 
     expect(w.hand[0].valid).to.equal(true);
   });
@@ -162,8 +162,8 @@ describe("[ACCESSOR] Wrestler", () => {
       valid: true
     };
 
-    const accessor = new WrestlerAccessor(w);
-    accessor.consumeCard(new CardAccessor(c));
+    const proxy = new WrestlerProxy(w);
+    proxy.consumeCard(new CardProxy(c));
 
     expect(w.stamina.val).to.equal(5);
     expect(w.intensity.val).to.equal(2);
@@ -173,7 +173,7 @@ describe("[ACCESSOR] Wrestler", () => {
 
   it("should be able to apply recovery", () => {
     const w = fakeState().players.P1;
-    const accessor = new WrestlerAccessor(w);
-    accessor.recovery(1);
+    const proxy = new WrestlerProxy(w);
+    proxy.recovery(1);
   });
 });

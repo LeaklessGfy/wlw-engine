@@ -1,6 +1,6 @@
 import CombatStat from "../models/combat-stat";
 
-class CombatAccessor {
+class CombatProxy {
   constructor(private readonly combat: CombatStat) {}
 
   getAccuracy(): number {
@@ -35,17 +35,17 @@ class CombatAccessor {
     return this.combat.submission;
   }
 
-  setAccuracy(val: number): CombatAccessor {
+  setAccuracy(val: number): CombatProxy {
     this.combat.accuracy = Math.max(0, val);
 
     return this;
   }
 
-  setDamage(val: number): CombatAccessor {
+  setDamage(val: number): CombatProxy {
     this.combat.damage = Math.max(0, val);
 
     return this;
   }
 }
 
-export default CombatAccessor;
+export default CombatProxy;

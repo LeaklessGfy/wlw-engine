@@ -1,7 +1,7 @@
-class ArrayAccessor<T, E> {
+class ArrayProxy<T> {
   constructor(
-    private readonly arr: E[],
-    private readonly transform: (val: E) => T
+    private readonly arr: any[],
+    private readonly transform: (val: any) => T
   ) {}
 
   get(index: number): T | null {
@@ -18,7 +18,7 @@ class ArrayAccessor<T, E> {
     return this.get(this.arr.length - 1);
   }
 
-  getRef(): E[] {
+  getRef(): any[] {
     return this.arr;
   }
 
@@ -26,7 +26,7 @@ class ArrayAccessor<T, E> {
     return this.transform(this.arr.shift());
   }
 
-  unshift(val: E): ArrayAccessor<T, E> {
+  unshift(val: any): ArrayProxy<T> {
     this.arr.unshift(val);
     return this;
   }
@@ -40,4 +40,4 @@ class ArrayAccessor<T, E> {
   }
 }
 
-export default ArrayAccessor;
+export default ArrayProxy;

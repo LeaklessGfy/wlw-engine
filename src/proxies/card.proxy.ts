@@ -1,13 +1,13 @@
 import { Actuator, Card, Effect, Kernel } from "../models";
 import ActuatorsAccessor from "./actuators.accessor";
-import ArrayAccessor from "./array.accessor";
-import EffectAccessor from "./effect.accessor";
+import ArrayProxy from "./array.proxy";
+import EffectProxy from "./effect.proxy";
 
-class CardAccessor {
-  private readonly effects: ArrayAccessor<EffectAccessor, Effect>;
+class CardProxy {
+  private readonly effects: ArrayProxy<EffectProxy>;
 
   constructor(private readonly card: Card) {
-    this.effects = new ArrayAccessor(card.effects, v => new EffectAccessor(v));
+    this.effects = new ArrayProxy(card.effects, v => new EffectProxy(v));
   }
 
   getUid(): string {
@@ -48,7 +48,7 @@ class CardAccessor {
     return this.card.damage;
   }
 
-  getEffects(): ArrayAccessor<EffectAccessor, Effect> {
+  getEffects(): ArrayProxy<EffectProxy> {
     return this.effects;
   }
 
@@ -77,4 +77,4 @@ class CardAccessor {
   }
 }
 
-export default CardAccessor;
+export default CardProxy;

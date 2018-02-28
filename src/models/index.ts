@@ -14,6 +14,7 @@ export { default as Mode } from "./mode";
 export { default as MoralStat } from "./moral-stat";
 export { default as Official } from "./official";
 export { default as Players } from "./players";
+export { default as Record } from "./record";
 export { default as Requirements } from "./requirements";
 export { default as Show } from "./show";
 export { default as State } from "./state";
