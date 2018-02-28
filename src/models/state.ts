@@ -13,7 +13,7 @@ interface State {
   card: number;
   mode: Mode;
   state: number;
-  records?: Record[];
+  records: Record[];
 }
 
 export default State;

@@ -39,6 +39,9 @@ export const checkState = (state: State): void => {
   if (!_.isInteger(state.state)) {
     throw new Error("INVALID STATE - State state is null or not integer");
   }
+  if (!_.isArray(state.records)) {
+    throw new Error("INVALID STATE - State records is null or not array");
+  }
 };
 
 export const checkCard = (card: Card): void => {
