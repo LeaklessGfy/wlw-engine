@@ -18,6 +18,7 @@ class FakeState implements State {
   card = null;
   mode = _.toPlainObject(new Normal());
   state = INIT;
+  records = [];
 }
 
 function fakeState(): State {
