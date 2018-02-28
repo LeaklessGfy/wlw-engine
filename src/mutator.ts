@@ -1,9 +1,10 @@
 import * as _ from "lodash";
-import { Kernel, State, Wrestler } from "./models";
+import { Kernel, State, Record, Wrestler } from "./models";
+import StateProxy from "./proxies/state.proxy";
 import { randomInt, isInteractive } from "./utils";
+import * as Records from "./consts/records";
 import * as Reports from "./consts/reports";
 import * as States from "./consts/states";
-import StateProxy from "./proxies/state.proxy";
 
 class Mutator {
   constructor(private readonly proxy: StateProxy) {}
@@ -22,7 +23,7 @@ class Mutator {
 
   nextNewTurn(): void {
     this.proxy.clean();
-    this.proxy.cleanReports();
+    this.proxy.cleanRecords();
     this.proxy.setState(States.DISTRIBUTE_HANDS);
   }
 
@@ -36,7 +37,7 @@ class Mutator {
 
   nextDistributeHands(): void {
     this.proxy.clean();
-    this.proxy.cleanReports();
+    this.proxy.cleanRecords();
     this.proxy.setState(States.VALIDATE_HANDS);
   }
 
@@ -46,7 +47,7 @@ class Mutator {
 
   nextValidateHands(): void {
     this.proxy.clean();
-    this.proxy.cleanReports();
+    this.proxy.cleanRecords();
     this.proxy.setState(States.RANDOM_CARD);
     if (isInteractive(this.proxy.getActiveKey())) {
       this.proxy.setState(States.PLAY_CARD);
@@ -58,24 +59,22 @@ class Mutator {
     const active = this.proxy.getActive();
     const card = this.proxy.getCard();
     const actuators = card.getActuators(kernel);
-    const reports = [];
+    const records = this.proxy.getRecords();
 
     active.consumeCard(card);
     targets.forEach(target => {
       if (!target.hasDodge(card, active)) {
-        reports.push(Reports.TOUCH);
+        records.push({ key: Records.CARD_STATUS, val: Reports.TOUCH });
         actuators.operate(card, target, active, this.proxy);
       } else if (target.hasReverse(card)) {
-        reports.push(Reports.REVERSE);
+        records.push({ key: Records.CARD_STATUS, val: Reports.REVERSE });
         actuators.operate(card, active, target, this.proxy);
       } else {
-        reports.push(Reports.DODGE);
+        records.push({ key: Records.CARD_STATUS, val: Reports.DODGE });
       }
     });
     // effect card
     active.discardCard(card);
-
-    this.proxy.setReports(reports);
   }
 
   nextPlayCard(): void {

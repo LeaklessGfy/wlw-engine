@@ -11,6 +11,7 @@ import {
 import { randomInt } from "../utils";
 import ArrayProxy from "./array.proxy";
 import CardProxy from "./card.proxy";
+import RecordProxy from "./record.proxy";
 import WrestlerProxy from "./wrestler.proxy";
 
 class StateProxy {
@@ -52,8 +53,8 @@ class StateProxy {
     return this.state.state;
   }
 
-  getRecords(): ArrayProxy<Record> {
-    return null;
+  getRecords(): ArrayProxy<RecordProxy> {
+    return new ArrayProxy(this.state.records, v => new RecordProxy(v));
   }
 
   getActive(): WrestlerProxy {
@@ -167,7 +168,7 @@ class StateProxy {
     this.state.targets = [];
   }
 
-  cleanReports(): void {
+  cleanRecords(): void {
     this.state.records = [];
   }
 }

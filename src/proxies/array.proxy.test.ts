@@ -68,6 +68,8 @@ describe("[PROXY] Array", () => {
     expect(proxy.length()).to.equal(5);
   });
 
+  it("should be able to push", () => {});
+
   it("should be able to length", () => {
     const arr = [0, 1, 2, 3];
     const proxy = new ArrayProxy<string>(arr, v => v.toString());

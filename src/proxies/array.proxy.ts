@@ -31,6 +31,11 @@ class ArrayProxy<T> {
     return this;
   }
 
+  push(val: any): ArrayProxy<T> {
+    this.arr.push(val);
+    return this;
+  }
+
   length(): number {
     return this.arr.length;
   }
