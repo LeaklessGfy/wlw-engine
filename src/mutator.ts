@@ -3,31 +3,31 @@ import { Kernel, State, Wrestler } from "./models";
 import { randomInt, isInteractive } from "./utils";
 import * as Reports from "./consts/reports";
 import * as States from "./consts/states";
-import Accessor from "./accessors/accessor";
+import StateProxy from "./proxies/state.proxy";
 
 class Mutator {
-  constructor(private readonly accessor: Accessor) {}
+  constructor(private readonly proxy: StateProxy) {}
 
   newTurn(): void {
-    if (this.accessor.isState(States.INIT)) {
-      this.accessor.getWrestlers().forEach(w => w.shuffleDeck());
+    if (this.proxy.isState(States.INIT)) {
+      this.proxy.getWrestlers().forEach(w => w.shuffleDeck());
     }
-    if (!this.accessor.hasNext()) {
-      this.accessor.buildNext();
+    if (!this.proxy.hasNext()) {
+      this.proxy.buildNext();
     }
-    const active = this.accessor.nextActive();
-    active.recovery(this.accessor.getTurn());
-    this.accessor.nextTurn();
+    const active = this.proxy.nextActive();
+    active.recovery(this.proxy.getTurn());
+    this.proxy.nextTurn();
   }
 
   nextNewTurn(): void {
-    this.accessor.clean();
-    this.accessor.cleanReports();
-    this.accessor.setState(States.DISTRIBUTE_HANDS);
+    this.proxy.clean();
+    this.proxy.cleanReports();
+    this.proxy.setState(States.DISTRIBUTE_HANDS);
   }
 
   distributeHands(length: number = 3): void {
-    this.accessor.getWrestlers().forEach(w => {
+    this.proxy.getWrestlers().forEach(w => {
       w.discardHand();
       if (w.shouldRespawnDeck()) w.respawnDeck();
       w.distributeHand(length);
@@ -35,28 +35,28 @@ class Mutator {
   }
 
   nextDistributeHands(): void {
-    this.accessor.clean();
-    this.accessor.cleanReports();
-    this.accessor.setState(States.VALIDATE_HANDS);
+    this.proxy.clean();
+    this.proxy.cleanReports();
+    this.proxy.setState(States.VALIDATE_HANDS);
   }
 
   validateHands(): void {
-    this.accessor.getWrestlers().forEach(w => w.validateHand());
+    this.proxy.getWrestlers().forEach(w => w.validateHand());
   }
 
   nextValidateHands(): void {
-    this.accessor.clean();
-    this.accessor.cleanReports();
-    this.accessor.setState(States.RANDOM_CARD);
-    if (isInteractive(this.accessor.getActiveKey())) {
-      this.accessor.setState(States.PLAY_CARD);
+    this.proxy.clean();
+    this.proxy.cleanReports();
+    this.proxy.setState(States.RANDOM_CARD);
+    if (isInteractive(this.proxy.getActiveKey())) {
+      this.proxy.setState(States.PLAY_CARD);
     }
   }
 
   playCard(kernel: Kernel): void {
-    const targets = this.accessor.getTargets();
-    const active = this.accessor.getActive();
-    const card = this.accessor.getCard();
+    const targets = this.proxy.getTargets();
+    const active = this.proxy.getActive();
+    const card = this.proxy.getCard();
     const actuators = card.getActuators(kernel);
     const reports = [];
 
@@ -64,10 +64,10 @@ class Mutator {
     targets.forEach(target => {
       if (!target.hasDodge(card, active)) {
         reports.push(Reports.TOUCH);
-        actuators.operate(card, target, active, this.accessor);
+        actuators.operate(card, target, active, this.proxy);
       } else if (target.hasReverse(card)) {
         reports.push(Reports.REVERSE);
-        actuators.operate(card, active, target, this.accessor);
+        actuators.operate(card, active, target, this.proxy);
       } else {
         reports.push(Reports.DODGE);
       }
@@ -75,28 +75,28 @@ class Mutator {
     // effect card
     active.discardCard(card);
 
-    this.accessor.setReports(reports);
+    this.proxy.setReports(reports);
   }
 
   nextPlayCard(): void {
-    this.accessor.clean();
+    this.proxy.clean();
   }
 
   randomCard(): void {
-    const active = this.accessor.getActive();
+    const active = this.proxy.getActive();
     const hand = active.getHand().getRef();
     const valid = hand.filter(card => card.valid);
     if (valid.length < 1) {
-      this.accessor.clean();
+      this.proxy.clean();
       return;
     }
-    this.accessor.setCard(randomInt(0, valid.length - 1));
+    this.proxy.setCard(randomInt(0, valid.length - 1));
   }
 
   nextRandomCard(): void {
-    this.accessor.setState(States.NEW_TURN);
-    if (this.accessor.getCardKey() !== null) {
-      this.accessor.setState(States.RANDOM_TARGET);
+    this.proxy.setState(States.NEW_TURN);
+    if (this.proxy.getCardKey() !== null) {
+      this.proxy.setState(States.RANDOM_TARGET);
     }
   }
 

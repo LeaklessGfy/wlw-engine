@@ -1,7 +1,7 @@
 import { Actuator, Card, Effect, Kernel } from "../models";
-import ActuatorsAccessor from "./actuators.accessor";
 import ArrayProxy from "./array.proxy";
 import EffectProxy from "./effect.proxy";
+import ActuatorsComposite from "../composites/actuators.composite";
 
 class CardProxy {
   private readonly effects: ArrayProxy<EffectProxy>;
@@ -18,10 +18,10 @@ class CardProxy {
     return this.card.actuators;
   }
 
-  getActuators(k: Kernel): ActuatorsAccessor {
+  getActuators(k: Kernel): ActuatorsComposite {
     const arr = this.card.actuators.map(a => k.get(a)).filter(a => a);
 
-    return new ActuatorsAccessor(arr);
+    return new ActuatorsComposite(arr);
   }
 
   getName(): string {

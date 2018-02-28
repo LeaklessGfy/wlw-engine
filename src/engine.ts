@@ -4,7 +4,7 @@ import GlobalEventManager, { EventManager } from "./event-manager";
 import * as check from "./checker";
 import { clone } from "./utils";
 import Mutator from "./mutator";
-import Accessor from "./accessors/accessor";
+import StateProxy from "./proxies/state.proxy";
 
 /**
  * The engine of the WLW game
@@ -36,8 +36,8 @@ class CoreEngine implements Engine {
     check.checkState(_state);
 
     const mutable = clone(_state);
-    const accessor = new Accessor(mutable);
-    const mutator = new Mutator(accessor);
+    const proxy = new StateProxy(mutable);
+    const mutator = new Mutator(proxy);
 
     this.$e.publish(Events.PRE_TURN_NEW, mutable);
     mutator.newTurn();
@@ -58,8 +58,8 @@ class CoreEngine implements Engine {
     check.checkState(_state);
 
     const mutable = clone(_state);
-    const accessor = new Accessor(mutable);
-    const mutator = new Mutator(accessor);
+    const proxy = new StateProxy(mutable);
+    const mutator = new Mutator(proxy);
 
     this.$e.publish(Events.PRE_HANDS_DISTRIBUTION, mutable);
     mutator.distributeHands();
@@ -80,8 +80,8 @@ class CoreEngine implements Engine {
     check.checkState(_state);
 
     const mutable = clone(_state);
-    const accessor = new Accessor(mutable);
-    const mutator = new Mutator(accessor);
+    const proxy = new StateProxy(mutable);
+    const mutator = new Mutator(proxy);
 
     this.$e.publish(Events.PRE_HANDS_VALIDATION, mutable);
     mutator.validateHands();
@@ -103,8 +103,8 @@ class CoreEngine implements Engine {
     //check.checkCard(utilsS.getActiveCard(_state));
 
     const mutable = clone(_state);
-    const accessor = new Accessor(mutable);
-    const mutator = new Mutator(accessor);
+    const proxy = new StateProxy(mutable);
+    const mutator = new Mutator(proxy);
 
     this.$e.publish(Events.PRE_CARD_PLAY, mutable);
     mutator.playCard(this.$k);
@@ -125,8 +125,8 @@ class CoreEngine implements Engine {
     check.checkState(_state);
 
     const mutable = clone(_state);
-    const accessor = new Accessor(mutable);
-    const mutator = new Mutator(accessor);
+    const proxy = new StateProxy(mutable);
+    const mutator = new Mutator(proxy);
 
     this.$e.publish(Events.PRE_CARD_RANDOM, mutable);
     mutator.randomCard();
@@ -141,8 +141,8 @@ class CoreEngine implements Engine {
     //check.checkCard(utilsS.getActiveCard(_state));
 
     const mutable = clone(_state);
-    const accessor = new Accessor(mutable);
-    const mutator = new Mutator(accessor);
+    const proxy = new StateProxy(mutable);
+    const mutator = new Mutator(proxy);
 
     this.$e.publish(Events.PRE_TARGETS_RANDOM, mutable);
     mutator.randomTargets();

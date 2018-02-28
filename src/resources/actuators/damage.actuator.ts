@@ -1,17 +1,15 @@
 import Actuator from "../../models/actuator";
-import Accessor from "../../accessors/accessor";
-import CardAccessor from "../../accessors/card.accessor";
-import WrestlerAccessor from "../../accessors/wrestler.accessor";
+import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 import { randomInt } from "../../utils";
 
 class DamageActuator implements Actuator {
   key = "damage";
 
   operate(
-    card: CardAccessor,
-    target: WrestlerAccessor,
-    active: WrestlerAccessor,
-    accessor: Accessor
+    card: CardProxy,
+    target: WrestlerProxy,
+    active: WrestlerProxy,
+    state: StateProxy
   ): void {
     const combat = active.getCombat();
 

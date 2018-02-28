@@ -44,11 +44,11 @@ describe("Engine", () => {
     expect(mutable.card).to.equal(null);
     expect(mutable.targets.length).to.equal(0);
 
-    if (mutable.reports[0] === Reports.TOUCH) {
+    if (mutable.records[0].val === Reports.TOUCH) {
       expect(mutable.players.CPU1.health.val).to.equal(
         f.players.CPU1.health.val - f.players.P1.hand[0].damage
       );
-    } else if (mutable.reports[0] === Reports.REVERSE) {
+    } else if (mutable.records[0].val === Reports.REVERSE) {
       expect(mutable.players.P1.health.val).to.equal(
         f.players.P1.health.val - f.players.P1.hand[0].damage
       );

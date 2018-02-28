@@ -1,7 +1,5 @@
 import Actuator from "../../models/actuator";
-import Accessor from "../../accessors/accessor";
-import CardAccessor from "../../accessors/card.accessor";
-import WrestlerAccessor from "../../accessors/wrestler.accessor";
+import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 import * as Status from "../../consts/status";
 import { randomBool } from "../../utils";
 
@@ -9,10 +7,10 @@ class PinActuactor implements Actuator {
   key = "pin";
 
   operate(
-    card: CardAccessor,
-    target: WrestlerAccessor,
-    active: WrestlerAccessor,
-    accessor: Accessor
+    card: CardProxy,
+    target: WrestlerProxy,
+    active: WrestlerProxy,
+    state: StateProxy
   ): void {
     let chance = 100 - target.getHealth().getVal();
 
@@ -31,7 +29,7 @@ class PinActuactor implements Actuator {
     // Trigger win event ? Put target health to 0 ? Special state value ?
   }
 
-  private activeStatus(status: string, chance: number): number {
+  private activeStatus(status: number, chance: number): number {
     switch (status) {
       case Status.TIRED:
         return -5;
@@ -44,7 +42,7 @@ class PinActuactor implements Actuator {
     }
   }
 
-  private targetStatus(status: string, chance: number): number {
+  private targetStatus(status: number, chance: number): number {
     switch (status) {
       case Status.KO:
         return 50;
