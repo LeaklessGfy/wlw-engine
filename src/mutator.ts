@@ -5,26 +5,26 @@ import { randomInt, isInteractive } from "./utils";
 import * as Records from "./consts/records";
 import * as Reports from "./consts/reports";
 import * as States from "./consts/states";
+import * as Targets from "./consts/targets";
 
 class Mutator {
   constructor(private readonly proxy: StateProxy) {}
 
   newTurn(): void {
+    let v = false;
     if (this.proxy.isState(States.INIT)) {
       this.proxy.getWrestlers().forEach(w => w.shuffleDeck());
     }
     if (!this.proxy.hasNext()) {
+      v = true;
       this.proxy.buildNext();
     }
     const active = this.proxy.nextActive();
     active.recovery(this.proxy.getTurn());
     this.proxy.nextTurn();
-  }
 
-  nextNewTurn(): void {
     this.proxy.clean();
-    this.proxy.cleanRecords();
-    this.proxy.setState(States.DISTRIBUTE_HANDS);
+    this.proxy.setState(v ? States.DISTRIBUTE_HANDS : States.VALIDATE_HANDS);
   }
 
   distributeHands(length: number = 3): void {
@@ -33,25 +33,19 @@ class Mutator {
       if (w.shouldRespawnDeck()) w.respawnDeck();
       w.distributeHand(length);
     });
-  }
 
-  nextDistributeHands(): void {
+    // POST
     this.proxy.clean();
-    this.proxy.cleanRecords();
     this.proxy.setState(States.VALIDATE_HANDS);
   }
 
   validateHands(): void {
     this.proxy.getWrestlers().forEach(w => w.validateHand());
-  }
 
-  nextValidateHands(): void {
+    // POST
     this.proxy.clean();
-    this.proxy.cleanRecords();
-    this.proxy.setState(States.RANDOM_CARD);
-    if (isInteractive(this.proxy.getActiveKey())) {
-      this.proxy.setState(States.PLAY_CARD);
-    }
+    let v = isInteractive(this.proxy.getActiveKey());
+    this.proxy.setState(v ? States.CHOOSE_CARD : States.RANDOM_CARD);
   }
 
   playCard(kernel: Kernel): void {
@@ -75,10 +69,10 @@ class Mutator {
     });
     // effect card
     active.discardCard(card);
-  }
 
-  nextPlayCard(): void {
+    // POST
     this.proxy.clean();
+    this.proxy.setState(States.VALIDATE_HANDS);
   }
 
   randomCard(): void {
@@ -90,32 +84,31 @@ class Mutator {
       return;
     }
     this.proxy.setCard(randomInt(0, valid.length - 1));
-  }
 
-  nextRandomCard(): void {
-    this.proxy.setState(States.NEW_TURN);
-    if (this.proxy.getCardKey() !== null) {
-      this.proxy.setState(States.RANDOM_TARGET);
-    }
+    // POST
+    let v = this.proxy.getCardKey() !== null;
+    this.proxy.setState(v ? States.RANDOM_TARGETS : States.NEW_TURN);
   }
 
   randomTargets(): void {
-    /*
-    const card = utilsS.getActiveCard(mutable);
-    for (let target of card.targets) {
+    const card = this.proxy.getCard();
+    const targets = this.proxy.getTargetsKey();
+
+    for (let target of card.getTargets()) {
       switch (target) {
         case Targets.OPPONENT:
-          const opponents = utilsS.getOpponents(mutable.active, mutable);
-          const len = opponents.length ? opponents.length - 1 : 0;
-          const random = utilsG.randomInt(0, len);
-          mutable.targets.push(opponents[random]);
+          const opponents = this.proxy.getOpponents(this.proxy.getActiveKey());
+          const random = randomInt(0, opponents.length - 1);
+          targets.push(opponents[random]);
+          break;
+        case Targets.SELF:
+          targets.push(this.proxy.getActiveKey());
           break;
       }
     }
-    */
-  }
 
-  nextRandomTargets(): void {}
+    this.proxy.setState(States.PLAY_CARD);
+  }
 }
 
 export default Mutator;

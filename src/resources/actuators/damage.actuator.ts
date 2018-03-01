@@ -12,13 +12,11 @@ class DamageActuator implements Actuator {
     state: StateProxy
   ): void {
     const combat = active.getCombat();
-
     let damage = card.getDamage() + randomInt(0, combat.getDamage());
-    //Critical
-    if (randomInt(0, 100) <= combat.getCrit()) {
+    if (active.hasCrit()) {
       damage = damage * 1.5;
+      state.getRecords().push({ key: "", val: damage });
     }
-
     const health = target.getHealth();
     health.addVal(-damage);
   }

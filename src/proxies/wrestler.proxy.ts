@@ -163,6 +163,10 @@ class WrestlerProxy {
 
     return true;
   }
+
+  hasCrit(): boolean {
+    return randomInt(0, 100) <= this.wrestler.combat.crit;
+  }
 }
 
 export default WrestlerProxy;

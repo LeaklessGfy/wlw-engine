@@ -41,7 +41,6 @@ class CoreEngine implements Engine {
 
     this.$e.publish(Events.PRE_TURN_NEW, mutable);
     mutator.newTurn();
-    mutator.nextNewTurn();
     this.$e.publish(Events.POST_TURN_NEW, mutable);
 
     return mutable;
@@ -63,7 +62,6 @@ class CoreEngine implements Engine {
 
     this.$e.publish(Events.PRE_HANDS_DISTRIBUTION, mutable);
     mutator.distributeHands();
-    mutator.nextDistributeHands();
     this.$e.publish(Events.POST_HANDS_DISTRIBUTION, mutable);
 
     return mutable;
@@ -85,7 +83,6 @@ class CoreEngine implements Engine {
 
     this.$e.publish(Events.PRE_HANDS_VALIDATION, mutable);
     mutator.validateHands();
-    mutator.nextValidateHands();
     this.$e.publish(Events.POST_HANDS_VALIDATION, mutable);
 
     return mutable;
@@ -108,7 +105,6 @@ class CoreEngine implements Engine {
 
     this.$e.publish(Events.PRE_CARD_PLAY, mutable);
     mutator.playCard(this.$k);
-    mutator.nextPlayCard();
     this.$e.publish(Events.POST_CARD_PLAY, mutable);
 
     return mutable;
@@ -130,7 +126,6 @@ class CoreEngine implements Engine {
 
     this.$e.publish(Events.PRE_CARD_RANDOM, mutable);
     mutator.randomCard();
-    mutator.nextRandomCard();
     this.$e.publish(Events.POST_CARD_RANDOM, mutable);
 
     return mutable;
@@ -146,7 +141,6 @@ class CoreEngine implements Engine {
 
     this.$e.publish(Events.PRE_TARGETS_RANDOM, mutable);
     mutator.randomTargets();
-    mutator.nextRandomTargets();
     this.$e.publish(Events.POST_TARGETS_RANDOM, mutable);
 
     return mutable;

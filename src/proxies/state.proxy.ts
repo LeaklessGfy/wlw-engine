@@ -168,7 +168,7 @@ class StateProxy {
     this.state.targets = [];
   }
 
-  cleanRecords(): void {
+  prepare(): void {
     this.state.records = [];
   }
 }

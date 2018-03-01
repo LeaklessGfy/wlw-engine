@@ -52,6 +52,9 @@ describe("Engine", () => {
       expect(mutable.players.P1.health.val).to.equal(
         f.players.P1.health.val - f.players.P1.hand[0].damage
       );
+    } else {
+      expect(mutable.players.CPU1.health).to.eql(f.players.CPU1.health);
+      expect(mutable.players.P1.health).to.eql(f.players.P1.health);
     }
     expect(mutable.players.P1.stamina.val).to.equal(
       f.players.P1.stamina.val - f.players.P1.hand[0].stamina
