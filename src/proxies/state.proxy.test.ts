@@ -72,8 +72,23 @@ describe("[PROXY] State", () => {
     expect(f.targets.length).to.equal(0);
   });
 
+  it("should be able to next active", () => {
+    const f = fakeState();
+    f.next = ["CPU1", "P1", "CPU1", "P1"];
+    const proxy = new StateProxy(f);
+    proxy.nextActive();
+    expect(f.active).to.equal("CPU1");
+    proxy.nextActive();
+    expect(f.active).to.equal("P1");
+    proxy.nextActive();
+    expect(f.active).to.equal("CPU1");
+    proxy.nextActive();
+    expect(f.active).to.equal("P1");
+  });
+
   it("should be able to build next", () => {
     const f = fakeState();
+
     f.next = [];
 
     const proxy = new StateProxy(f);
