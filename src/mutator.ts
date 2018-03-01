@@ -81,13 +81,13 @@ class Mutator {
     const valid = hand.filter(card => card.valid);
     if (valid.length < 1) {
       this.proxy.clean();
+      this.proxy.setState(States.NEW_TURN);
       return;
     }
     this.proxy.setCard(randomInt(0, valid.length - 1));
 
     // POST
-    let v = this.proxy.getCardKey() !== null;
-    this.proxy.setState(v ? States.RANDOM_TARGETS : States.NEW_TURN);
+    this.proxy.setState(States.RANDOM_TARGETS);
   }
 
   randomTargets(): void {
