@@ -135,13 +135,13 @@ class WrestlerProxy {
   }
 
   recovery(turn: number): void {
-    const max = turn + this.wrestler.combat.recovery;
+    const max = (turn + this.wrestler.combat.recovery) / 2;
 
     const stamina = this.getStamina();
-    stamina.addVal(randomInt(turn, max));
+    stamina.addVal(randomInt(turn / 2, max));
 
     const intensity = this.getIntensity();
-    intensity.addVal(randomInt(turn, max));
+    intensity.addVal(randomInt(turn / 2, max));
   }
 
   hasDodge(card: CardProxy, src: WrestlerProxy): boolean {
