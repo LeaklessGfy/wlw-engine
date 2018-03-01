@@ -15,6 +15,8 @@ import RecordProxy from "./record.proxy";
 import WrestlerProxy from "./wrestler.proxy";
 
 class StateProxy {
+  private readonly mutations: any[] = [];
+
   constructor(private readonly state: State) {}
 
   getTurn(): number {
@@ -118,6 +120,11 @@ class StateProxy {
   setState(state: number): StateProxy {
     this.state.state = state;
 
+    this.mutations.push({
+      key: "next::state",
+      mutation: { state }
+    });
+
     return this;
   }
 
@@ -130,7 +137,12 @@ class StateProxy {
   nextTurn(): number {
     this.state.turn++;
 
-    return this.getTurn();
+    this.mutations.push({
+      key: "next::turn",
+      mutation: { turn: this.state.turn }
+    });
+
+    return this.state.turn;
   }
 
   isState(state: number): boolean {
@@ -142,7 +154,14 @@ class StateProxy {
   }
 
   nextActive(): WrestlerProxy {
-    this.state.active = this.state.next.shift();
+    this.state.active = this.state.next[
+      this.state.turn % this.state.mode.numbers
+    ];
+
+    this.mutations.push({
+      key: "next::active",
+      mutation: { active: this.state.active }
+    });
 
     return this.getActive();
   }
@@ -161,11 +180,21 @@ class StateProxy {
     });
 
     this.state.next = tmp.map(t => t.key);
+
+    this.mutations.push({
+      key: "buildNext",
+      mutation: { next: this.state.next }
+    });
   }
 
   clean(): void {
     this.state.card = null;
     this.state.targets = [];
+
+    this.mutations.push({
+      key: "clean",
+      mutation: { card: null, targets: [] }
+    });
   }
 
   prepare(): void {

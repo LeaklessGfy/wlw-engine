@@ -10,21 +10,18 @@ import * as Targets from "./consts/targets";
 class Mutator {
   constructor(private readonly proxy: StateProxy) {}
 
+  init(): void {
+    this.proxy.getWrestlers().forEach(w => w.shuffleDeck());
+    this.proxy.buildNext();
+  }
+
   newTurn(): void {
-    let v = false;
-    if (this.proxy.isState(States.INIT)) {
-      this.proxy.getWrestlers().forEach(w => w.shuffleDeck());
-    }
-    if (!this.proxy.hasNext()) {
-      v = true;
-      this.proxy.buildNext();
-    }
     const active = this.proxy.nextActive();
     active.recovery(this.proxy.getTurn());
-    this.proxy.nextTurn();
+    const turn = this.proxy.nextTurn() % this.proxy.getMode().numbers === 0;
 
     this.proxy.clean();
-    this.proxy.setState(v ? States.DISTRIBUTE_HANDS : States.VALIDATE_HANDS);
+    this.proxy.setState(turn ? States.DISTRIBUTE_HANDS : States.VALIDATE_HANDS);
   }
 
   distributeHands(length: number = 3): void {
