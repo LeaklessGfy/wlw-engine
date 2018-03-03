@@ -65,3 +65,66 @@ export const randomValidCard = (w: Wrestler): Card | null => {
 export const isInteractive = (index: string): boolean => {
   return index.charAt(0) === "P";
 };
+
+export const discardHand = (w): void => {
+  for (let card of w.hand) {
+    w.dead.push(card);
+  }
+  w.hand = [];
+};
+
+export const respawnDeck = (w): void => {
+  w.deck = _.shuffle(w.dead);
+  w.dead = [];
+};
+
+export const distributeHand = (w, length: number): void => {
+  if (w.deck.length > length) {
+    for (let i = 0; i < length; i++) {
+      w.hand.push(w.deck.shift());
+    }
+  } else {
+    w.hand = w.deck;
+    w.deck = [];
+  }
+};
+
+export const validateHand = (w): void => {
+  for (let c of w.hand) {
+    let stamina = w.stamina.val >= c.stamina;
+    let intensity = w.intensity.val >= c.intensity;
+    c.valid = stamina && intensity;
+  }
+};
+
+export const consumeCard = (w, c): void => {
+  const stamina = w.stamina.val;
+  w.stamina.val = Math.min(0, stamina - c.stamina);
+
+  const intensity = w.intensity.val;
+  w.intensity.val = Math.min(0, intensity - c.intensity);
+};
+
+export const discardCard = (w, c): void => {
+  w.hand = w.hand.filter(oc => oc !== c);
+  w.dead.push(c);
+};
+
+export const hasDodge = (c, w, t): boolean => {
+  if (!c.blockable) {
+    return false;
+  }
+
+  const accuracy = randomInt(0, 10) + randomInt(0, t.combat.accuracy);
+  const dodge = randomInt(0, 7) + randomInt(0, w.combat.dodge);
+
+  return dodge > accuracy;
+};
+
+export const hasReverse = (c, t): boolean => {
+  if (!c.isReverseable()) {
+    return false;
+  }
+
+  return true;
+};
