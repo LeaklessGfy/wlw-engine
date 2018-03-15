@@ -4,7 +4,7 @@ import * as C from "../../consts";
 class RandyOrton implements Wrestler {
   uid = "randy-orton";
   name = "Randy Orton";
-  img = "http://www.borntoworkout.com/wp-content/uploads/2016/02/Randy-Orton-Body-300x300.jpg";
+  img = "./randy_orton.png";
   gender = C.Genders.MALE;
   category = C.Categories.HEAVYWEIGHT;
   health = {

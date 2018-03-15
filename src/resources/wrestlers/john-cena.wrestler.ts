@@ -4,7 +4,7 @@ import * as C from "../../consts";
 class JohnCena implements Wrestler {
   uid = "john-cena";
   name = "John Cena";
-  img = "https://www.wowkeren.com/images/photo/john_cena.jpg";
+  img = "./john_cena.png";
   gender = C.Genders.MALE;
   category = C.Categories.HEAVYWEIGHT;
   health = {

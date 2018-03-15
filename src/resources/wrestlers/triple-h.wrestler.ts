@@ -6,7 +6,7 @@ import * as C from "../../consts";
 class TripleH implements Wrestler {
   uid = "triple-h";
   name = "Triple H";
-  img = "https://www.therichest.com/wp-content/uploads/Triple-H-.jpg";
+  img = "./triple_h.png";
   gender = C.Genders.MALE;
   category = C.Categories.HEAVYWEIGHT;
   health = {
