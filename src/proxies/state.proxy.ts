@@ -154,11 +154,16 @@ class StateProxy {
   randomCard(): null | number {
     const w = this.getActive();
     const hand = w.getHand().getRef();
-    const len = hand.filter(card => card.valid === true).length;
-    const card = len > 0 ? randomInt(0, len - 1) : null;
-    this.setCard(card);
+    const indexes = [];
+    for (let i = 0; i < hand.length; i++) {
+      if (hand[i].valid) {
+        indexes.push(i);
+      }
+    }
+    const index = indexes.length > 0 ? randomInt(0, indexes.length) : null;
+    this.setCard(indexes[index]);
 
-    return card;
+    return indexes[index];
   }
 
   randomTargets(): void {
