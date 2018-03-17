@@ -160,7 +160,7 @@ class StateProxy {
         indexes.push(i);
       }
     }
-    const index = indexes.length > 0 ? randomInt(0, indexes.length) : null;
+    const index = indexes.length > 0 ? randomInt(0, indexes.length - 1) : null;
     this.setCard(indexes[index]);
 
     return indexes[index];
