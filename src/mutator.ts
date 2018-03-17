@@ -22,14 +22,15 @@ class Mutator {
 
     const active = this.proxy.nextActive();
     active.recovery(turn);
+    active.validateHand();
     this.proxy.nextTurn();
 
     if (!isInteractive(this.proxy.getActiveKey())) {
       const c = this.proxy.randomCard();
-      if (c) this.proxy.randomTargets();
+      if (c !== null) this.proxy.randomTargets();
+    } else {
+      this.proxy.clean();
     }
-
-    this.proxy.clean();
   }
 
   playCard(kernel: Kernel): void {
