@@ -25,8 +25,11 @@ class PinActuactor implements Actuator {
     });
 
     const win = randomBool(Math.max(chance, 0));
-
-    // Trigger win event ? Put target health to 0 ? Special state value ?
+    if (win) {
+      // Trigger win event ? Put target health to 0 ? Special state value ?
+      const health = target.getHealth();
+      health.setVal(0);
+    }
   }
 
   private activeStatus(status: number, chance: number): number {

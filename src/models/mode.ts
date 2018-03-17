@@ -4,7 +4,8 @@ class Mode {
   img: string;
   description: string;
   numbers: number;
-  team?: boolean;
+  team: boolean;
+  winning: string;
 }
 
 export default Mode;

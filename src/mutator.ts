@@ -53,6 +53,12 @@ class Mutator {
       }
     });
     // effect card
+
+    if (this.proxy.checkWinner()) {
+      this.proxy.clean();
+      return;
+    }
+
     active.discardCard(card);
     active.validateHand();
 

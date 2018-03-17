@@ -196,8 +196,18 @@ class StateProxy {
     this.state.targets = [];
   }
 
-  prepare(): void {
-    this.state.records = [];
+  checkWinner(): boolean {
+    switch (this.state.mode.winning) {
+      case "health":
+        const opponents = this.getOpponents(this.state.active);
+        if (opponents.every(k => this.state.players[k].health.val === 0)) {
+          this.state.winner = this.state.active;
+          return true;
+        }
+        return false;
+    }
+
+    return false;
   }
 }
 

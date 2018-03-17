@@ -6,6 +6,8 @@ class Normal implements Mode {
   img = "http://cdn1.thecomeback.com/wp-content/uploads/2017/01/roman-reigns-goldberg-wwe-raw.jpg";
   description = "One vs. One";
   numbers = 2;
+  team = false;
+  winning = "health";
 }
 
 export default Normal;

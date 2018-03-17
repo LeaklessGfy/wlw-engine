@@ -13,6 +13,7 @@ interface State {
   card: number;
   mode: Mode;
   records: Record[];
+  winner?: string;
 }
 
 export default State;
