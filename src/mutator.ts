@@ -56,7 +56,12 @@ class Mutator {
     active.discardCard(card);
     active.validateHand();
 
-    this.proxy.clean();
+    if (!isInteractive(this.proxy.getActiveKey())) {
+      const c = this.proxy.randomCard();
+      if (c !== null) this.proxy.randomTargets();
+    } else {
+      this.proxy.clean();
+    }
   }
 }
 
