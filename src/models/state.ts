@@ -12,7 +12,6 @@ interface State {
   players: Players;
   card: number;
   mode: Mode;
-  state: number;
   records: Record[];
 }
 

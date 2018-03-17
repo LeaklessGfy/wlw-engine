@@ -8,7 +8,7 @@ import * as W from "./resources/wrestlers";
 import * as C from "./resources/cards";
 import DamageActuator from "./resources/actuators/damage.actuator";
 import fakeState from "./resources/fake-state";
-import { States, Reports } from "./consts";
+import { Reports } from "./consts";
 import { TOUCH, REVERSE } from "./consts/reports";
 
 describe("Engine", () => {
@@ -19,19 +19,20 @@ describe("Engine", () => {
     const mutable = engine.newTurn(f);
 
     /* CHANGES */
+    console.log(mutable.next);
     expect(mutable.players).to.not.eql(f.players);
     expect(mutable.turn).to.equal(1);
     expect(mutable.targets.length).to.equal(0);
-    expect(mutable.next.length).to.equal(0);
+    expect(mutable.next.length).to.equal(2);
     expect(mutable.card).to.equal(null);
-    expect(mutable.active).to.equal("CPU1");
+    expect(mutable.active).to.equal("P1");
   });
 
   it("should be able to make a simple card play", () => {
     const f = fakeState();
     f.players.P1.hand = f.players.P1.deck;
+    f.players.P1.hand[0].valid = true;
     f.card = 0;
-    f.state = States.PLAY_CARD;
     const engine = new Engine(new Kernel([new DamageActuator()]));
     const mutable = engine.playCard(f);
 

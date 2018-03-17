@@ -50,10 +50,6 @@ class StateProxy {
     return this.state.mode;
   }
 
-  getState(): number {
-    return this.state.state;
-  }
-
   getRecords(): ArrayProxy<RecordProxy> {
     return new ArrayProxy(this.state.records, v => new RecordProxy(v));
   }
@@ -116,12 +112,6 @@ class StateProxy {
     return this;
   }
 
-  setState(state: number): StateProxy {
-    this.state.state = state;
-
-    return this;
-  }
-
   setReports(records: Record[]): StateProxy {
     this.state.records = records;
 
@@ -132,10 +122,6 @@ class StateProxy {
     this.state.turn++;
 
     return this.getTurn();
-  }
-
-  isState(state: number): boolean {
-    return this.state.state === state;
   }
 
   hasNext(): boolean {

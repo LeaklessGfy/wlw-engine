@@ -36,9 +36,6 @@ export const checkState = (state: State): void => {
       );
     }
   }
-  if (!_.isInteger(state.state)) {
-    throw new Error("INVALID STATE - State state is null or not integer");
-  }
   if (!_.isArray(state.records)) {
     throw new Error("INVALID STATE - State records is null or not array");
   }
@@ -75,11 +72,11 @@ export const checkCard = (card: Card): void => {
   if (!_.isBoolean(card.reverseable)) {
     throw new Error("INVALID STATE - Card reverseable is null or not boolean");
   }
-  if (!_.isString(card.rarity)) {
-    throw new Error("INVALID STATE - Card rarity is null or not string");
-  }
   if (!_.isBoolean(card.valid)) {
     throw new Error("INVALID STATE - Card valid is null or not boolean");
+  }
+  if (card.valid !== true) {
+    throw new Error("INVALID STATE - Card isn't valid");
   }
 };
 

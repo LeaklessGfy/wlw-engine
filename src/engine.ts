@@ -55,7 +55,7 @@ class CoreEngine implements Engine {
    */
   public playCard(_state: State): State {
     check.checkState(_state);
-    //check.checkCard(utilsS.getActiveCard(_state));
+    check.checkCard(_state.players[_state.active].hand[_state.card]);
 
     const mutable = clone(_state);
     const proxy = new StateProxy(mutable);
