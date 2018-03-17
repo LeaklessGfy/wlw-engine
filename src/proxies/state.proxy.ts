@@ -13,6 +13,7 @@ import ArrayProxy from "./array.proxy";
 import CardProxy from "./card.proxy";
 import RecordProxy from "./record.proxy";
 import WrestlerProxy from "./wrestler.proxy";
+import * as Targets from "../consts/targets";
 
 class StateProxy {
   constructor(private readonly state: State) {}
@@ -142,7 +143,8 @@ class StateProxy {
   }
 
   nextActive(): WrestlerProxy {
-    this.state.active = this.state.next.shift();
+    const s = this.state;
+    s.active = s.next[s.turn % s.mode.numbers];
 
     return this.getActive();
   }
@@ -161,6 +163,34 @@ class StateProxy {
     });
 
     this.state.next = tmp.map(t => t.key);
+  }
+
+  randomCard(): null | number {
+    const w = this.getActive();
+    const hand = w.getHand().getRef();
+    const len = hand.filter(card => card.valid).length;
+    const card = len > 0 ? randomInt(0, len - 1) : null;
+    this.setCard(card);
+
+    return card;
+  }
+
+  randomTargets(): void {
+    const c = this.getCard();
+    const targets = this.state.targets;
+
+    for (let target of c.getTargets()) {
+      switch (target) {
+        case Targets.OPPONENT:
+          const opponents = this.getOpponents(this.state.active);
+          const random = randomInt(0, opponents.length - 1);
+          targets.push(opponents[random]);
+          break;
+        case Targets.SELF:
+          targets.push(this.state.active);
+          break;
+      }
+    }
   }
 
   clean(): void {

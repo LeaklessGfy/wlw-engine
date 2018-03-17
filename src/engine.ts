@@ -1,4 +1,4 @@
-import { Events, States, Targets } from "./consts";
+import { Events } from "./consts";
 import { Engine, Kernel, State } from "./models";
 import GlobalEventManager, { EventManager } from "./event-manager";
 import * as check from "./checker";
@@ -47,48 +47,6 @@ class CoreEngine implements Engine {
   }
 
   /**
-   * Distribute hand for each players.
-   *
-   * @param {State} _state initial state
-   *
-   * @return {State} new state
-   */
-  public distributeHands(_state: State): State {
-    check.checkState(_state);
-
-    const mutable = clone(_state);
-    const proxy = new StateProxy(mutable);
-    const mutator = new Mutator(proxy);
-
-    this.$e.publish(Events.PRE_HANDS_DISTRIBUTION, mutable);
-    mutator.distributeHands();
-    this.$e.publish(Events.POST_HANDS_DISTRIBUTION, mutable);
-
-    return mutable;
-  }
-
-  /**
-   * Validate hand for each player.
-   *
-   * @param {State} _state initial state
-   *
-   * @return {State} new state
-   */
-  public validateHands(_state: State): State {
-    check.checkState(_state);
-
-    const mutable = clone(_state);
-    const proxy = new StateProxy(mutable);
-    const mutator = new Mutator(proxy);
-
-    this.$e.publish(Events.PRE_HANDS_VALIDATION, mutable);
-    mutator.validateHands();
-    this.$e.publish(Events.POST_HANDS_VALIDATION, mutable);
-
-    return mutable;
-  }
-
-  /**
    * Play the active card.
    *
    * @param {State} _state initial state
@@ -106,42 +64,6 @@ class CoreEngine implements Engine {
     this.$e.publish(Events.PRE_CARD_PLAY, mutable);
     mutator.playCard(this.$k);
     this.$e.publish(Events.POST_CARD_PLAY, mutable);
-
-    return mutable;
-  }
-
-  /**
-   * Choose a random valid card for the active player.
-   *
-   * @param {State} _state initial state
-   *
-   * @return {State} new state
-   */
-  public randomCard(_state: State): State {
-    check.checkState(_state);
-
-    const mutable = clone(_state);
-    const proxy = new StateProxy(mutable);
-    const mutator = new Mutator(proxy);
-
-    this.$e.publish(Events.PRE_CARD_RANDOM, mutable);
-    mutator.randomCard();
-    this.$e.publish(Events.POST_CARD_RANDOM, mutable);
-
-    return mutable;
-  }
-
-  public randomTargets(_state: State): State {
-    check.checkState(_state);
-    //check.checkCard(utilsS.getActiveCard(_state));
-
-    const mutable = clone(_state);
-    const proxy = new StateProxy(mutable);
-    const mutator = new Mutator(proxy);
-
-    this.$e.publish(Events.PRE_TARGETS_RANDOM, mutable);
-    mutator.randomTargets();
-    this.$e.publish(Events.POST_TARGETS_RANDOM, mutable);
 
     return mutable;
   }

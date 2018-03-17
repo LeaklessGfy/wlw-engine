@@ -95,6 +95,13 @@ class WrestlerProxy {
     this.wrestler.dead = [];
   }
 
+  respawnHand() {
+    this.discardHand();
+    if (this.shouldRespawnDeck()) this.respawnDeck();
+    this.distributeHand(3);
+    this.validateHand();
+  }
+
   discardHand(): void {
     for (let card of this.wrestler.hand) {
       this.wrestler.dead.push(card);

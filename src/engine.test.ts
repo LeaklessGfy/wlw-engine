@@ -65,45 +65,4 @@ describe("Engine", () => {
     expect(mutable.players.P1.dead.length).to.equal(1);
     expect(mutable.players.P1.dead[0]).to.eql(f.players.P1.hand[0]);
   });
-
-  it("should be able to make a simple card distribution", () => {
-    const f = fakeState();
-    f.state = States.DISTRIBUTE_HANDS;
-    const mutable = engine.distributeHands(f);
-    expect(mutable).to.not.equal(f);
-    expect(mutable.players.P1.hand.length).to.equal(3);
-    expect(mutable.players.P1.dead.length).to.equal(0);
-
-    const mutable2 = engine.distributeHands(mutable);
-    expect(mutable2).to.not.equal(mutable);
-    expect(mutable2.players.P1.hand.length).to.equal(3);
-    expect(mutable2.players.P1.dead.length).to.equal(3);
-    expect(mutable2.players.P1.dead).to.eql(mutable.players.P1.hand);
-
-    const mutable3 = engine.distributeHands(mutable2);
-    expect(mutable3).to.not.equal(mutable2);
-    expect(mutable3.players.P1.hand.length).to.equal(1);
-    expect(mutable3.players.P1.dead.length).to.equal(6);
-
-    const mutable4 = engine.distributeHands(mutable3);
-    expect(mutable4).to.not.equal(mutable3);
-    expect(mutable4.players.P1.hand.length).to.equal(3);
-    expect(mutable4.players.P1.dead.length).to.equal(0);
-  });
-
-  it("should be able to make a card validation", () => {
-    const f = fakeState();
-    f.players.P1.hand = f.players.P1.deck;
-    const mutable = engine.validateHands(f);
-
-    mutable.players.P1.hand.forEach(c => {
-      if (c.intensity > mutable.players.P1.intensity.val) {
-        expect(c.valid).to.equal(false);
-      } else {
-        expect(c.valid).to.equal(true);
-      }
-    });
-  });
-
-  it("should be able to choose a random card", () => {});
 });
