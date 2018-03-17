@@ -28,6 +28,7 @@ class Mutator {
     if (!isInteractive(this.proxy.getActiveKey())) {
       const c = this.proxy.randomCard();
       if (c !== null) this.proxy.randomTargets();
+      else this.proxy.clean();
     } else {
       this.proxy.clean();
     }
@@ -59,6 +60,7 @@ class Mutator {
     if (!isInteractive(this.proxy.getActiveKey())) {
       const c = this.proxy.randomCard();
       if (c !== null) this.proxy.randomTargets();
+      else this.proxy.clean();
     } else {
       this.proxy.clean();
     }

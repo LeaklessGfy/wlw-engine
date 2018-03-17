@@ -154,7 +154,7 @@ class StateProxy {
   randomCard(): null | number {
     const w = this.getActive();
     const hand = w.getHand().getRef();
-    const len = hand.filter(card => card.valid).length;
+    const len = hand.filter(card => card.valid === true).length;
     const card = len > 0 ? randomInt(0, len - 1) : null;
     this.setCard(card);
 
