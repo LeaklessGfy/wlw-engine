@@ -45,7 +45,7 @@ describe("Utils", () => {
       intensity: 1,
       targets: [],
       reverseable: true,
-      rarity: "",
+      rarity: 0,
       valid: true
     };
     w.hand = [c];

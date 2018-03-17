@@ -1,25 +1,35 @@
 import "mocha";
 import { expect } from "chai";
 import * as _ from "lodash";
-import Kernel from "./kernel";
 import Engine from "./engine";
 import { State } from "./models";
+import Mutator from "./mutator";
+import { Reports } from "./consts";
 import * as W from "./resources/wrestlers";
 import * as C from "./resources/cards";
 import DamageActuator from "./resources/actuators/damage.actuator";
 import fakeState from "./resources/fake-state";
-import { Reports } from "./consts";
-import { TOUCH, REVERSE } from "./consts/reports";
+import { DefaultDistributor } from "./strategies/distributor.strategy";
+import { DefaultValidator } from "./strategies/validator.strategy";
+import { DefaultOperator } from "./strategies/operator.strategy";
+import { DefaultCPU } from "./strategies/cpu.strategy";
+import { DefaultWinning } from "./strategies/winning.strategy";
 
 describe("Engine", () => {
-  const engine = new Engine(new Kernel());
+  const mutator = new Mutator(
+    new DefaultDistributor(),
+    new DefaultValidator(),
+    new DefaultOperator([new DamageActuator()]),
+    new DefaultCPU(),
+    new DefaultWinning()
+  );
+  const engine = new Engine(mutator);
 
   it("should be able to make a new turn", () => {
     const f = fakeState();
     const mutable = engine.newTurn(f);
 
     /* CHANGES */
-    console.log(mutable.next);
     expect(mutable.players).to.not.eql(f.players);
     expect(mutable.turn).to.equal(1);
     expect(mutable.targets.length).to.equal(0);
@@ -33,7 +43,7 @@ describe("Engine", () => {
     f.players.P1.hand = f.players.P1.deck;
     f.players.P1.hand[0].valid = true;
     f.card = 0;
-    const engine = new Engine(new Kernel([new DamageActuator()]));
+    const engine = new Engine(mutator);
     const mutable = engine.playCard(f);
 
     /* NO CHANGES */

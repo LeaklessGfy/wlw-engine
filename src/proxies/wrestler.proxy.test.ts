@@ -102,48 +102,6 @@ describe("[PROXY] Wrestler", () => {
     expect(w.deck).to.not.equal(cards);
   });
 
-  it("should be able to say if should respawn deck", () => {
-    const w = fakeState().players.P1;
-    const proxy = new WrestlerProxy(w);
-    expect(proxy.shouldRespawnDeck()).to.equal(false);
-    w.deck = [];
-    expect(proxy.shouldRespawnDeck()).to.equal(true);
-  });
-
-  it("should be able to respawn deck", () => {
-    const w = fakeState().players.P1;
-    w.dead = w.deck;
-    w.deck = [];
-    const length = w.dead.length;
-
-    const proxy = new WrestlerProxy(w);
-    proxy.respawnDeck();
-
-    expect(w.deck.length).to.equal(length);
-    expect(w.dead.length).to.equal(0);
-  });
-
-  it("should be able to discard hand", () => {});
-
-  it("should be able to distribute hand", () => {
-    const w = fakeState().players.P1;
-
-    const proxy = new WrestlerProxy(w);
-    proxy.distributeHand(3);
-
-    expect(w.hand.length).to.equal(3);
-  });
-
-  it("should be able to validate hand", () => {
-    const w = fakeState().players.P1;
-    w.hand = w.deck;
-
-    const proxy = new WrestlerProxy(w);
-    proxy.validateHand();
-
-    expect(w.hand[0].valid).to.equal(true);
-  });
-
   it("should be able to consume card", () => {
     const w = fakeState().players.P1;
     w.stamina.val = 7;

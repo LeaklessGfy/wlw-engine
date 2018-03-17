@@ -1,72 +1,61 @@
 import * as _ from "lodash";
-import { Kernel, State, Record, Wrestler } from "./models";
+import { State, Record, Wrestler } from "./models";
 import StateProxy from "./proxies/state.proxy";
-import { randomInt, isInteractive } from "./utils";
-import * as Records from "./consts/records";
-import * as Reports from "./consts/reports";
+import * as Strategy from "./strategies";
+import { isInteractive } from "./utils";
 
 class Mutator {
-  constructor(private readonly proxy: StateProxy) {}
+  private readonly $effector;
 
-  newTurn(): void {
-    if (!this.proxy.hasNext()) {
-      this.proxy.buildNext();
-      this.proxy.getWrestlers().forEach(w => w.shuffleDeck());
+  constructor(
+    private readonly $distributor: Strategy.DistributorStrategy,
+    private readonly $validator: Strategy.ValidatorStrategy,
+    private readonly $operator: Strategy.OperatorStrategy,
+    private readonly $cpu: Strategy.CPUStrategy,
+    private readonly $winning: Strategy.WinningStrategy
+  ) {}
+
+  newTurn(state: StateProxy): void {
+    if (!state.hasNext()) {
+      state.buildNext();
+      state.getWrestlers().forEach(w => w.shuffleDeck());
     }
 
-    const turn = this.proxy.getTurn();
-    const mode = this.proxy.getMode();
-    if (turn % mode.numbers === 0) {
-      this.proxy.getWrestlers().forEach(w => w.respawnHand());
-    }
-
-    const active = this.proxy.nextActive();
+    const turn = state.getTurn();
+    const mode = state.getMode();
+    const active = state.nextActive();
     active.recovery(turn);
-    active.validateHand();
-    this.proxy.nextTurn();
 
-    if (!isInteractive(this.proxy.getActiveKey())) {
-      const c = this.proxy.randomCard();
-      if (c !== null) this.proxy.randomTargets();
+    if (turn % mode.numbers === 0) {
+      state.getWrestlers().forEach(w => {
+        this.$distributor.distribute(w, state);
+        this.$validator.validate(w, state);
+      });
+    }
+
+    state.nextTurn();
+    if (!isInteractive(state.getActiveKey())) {
+      this.$cpu.randomPlay(state);
     } else {
-      this.proxy.clean();
+      state.clean();
     }
   }
 
-  playCard(kernel: Kernel): void {
-    const targets = this.proxy.getTargets();
-    const active = this.proxy.getActive();
-    const card = this.proxy.getCard();
-    const actuators = card.getActuators(kernel);
-    const records = this.proxy.getRecords();
+  playCard(state: StateProxy): void {
+    const active = state.getActive();
+    const card = state.getCard();
 
     active.consumeCard(card);
-    targets.forEach(target => {
-      if (!target.hasDodge(card, active)) {
-        records.push({ key: Records.CARD_STATUS, val: Reports.TOUCH });
-        actuators.operate(card, target, active, this.proxy);
-      } else if (target.hasReverse(card)) {
-        records.push({ key: Records.CARD_STATUS, val: Reports.REVERSE });
-        actuators.operate(card, active, target, this.proxy);
-      } else {
-        records.push({ key: Records.CARD_STATUS, val: Reports.DODGE });
-      }
-    });
-    // effect card
-
-    if (this.proxy.checkWinner()) {
-      this.proxy.clean();
-      return;
-    }
-
+    this.$operator.operate(state);
+    //this.$effector.applyEffect(state);
     active.discardCard(card);
-    active.validateHand();
+    this.$validator.validate(active, state);
+    this.$winning.checkWinner(state);
 
-    if (!isInteractive(this.proxy.getActiveKey())) {
-      const c = this.proxy.randomCard();
-      if (c !== null) this.proxy.randomTargets();
+    if (!isInteractive(state.getActiveKey())) {
+      this.$cpu.randomPlay(state);
     } else {
-      this.proxy.clean();
+      state.clean();
     }
   }
 }

@@ -1,7 +1,6 @@
-import { Actuator, Card, Effect, Kernel } from "../models";
+import { Actuator, Card, Effect } from "../models";
 import ArrayProxy from "./array.proxy";
 import EffectProxy from "./effect.proxy";
-import ActuatorsComposite from "../composites/actuators.composite";
 
 class CardProxy {
   private readonly effects: ArrayProxy<EffectProxy>;
@@ -14,14 +13,8 @@ class CardProxy {
     return this.card.uid;
   }
 
-  getActuatorsKey(): string[] {
+  getActuators(): string[] {
     return this.card.actuators;
-  }
-
-  getActuators(k: Kernel): ActuatorsComposite {
-    const arr = this.card.actuators.map(a => k.get(a)).filter(a => a);
-
-    return new ActuatorsComposite(arr);
   }
 
   getName(): string {
@@ -74,6 +67,11 @@ class CardProxy {
 
   getRef(): Card {
     return this.card;
+  }
+
+  setValid(valid: boolean): CardProxy {
+    this.card.valid = valid;
+    return this;
   }
 }
 

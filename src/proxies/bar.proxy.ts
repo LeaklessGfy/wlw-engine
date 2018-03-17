@@ -14,13 +14,11 @@ class BarProxy {
 
   setVal(val: number): BarProxy {
     this.bar.val = minMax(0, this.bar.max, val);
-
     return this;
   }
 
   setMax(max: number): BarProxy {
     this.bar.max = Math.max(1, max);
-
     return this;
   }
 

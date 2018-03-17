@@ -9,7 +9,6 @@ export { default as CrowdStat } from "./crowd-stat";
 export { default as Effect } from "./effect";
 export { default as Engine } from "./engine";
 export { default as Envelope } from "./envelope";
-export { default as Kernel } from "./kernel";
 export { default as Mode } from "./mode";
 export { default as MoralStat } from "./moral-stat";
 export { default as Official } from "./official";

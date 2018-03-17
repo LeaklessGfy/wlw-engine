@@ -75,8 +75,18 @@ class WrestlerProxy {
 
   // SETTERS
 
+  setDeck(deck: Card[]): WrestlerProxy {
+    this.wrestler.deck = deck;
+    return this;
+  }
+
   setHand(hand: Card[]): WrestlerProxy {
     this.wrestler.hand = hand;
+    return this;
+  }
+
+  setDead(dead: Card[]): WrestlerProxy {
+    this.wrestler.dead = dead;
     return this;
   }
 
@@ -84,48 +94,6 @@ class WrestlerProxy {
 
   shuffleDeck(): void {
     this.wrestler.deck = _.shuffle(this.wrestler.deck);
-  }
-
-  shouldRespawnDeck(): boolean {
-    return this.wrestler.deck.length === 0;
-  }
-
-  respawnDeck(): void {
-    this.wrestler.deck = _.shuffle(this.wrestler.dead);
-    this.wrestler.dead = [];
-  }
-
-  respawnHand() {
-    this.discardHand();
-    if (this.shouldRespawnDeck()) this.respawnDeck();
-    this.distributeHand(3);
-    this.validateHand();
-  }
-
-  discardHand(): void {
-    for (let card of this.wrestler.hand) {
-      this.wrestler.dead.push(card);
-    }
-    this.wrestler.hand = [];
-  }
-
-  distributeHand(length: number): void {
-    if (this.wrestler.deck.length > length) {
-      for (let i = 0; i < length; i++) {
-        this.wrestler.hand.push(this.wrestler.deck.shift());
-      }
-    } else {
-      this.wrestler.hand = this.wrestler.deck;
-      this.wrestler.deck = [];
-    }
-  }
-
-  validateHand() {
-    for (let c of this.wrestler.hand) {
-      let stamina = this.wrestler.stamina.val >= c.stamina;
-      let intensity = this.wrestler.intensity.val >= c.intensity;
-      c.valid = stamina && intensity;
-    }
   }
 
   consumeCard(card: CardProxy): void {

@@ -1,6 +1,4 @@
-import { Events } from "./consts";
-import { Engine, Kernel, State } from "./models";
-import GlobalEventManager, { EventManager } from "./event-manager";
+import { Engine, State } from "./models";
 import * as check from "./checker";
 import { clone } from "./utils";
 import Mutator from "./mutator";
@@ -13,17 +11,11 @@ import StateProxy from "./proxies/state.proxy";
  * @implements {Engine}
  */
 class CoreEngine implements Engine {
-  private readonly $e: EventManager;
-  private readonly $k: Kernel;
-
   /**
    * Creates an instance of CoreEngine.
    * @memberof CoreEngine
    */
-  constructor(kernel: Kernel) {
-    this.$e = GlobalEventManager;
-    this.$k = kernel;
-  }
+  constructor(private readonly $mutator: Mutator) {}
 
   /**
    * Create a new turn.
@@ -37,11 +29,7 @@ class CoreEngine implements Engine {
 
     const mutable = clone(_state);
     const proxy = new StateProxy(mutable);
-    const mutator = new Mutator(proxy);
-
-    this.$e.publish(Events.PRE_TURN_NEW, mutable);
-    mutator.newTurn();
-    this.$e.publish(Events.POST_TURN_NEW, mutable);
+    this.$mutator.newTurn(proxy);
 
     return mutable;
   }
@@ -59,11 +47,7 @@ class CoreEngine implements Engine {
 
     const mutable = clone(_state);
     const proxy = new StateProxy(mutable);
-    const mutator = new Mutator(proxy);
-
-    this.$e.publish(Events.PRE_CARD_PLAY, mutable);
-    mutator.playCard(this.$k);
-    this.$e.publish(Events.POST_CARD_PLAY, mutable);
+    this.$mutator.playCard(proxy);
 
     return mutable;
   }

@@ -1,13 +1,5 @@
 import * as _ from "lodash";
-import {
-  Actuator,
-  Card,
-  Kernel,
-  State,
-  Players,
-  Record,
-  Wrestler
-} from "../models";
+import { Actuator, Card, State, Players, Record, Wrestler } from "../models";
 import { randomInt } from "../utils";
 import ArrayProxy from "./array.proxy";
 import CardProxy from "./card.proxy";
@@ -88,15 +80,13 @@ class StateProxy {
     if (!this.state.mode.team) {
       return _.keys(this.state.players).filter(k => key !== k);
     }
-
     return [];
   }
 
   getParteners(key: string): string[] {
     if (!this.state.mode.team) {
-      return [];
+      return [key];
     }
-
     return [];
   }
 
@@ -106,22 +96,33 @@ class StateProxy {
       .get(this.state.card);
   }
 
+  /* SETTERS */
+
   setCard(card: number): StateProxy {
     this.state.card = card;
-
     return this;
   }
 
-  setReports(records: Record[]): StateProxy {
+  setRecords(records: Record[]): StateProxy {
     this.state.records = records;
-
     return this;
   }
+
+  setTargets(targets: string[]): StateProxy {
+    this.state.targets = targets;
+    return this;
+  }
+
+  setWinner(winner: string): StateProxy {
+    this.state.winner = winner;
+    return this;
+  }
+
+  /* SPECIAL */
 
   nextTurn(): number {
     this.state.turn++;
-
-    return this.getTurn();
+    return this.state.turn;
   }
 
   hasNext(): boolean {
@@ -151,63 +152,9 @@ class StateProxy {
     this.state.next = tmp.map(t => t.key);
   }
 
-  randomCard(): null | number {
-    const w = this.getActive();
-    const hand = w.getHand().getRef();
-    const indexes = [];
-    for (let i = 0; i < hand.length; i++) {
-      if (hand[i].valid) {
-        indexes.push(i);
-      }
-    }
-    if (indexes.length < 1) {
-      this.setCard(null);
-      return null;
-    }
-
-    const index = randomInt(0, indexes.length - 1);
-    this.setCard(indexes[index]);
-
-    return indexes[index];
-  }
-
-  randomTargets(): void {
-    const c = this.getCard();
-    const targets = [];
-
-    for (let target of c.getTargets()) {
-      switch (target) {
-        case Targets.OPPONENT:
-          const opponents = this.getOpponents(this.state.active);
-          const random = randomInt(0, opponents.length - 1);
-          targets.push(opponents[random]);
-          break;
-        case Targets.SELF:
-          targets.push(this.state.active);
-          break;
-      }
-    }
-
-    this.state.targets = targets;
-  }
-
   clean(): void {
     this.state.card = null;
     this.state.targets = [];
-  }
-
-  checkWinner(): boolean {
-    switch (this.state.mode.winning) {
-      case "health":
-        const opponents = this.getOpponents(this.state.active);
-        if (opponents.every(k => this.state.players[k].health.val === 0)) {
-          this.state.winner = this.state.active;
-          return true;
-        }
-        return false;
-    }
-
-    return false;
   }
 }
 

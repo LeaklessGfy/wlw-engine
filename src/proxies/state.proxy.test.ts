@@ -2,7 +2,6 @@ import "mocha";
 import { expect } from "chai";
 import fakeState from "../resources/fake-state";
 import StateProxy from "./state.proxy";
-import Kernel from "../kernel";
 
 describe("[PROXY] State", () => {
   const f = fakeState();
@@ -49,7 +48,7 @@ describe("[PROXY] State", () => {
 
   it("should be able to return all parteners", () => {
     const parteners = proxy.getParteners(f.active);
-    expect(parteners.length).to.equal(0);
+    expect(parteners.length).to.equal(1);
   });
 
   it("should be able to return the active card", () => {
