@@ -160,7 +160,12 @@ class StateProxy {
         indexes.push(i);
       }
     }
-    const index = indexes.length > 0 ? randomInt(0, indexes.length - 1) : null;
+    if (indexes.length < 1) {
+      this.setCard(null);
+      return null;
+    }
+
+    const index = randomInt(0, indexes.length - 1);
     this.setCard(indexes[index]);
 
     return indexes[index];
@@ -168,7 +173,7 @@ class StateProxy {
 
   randomTargets(): void {
     const c = this.getCard();
-    const targets = this.state.targets;
+    const targets = [];
 
     for (let target of c.getTargets()) {
       switch (target) {
@@ -182,6 +187,8 @@ class StateProxy {
           break;
       }
     }
+
+    this.state.targets = targets;
   }
 
   clean(): void {
