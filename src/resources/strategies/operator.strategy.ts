@@ -1,14 +1,9 @@
-import { CardProxy, StateProxy } from "../proxies";
-import Actuator from "../models/actuator";
-import { Records, Reports } from "../consts";
+import { CardProxy, StateProxy } from "../../proxies";
+import Actuator from "../../models/actuator";
+import { Records, Reports } from "../../consts";
+import StateStrategy from "../../strategies/state.strategy";
 
-interface Operator {
-  operate(state: StateProxy): void;
-}
-
-export default Operator;
-
-export class DefaultOperator implements Operator {
+class Operator implements StateStrategy {
   private readonly kernel;
 
   constructor(actuators: Actuator[] = []) {
@@ -18,7 +13,7 @@ export class DefaultOperator implements Operator {
     }
   }
 
-  operate(state: StateProxy): void {
+  apply(state: StateProxy): void {
     const targets = state.getTargets();
     const card = state.getCard();
     const active = state.getActive();
@@ -50,3 +45,5 @@ export class DefaultOperator implements Operator {
       .filter(a => a);
   }
 }
+
+export default Operator;

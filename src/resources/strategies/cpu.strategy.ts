@@ -1,15 +1,10 @@
-import StateProxy from "../proxies/state.proxy";
-import { Targets } from "../consts";
-import { randomInt } from "../utils";
+import StateProxy from "../../proxies/state.proxy";
+import StateStrategy from "../../strategies/state.strategy";
+import { Targets } from "../../consts";
+import { randomInt } from "../../utils";
 
-interface CPU {
-  randomPlay(state: StateProxy): void;
-}
-
-export default CPU;
-
-export class DefaultCPU implements CPU {
-  randomPlay(state: StateProxy): void {
+class CPU implements StateStrategy {
+  apply(state: StateProxy): void {
     if (this.randomCard(state)) {
       this.randomTargets(state);
     }
@@ -56,3 +51,5 @@ export class DefaultCPU implements CPU {
     state.setTargets(targets);
   }
 }
+
+export default CPU;

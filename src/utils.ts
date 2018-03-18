@@ -1,6 +1,5 @@
 import * as _ from "lodash";
 import * as Chance from "chance";
-import { Wrestler, Card } from "./models";
 
 const random = new Chance(Math.random);
 
@@ -40,19 +39,6 @@ export const randomBool = (percent: number = 50): boolean => {
 
 export const minMax = (min: number, max: number, val: number): number => {
   return Math.min(Math.max(min, val), max);
-};
-
-/**
- * Return a random valid card or null.
- *
- * @param {Card} w
- */
-export const randomValidCard = (w: Wrestler): Card | null => {
-  const validCard = w.hand.filter(card => card && card.valid);
-  if (validCard.length > 0) {
-    return _.sample(validCard);
-  }
-  return null;
 };
 
 /**

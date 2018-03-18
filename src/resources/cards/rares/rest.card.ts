@@ -13,6 +13,7 @@ class Rest implements Card {
   targets = [C.Targets.SELF];
   rarity = C.Rarities.RARE;
   reverseable = false;
+  blockable = false;
 }
 
 export default Rest;

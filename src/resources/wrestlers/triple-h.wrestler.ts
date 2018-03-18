@@ -18,7 +18,7 @@ class TripleH implements Wrestler {
     max: 10
   };
   intensity = {
-    val: 5,
+    val: 0,
     max: 10
   };
   deck = [
@@ -28,7 +28,11 @@ class TripleH implements Wrestler {
     _.toPlainObject(new Cards.Pin()),
     _.toPlainObject(new Cards.Facebuster()),
     _.toPlainObject(new Cards.Pedigree()),
-    _.toPlainObject(new Cards.Rest())
+    _.toPlainObject(new Cards.Rest()),
+    _.toPlainObject(new Cards.Mirror()),
+    _.toPlainObject(new Cards.TimeWrap()),
+    _.toPlainObject(new Cards.AttitudeAdjustement()),
+    _.toPlainObject(new Cards.SpringBoardDiving())
   ];
   hand = [];
   dead = [];

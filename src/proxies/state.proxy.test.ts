@@ -73,17 +73,14 @@ describe("[PROXY] State", () => {
 
   it("should be able to next active", () => {
     const f = fakeState();
-    f.next = ["CPU1", "P1"];
+    f.next = ["CPU1", "P1", "CPU1", "P1"];
     const proxy = new StateProxy(f);
     proxy.nextActive();
     expect(f.active).to.equal("CPU1");
-    proxy.nextTurn();
     proxy.nextActive();
     expect(f.active).to.equal("P1");
-    proxy.nextTurn();
     proxy.nextActive();
     expect(f.active).to.equal("CPU1");
-    proxy.nextTurn();
     proxy.nextActive();
     expect(f.active).to.equal("P1");
   });

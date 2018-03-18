@@ -14,6 +14,7 @@ class Facebuster implements Card {
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.SIGNATURE;
   reverseable = false;
+  blockable = true;
 }
 
 export default Facebuster;

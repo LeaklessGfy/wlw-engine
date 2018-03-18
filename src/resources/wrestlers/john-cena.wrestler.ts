@@ -22,7 +22,7 @@ class JohnCena implements Wrestler {
   deck = [];
   hand = [];
   dead = [];
-  status = [C.Status.NORMAL];
+  status = [];
   combat = {
     accuracy: 0,
     damage: 0,

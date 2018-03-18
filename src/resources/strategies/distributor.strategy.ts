@@ -1,16 +1,11 @@
 import * as _ from "lodash";
-import { StateProxy, WrestlerProxy } from "../proxies";
+import { StateProxy, WrestlerProxy } from "../../proxies";
+import WrestlerStrategy from "../../strategies/wrestler.stategy";
 
-interface Distributor {
-  distribute(wrestler: WrestlerProxy, state: StateProxy): void;
-}
-
-export default Distributor;
-
-export class DefaultDistributor implements Distributor {
+class Distributor implements WrestlerStrategy {
   private static readonly MIN = 3;
 
-  distribute(wrestler: WrestlerProxy, state: StateProxy): void {
+  apply(wrestler: WrestlerProxy, state: StateProxy): void {
     this.discardHand(wrestler);
     this.respawnDeck(wrestler);
     this.distributeHand(wrestler);
@@ -27,7 +22,7 @@ export class DefaultDistributor implements Distributor {
   private respawnDeck(wrestler: WrestlerProxy) {
     const deck = wrestler.getDeck().getRef();
     const dead = wrestler.getDead().getRef();
-    if (deck.length < DefaultDistributor.MIN) {
+    if (deck.length < Distributor.MIN) {
       deck.concat(_.shuffle(dead));
       wrestler.setDead([]);
     }
@@ -36,8 +31,8 @@ export class DefaultDistributor implements Distributor {
   private distributeHand(wrestler: WrestlerProxy) {
     const deck = wrestler.getDeck().getRef();
     const hand = wrestler.getHand().getRef();
-    if (deck.length > DefaultDistributor.MIN) {
-      for (let i = 0; i < DefaultDistributor.MIN; i++) {
+    if (deck.length > Distributor.MIN) {
+      for (let i = 0; i < Distributor.MIN; i++) {
         hand.push(deck.shift());
       }
     } else {
@@ -46,3 +41,5 @@ export class DefaultDistributor implements Distributor {
     }
   }
 }
+
+export default Distributor;

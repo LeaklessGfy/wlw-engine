@@ -129,10 +129,12 @@ class StateProxy {
     return this.state.next.length > 0;
   }
 
-  nextActive(): WrestlerProxy {
-    const s = this.state;
-    s.active = s.next[s.turn % s.mode.numbers];
+  hasWinner(): boolean {
+    return this.state.winner !== undefined && this.state.winner !== null;
+  }
 
+  nextActive(): WrestlerProxy {
+    this.state.active = this.state.next.shift();
     return this.getActive();
   }
 

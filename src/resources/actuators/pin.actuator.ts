@@ -20,9 +20,13 @@ class PinActuactor implements Actuator {
     });
 
     // Target status
-    target.getStatus().forEach(status => {
+    const targetStatus = target.getStatus();
+    targetStatus.forEach(status => {
       chance += this.targetStatus(status, chance);
     });
+    if (targetStatus.length === 0) {
+      chance += -(chance / 2);
+    }
 
     const win = randomBool(Math.max(chance, 0));
     if (win) {
@@ -57,8 +61,6 @@ class PinActuactor implements Actuator {
         return -20;
       case Status.UNLEASHED:
         return -150;
-      case Status.NORMAL:
-        return -(chance / 2);
       default:
         return 0;
     }

@@ -14,6 +14,7 @@ class Pedigree implements Card {
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.UNIQUE;
   reverseable = false;
+  blockable = true;
 }
 
 export default Pedigree;

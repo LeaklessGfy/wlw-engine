@@ -7,21 +7,17 @@ import Mutator from "./mutator";
 import { Reports } from "./consts";
 import * as W from "./resources/wrestlers";
 import * as C from "./resources/cards";
+import * as S from "./resources/strategies";
 import DamageActuator from "./resources/actuators/damage.actuator";
 import fakeState from "./resources/fake-state";
-import { DefaultDistributor } from "./strategies/distributor.strategy";
-import { DefaultValidator } from "./strategies/validator.strategy";
-import { DefaultOperator } from "./strategies/operator.strategy";
-import { DefaultCPU } from "./strategies/cpu.strategy";
-import { DefaultWinning } from "./strategies/winning.strategy";
 
 describe("Engine", () => {
   const mutator = new Mutator(
-    new DefaultDistributor(),
-    new DefaultValidator(),
-    new DefaultOperator([new DamageActuator()]),
-    new DefaultCPU(),
-    new DefaultWinning()
+    new S.Distributor(),
+    new S.Validator(),
+    new S.Operator([new DamageActuator()]),
+    new S.CPU(),
+    new S.Winning()
   );
   const engine = new Engine(mutator);
 
@@ -33,7 +29,7 @@ describe("Engine", () => {
     expect(mutable.players).to.not.eql(f.players);
     expect(mutable.turn).to.equal(1);
     expect(mutable.targets.length).to.equal(0);
-    expect(mutable.next.length).to.equal(2);
+    expect(mutable.next.length).to.equal(1);
     expect(mutable.card).to.equal(null);
     expect(mutable.active).to.equal("P1");
   });

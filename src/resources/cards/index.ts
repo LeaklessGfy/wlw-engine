@@ -15,6 +15,7 @@ export { default as TimeWrap } from "./veryrares/timewrap.card";
 // RARES
 export { default as Mirror } from "./rares/mirror.card";
 export { default as Rest } from "./rares/rest.card";
+export { default as SpringBoardDiving } from "./rares/springboard-diving.card";
 
 // BANALS
 export { default as Clothesline } from "./banals/clothesline.card";

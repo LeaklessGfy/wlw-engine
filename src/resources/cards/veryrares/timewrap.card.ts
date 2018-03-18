@@ -12,6 +12,7 @@ class TimeWrap implements Card {
   targets = [C.Targets.SELF];
   rarity = C.Rarities.VERY_RARE;
   reverseable = false;
+  blockable = false;
 }
 
 export default TimeWrap;

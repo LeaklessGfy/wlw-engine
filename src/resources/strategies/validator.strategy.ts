@@ -1,13 +1,8 @@
-import { CardProxy, StateProxy, WrestlerProxy } from "../proxies";
+import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
+import WrestlerStrategy from "../../strategies/wrestler.stategy";
 
-interface Validator {
-  validate(wrestler: WrestlerProxy, state: StateProxy): void;
-}
-
-export default Validator;
-
-export class DefaultValidator implements Validator {
-  validate(wrestler: WrestlerProxy, state: StateProxy) {
+class Validator implements WrestlerStrategy {
+  apply(wrestler: WrestlerProxy, state: StateProxy): void {
     const hand = wrestler.getHand();
     hand.forEach(card => {
       let status = this.checkStamina(card, wrestler);
@@ -33,3 +28,5 @@ export class DefaultValidator implements Validator {
     return true;
   }
 }
+
+export default Validator;

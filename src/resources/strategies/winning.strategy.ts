@@ -1,13 +1,8 @@
-import StateProxy from "../proxies/state.proxy";
+import StateProxy from "../../proxies/state.proxy";
+import StateStrategy from "../../strategies/state.strategy";
 
-interface Winning {
-  checkWinner(state: StateProxy): boolean;
-}
-
-export default Winning;
-
-export class DefaultWinning implements Winning {
-  checkWinner(state: StateProxy): boolean {
+class Winning implements StateStrategy {
+  apply(state: StateProxy): void {
     const mode = state.getMode();
     const active = state.getActiveKey();
     const players = state.getPlayers();
@@ -17,10 +12,9 @@ export class DefaultWinning implements Winning {
         const opponents = state.getOpponents(active);
         if (opponents.every(k => players[k].health.val === 0)) {
           state.setWinner(active);
-          return true;
         }
-        return false;
     }
-    return false;
   }
 }
+
+export default Winning;

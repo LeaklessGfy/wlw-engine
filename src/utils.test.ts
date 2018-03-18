@@ -1,7 +1,6 @@
 import "mocha";
 import { expect } from "chai";
 import * as utils from "./utils";
-import fakeState from "./resources/fake-state";
 
 describe("Utils", () => {
   it("should be able to clone", () => {
@@ -31,29 +30,6 @@ describe("Utils", () => {
     expect(utils.minMax(0, 10, 5)).to.equal(5);
     expect(utils.minMax(0, 10, -1)).to.equal(0);
     expect(utils.minMax(0, 10, 15)).to.equal(10);
-  });
-
-  it("should be able to return a random valid card", () => {
-    const w = fakeState().players.P1;
-    const c = {
-      uid: "",
-      actuators: ["test", "test2"],
-      name: "",
-      img: "",
-      description: "",
-      stamina: 2,
-      intensity: 1,
-      targets: [],
-      reverseable: true,
-      rarity: 0,
-      valid: true
-    };
-    w.hand = [c];
-
-    const card = utils.randomValidCard(w);
-
-    expect(w.hand.length).to.equal(1);
-    expect(card).to.equal(c);
   });
 
   it("should be able to say if key is interactive", () => {
