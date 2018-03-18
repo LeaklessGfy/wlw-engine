@@ -119,23 +119,21 @@ class WrestlerProxy {
     intensity.addVal(randomInt(turn / 2, max));
   }
 
-  hasDodge(card: CardProxy, src: WrestlerProxy): boolean {
+  hasDodge(card: CardProxy, w: WrestlerProxy): boolean {
     if (!card.isBlockable()) {
       return false;
     }
-
     const accuracy =
-      randomInt(0, 10) + randomInt(0, src.wrestler.combat.accuracy);
-    const dodge = randomInt(0, 7) + randomInt(0, this.wrestler.combat.dodge);
+      randomInt(0, 10) + randomInt(0, w.wrestler.combat.accuracy);
+    const dodge = randomInt(0, 5) + randomInt(0, this.wrestler.combat.dodge);
 
     return dodge > accuracy;
   }
 
   hasReverse(card: CardProxy): boolean {
-    if (!card.isReverseable()) {
+    if (!card.isReverseable() || !this.hasCrit()) {
       return false;
     }
-
     return true;
   }
 
