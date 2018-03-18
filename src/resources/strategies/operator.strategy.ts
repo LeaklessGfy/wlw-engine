@@ -18,7 +18,7 @@ class Operator implements StateStrategy {
     const card = state.getCard();
     const active = state.getActive();
     const actuators = this.actuators(card);
-    const records = state.getRecords().getRef();
+    const records = [];
 
     targets.forEach(target => {
       if (!target.hasDodge(card, active)) {
