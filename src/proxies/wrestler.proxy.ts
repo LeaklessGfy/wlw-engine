@@ -125,7 +125,7 @@ class WrestlerProxy {
     }
     const accuracy =
       randomInt(0, 10) + randomInt(0, w.wrestler.combat.accuracy);
-    const dodge = randomInt(0, 5) + randomInt(0, this.wrestler.combat.dodge);
+    const dodge = randomInt(0, 2) + randomInt(0, this.wrestler.combat.dodge);
 
     return dodge > accuracy;
   }

@@ -9,6 +9,7 @@ class SpringboardDiving implements Card {
   description = "";
   stamina = 8;
   intensity = 2;
+  damage = 12;
   targets = [C.Targets.OPPONENT];
   rarity = C.Rarities.RARE;
   reverseable = false;
