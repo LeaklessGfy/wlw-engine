@@ -9,6 +9,7 @@ class Validator implements WrestlerStrategy {
       if (!status) return;
       status = this.checkIntensity(card, wrestler);
       if (!status) return;
+      card.setValid(true);
     });
   }
 

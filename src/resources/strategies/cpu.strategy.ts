@@ -21,13 +21,13 @@ class CPU implements StateStrategy {
     }
     if (indexes.length < 1) {
       state.setCard(null);
-      return true;
+      return false;
     }
 
     const index = randomInt(0, indexes.length - 1);
     state.setCard(indexes[index]);
 
-    return false;
+    return true;
   }
 
   private randomTargets(state: StateProxy) {
