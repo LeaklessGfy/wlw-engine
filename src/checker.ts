@@ -17,6 +17,9 @@ export const checkState = (state: State): void => {
   if (!_.isArray(state.targets)) {
     throw new Error("INVALID STATE - State targets is null or not array");
   }
+  if (!_.isArray(state.baseNext)) {
+    throw new Error("INVALID STATE - State baseNext is null or not array");
+  }
   if (!_.isArray(state.next)) {
     throw new Error("INVALID STATE - State next is null or not array");
   }

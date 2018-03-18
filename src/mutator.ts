@@ -14,8 +14,11 @@ class Mutator {
 
   newTurn(state: StateProxy): void {
     if (!state.hasNext()) {
-      state.buildNext();
-      state.getWrestlers().forEach(w => w.shuffleDeck());
+      if (!state.hasBaseNext()) {
+        state.buildNext();
+        state.getWrestlers().forEach(w => w.shuffleDeck());
+      }
+      state.setNext(state.getBaseNextKey().slice());
     }
 
     const turn = state.getTurn();
@@ -23,12 +26,12 @@ class Mutator {
     const active = state.nextActive();
     active.recovery(turn);
 
-    if (turn % mode.numbers === 0) {
-      state.getWrestlers().forEach(w => {
+    state.getWrestlers().forEach(w => {
+      if (turn % mode.numbers === 0) {
         this.$distributor.apply(w, state);
-        this.$validator.apply(w, state);
-      });
-    }
+      }
+      this.$validator.apply(w, state);
+    });
 
     state.nextTurn();
     if (!isInteractive(state.getActiveKey())) {

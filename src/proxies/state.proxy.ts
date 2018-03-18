@@ -26,6 +26,10 @@ class StateProxy {
     return this.state.targets;
   }
 
+  getBaseNextKey(): string[] {
+    return this.state.baseNext;
+  }
+
   getNextKey(): string[] {
     return this.state.next;
   }
@@ -118,11 +122,15 @@ class StateProxy {
     return this;
   }
 
+  setNext(next: string[]): StateProxy {
+    this.state.next = next;
+    return this;
+  }
+
   /* SPECIAL */
 
-  nextTurn(): number {
-    this.state.turn++;
-    return this.state.turn;
+  hasBaseNext(): boolean {
+    return this.state.baseNext.length > 0;
   }
 
   hasNext(): boolean {
@@ -131,6 +139,11 @@ class StateProxy {
 
   hasWinner(): boolean {
     return this.state.winner !== undefined && this.state.winner !== null;
+  }
+
+  nextTurn(): number {
+    this.state.turn++;
+    return this.state.turn;
   }
 
   nextActive(): WrestlerProxy {
@@ -151,7 +164,7 @@ class StateProxy {
       return 1;
     });
 
-    this.state.next = tmp.map(t => t.key);
+    this.state.baseNext = tmp.map(t => t.key);
   }
 
   clean(): void {

@@ -9,6 +9,7 @@ class FakeState implements State {
   viewer = "P1";
   active = "P1";
   targets = ["CPU1"];
+  baseNext = [];
   next = [];
   players = {
     P1: _.toPlainObject(new TripleH()),

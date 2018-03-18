@@ -23,7 +23,7 @@ class Distributor implements WrestlerStrategy {
     const deck = wrestler.getDeck().getRef();
     const dead = wrestler.getDead().getRef();
     if (deck.length < Distributor.MIN) {
-      deck.concat(_.shuffle(dead));
+      wrestler.setDeck(deck.concat(_.shuffle(dead)));
       wrestler.setDead([]);
     }
   }
@@ -36,7 +36,7 @@ class Distributor implements WrestlerStrategy {
         hand.push(deck.shift());
       }
     } else {
-      hand.concat(deck);
+      wrestler.setHand(hand.concat(deck));
       wrestler.setDeck([]);
     }
   }

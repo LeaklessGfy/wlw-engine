@@ -10,7 +10,11 @@ class MirrorActuator implements Actuator {
     active: WrestlerProxy,
     state: StateProxy
   ): void {
-    const tmp = active.getHand().getRef();
+    const tmp = active
+      .getHand()
+      .getRef()
+      .filter(c => c !== card.getRef());
+
     active.setHand(target.getHand().getRef());
     target.setHand(tmp);
   }
