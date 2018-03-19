@@ -18,8 +18,9 @@ class CoreOperatorStrategy implements OperatorStrategy {
     const max = Math.max(1, w.getCombat().getRecovery() / 2);
     const stamina = w.getStamina();
     stamina.addVal(randomInt(1, max));
+
     const intensity = w.getIntensity();
-    intensity.addVal(1);
+    intensity.addVal(w.hasCrit() ? 3 : 1);
   }
 
   operate(state: StateProxy): void {

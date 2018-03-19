@@ -1,8 +1,8 @@
 import Actuator from "../../models/actuator";
 import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 
-class RestActuactor implements Actuator {
-  key = "rest";
+class SacrificeActuactor implements Actuator {
+  key = "sacrifice";
 
   operate(
     card: CardProxy,
@@ -11,9 +11,9 @@ class RestActuactor implements Actuator {
     state: StateProxy
   ): void {
     // Make it modular
-    active.getStamina().addVal(4);
-    active.getHealth().addVal(8);
+    active.getHealth().addVal(-15);
+    active.getIntensity().addVal(4);
   }
 }
 
-export default RestActuactor;
+export default SacrificeActuactor;
