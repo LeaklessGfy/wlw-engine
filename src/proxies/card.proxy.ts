@@ -71,7 +71,7 @@ class CardProxy {
   }
 
   setValid(valid: boolean): CardProxy {
-    if (_.isBoolean(valid)) {
+    if (!_.isBoolean(valid)) {
       throw new Error("Bad value, valid isn't a boolean. Card.setValid");
     }
     this.card.valid = valid;

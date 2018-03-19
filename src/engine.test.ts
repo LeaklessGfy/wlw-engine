@@ -7,17 +7,15 @@ import Mutator from "./mutator";
 import { Reports } from "./consts";
 import * as W from "./resources/wrestlers";
 import * as C from "./resources/cards";
-import * as S from "./resources/strategies";
+import * as S from "./strategies/core";
 import DamageActuator from "./resources/actuators/damage.actuator";
 import fakeState from "./resources/fake-state";
 
 describe("Engine", () => {
   const mutator = new Mutator(
-    new S.Distributor(),
-    new S.Validator(),
-    new S.Operator([new DamageActuator()]),
-    new S.CPU(),
-    new S.Winning()
+    new S.CardStrategy(),
+    new S.OperatorStrategy([new DamageActuator()]),
+    new S.CPUStrategy()
   );
   const engine = new Engine(mutator);
 

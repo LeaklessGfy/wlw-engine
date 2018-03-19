@@ -50,43 +50,6 @@ describe("[PROXY] Array", () => {
     expect(proxy.getRef()).to.equal(arr);
   });
 
-  it("should be able to shift", () => {
-    const arr = [0, 1, 2, 3];
-    const proxy = new ArrayProxy<string>(arr, v => v.toString());
-    expect(proxy.shift()).to.equal("0");
-    expect(proxy.shift()).to.equal("1");
-    expect(arr.length).to.equal(2);
-  });
-
-  it("should be able to unshift", () => {
-    const arr = [0, 1, 2, 3];
-    const proxy = new ArrayProxy<string>(arr, v => v.toString());
-    expect(proxy.length()).to.equal(4);
-    expect(proxy.unshift(-1)).to.equal(proxy);
-    expect(proxy.getFirst()).to.equal("-1");
-    expect(arr[0]).to.equal(-1);
-    expect(proxy.length()).to.equal(5);
-  });
-
-  it("should be able to push", () => {
-    const arr = [0, 1, 2, 3];
-    const proxy = new ArrayProxy<string>(arr, v => v.toString());
-    expect(proxy.length()).to.equal(4);
-    expect(proxy.getLast()).to.equal("3");
-    expect(proxy.push(4));
-    expect(proxy.length()).to.equal(5);
-    expect(proxy.getLast()).to.equal("4");
-    expect(arr[4]).to.equal(4);
-  });
-
-  it("should be able to length", () => {
-    const arr = [0, 1, 2, 3];
-    const proxy = new ArrayProxy<string>(arr, v => v.toString());
-    expect(proxy.length()).to.equal(4);
-    arr.push(4);
-    expect(proxy.length()).to.equal(5);
-  });
-
   it("should be able to for each", () => {
     const arr = [0, 1, 2, 3];
     const proxy = new ArrayProxy<string>(arr, v => v.toString());

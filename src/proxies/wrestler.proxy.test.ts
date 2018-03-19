@@ -92,43 +92,6 @@ describe("[PROXY] Wrestler", () => {
 
   it("should be able to return combat", () => {});
 
-  it("should be able to shuffle deck", () => {
-    const w = fakeState().players.P1;
-    const cards = [...w.deck];
-
-    const proxy = new WrestlerProxy(w);
-    proxy.shuffleDeck();
-
-    expect(w.deck).to.not.equal(cards);
-  });
-
-  it("should be able to consume card", () => {
-    const w = fakeState().players.P1;
-    w.stamina.val = 7;
-    w.intensity.val = 3;
-    const c = {
-      uid: "",
-      actuators: [],
-      name: "",
-      img: "",
-      description: "",
-      stamina: 2,
-      intensity: 1,
-      targets: [],
-      reverseable: true,
-      rarity: 0,
-      valid: true
-    };
-
-    const proxy = new WrestlerProxy(w);
-    proxy.consumeCard(new CardProxy(c));
-
-    expect(w.stamina.val).to.equal(5);
-    expect(w.intensity.val).to.equal(2);
-  });
-
-  it("should be able to discard card", () => {});
-
   it("should be able to apply recovery", () => {
     const w = fakeState().players.P1;
     const proxy = new WrestlerProxy(w);

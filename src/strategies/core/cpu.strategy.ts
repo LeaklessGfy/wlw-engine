@@ -1,5 +1,5 @@
 import StateProxy from "../../proxies/state.proxy";
-import StateStrategy from "../../strategies/state.strategy";
+import StateStrategy from "../state.strategy";
 import { Targets } from "../../consts";
 import { randomInt } from "../../utils";
 

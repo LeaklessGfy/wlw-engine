@@ -92,23 +92,6 @@ class WrestlerProxy {
 
   // SPECIAL
 
-  shuffleDeck(): void {
-    this.wrestler.deck = _.shuffle(this.wrestler.deck);
-  }
-
-  consumeCard(card: CardProxy): void {
-    const stamina = this.getStamina();
-    stamina.addVal(-card.getStamina());
-
-    const intensity = this.getIntensity();
-    intensity.addVal(-card.getIntensity());
-  }
-
-  discardCard(card: CardProxy): void {
-    this.wrestler.hand = this.wrestler.hand.filter(c => c !== card.getRef());
-    this.wrestler.dead.push(card.getRef());
-  }
-
   recovery(turn: number): void {
     const max = (turn + this.wrestler.combat.recovery) / 2;
 

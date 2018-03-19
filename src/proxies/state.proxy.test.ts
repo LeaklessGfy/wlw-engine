@@ -18,9 +18,9 @@ describe("[PROXY] State", () => {
   });
 
   it("should be able to return the targets", () => {
-    const targets = proxy.getTargets();
-    expect(targets.length()).to.equal(1);
-    expect(targets.getRef()).to.eql([f.players.CPU1]);
+    const targets = proxy.getTargets().getRef();
+    expect(targets.length).to.equal(1);
+    expect(targets).to.eql([f.players.CPU1]);
   });
 
   it("should be able to return a wrestler by key", () => {
@@ -29,9 +29,9 @@ describe("[PROXY] State", () => {
   });
 
   it("should be able to return all wrestlers", () => {
-    const wrestlers = proxy.getWrestlers();
-    expect(wrestlers.length()).to.equal(2);
-    expect(wrestlers.getRef()).to.eql([f.players.P1, f.players.CPU1]);
+    const wrestlers = proxy.getWrestlers().getRef();
+    expect(wrestlers.length).to.equal(2);
+    expect(wrestlers).to.eql([f.players.P1, f.players.CPU1]);
   });
 
   it("should be able to return all keys", () => {
@@ -93,6 +93,6 @@ describe("[PROXY] State", () => {
     const proxy = new StateProxy(f);
     proxy.buildNext();
 
-    expect(f.next.length).to.equal(2);
+    expect(f.baseNext.length).to.equal(2);
   });
 });

@@ -22,24 +22,6 @@ class ArrayProxy<T> {
     return this.arr;
   }
 
-  shift(): T {
-    return this.transform(this.arr.shift());
-  }
-
-  unshift(val: any): ArrayProxy<T> {
-    this.arr.unshift(val);
-    return this;
-  }
-
-  push(val: any): ArrayProxy<T> {
-    this.arr.push(val);
-    return this;
-  }
-
-  length(): number {
-    return this.arr.length;
-  }
-
   forEach(callback: (t: T) => void) {
     this.arr.forEach(val => callback(this.transform(val)));
   }

@@ -1,9 +1,9 @@
 import { CardProxy, StateProxy } from "../../proxies";
 import Actuator from "../../models/actuator";
 import { Records, Reports } from "../../consts";
-import StateStrategy from "../../strategies/state.strategy";
+import OperatorStrategy from "../operator.strategy";
 
-class Operator implements StateStrategy {
+class CoreOperatorStrategy implements OperatorStrategy {
   private readonly kernel;
 
   constructor(actuators: Actuator[] = []) {
@@ -13,7 +13,7 @@ class Operator implements StateStrategy {
     }
   }
 
-  apply(state: StateProxy): void {
+  operate(state: StateProxy): void {
     const targets = state.getTargets();
     const card = state.getCard();
     const active = state.getActive();
@@ -38,6 +38,20 @@ class Operator implements StateStrategy {
     state.setRecords(records);
   }
 
+  winner(state: StateProxy) {
+    const mode = state.getMode();
+    const active = state.getActiveKey();
+    const players = state.getPlayers();
+
+    switch (mode.winning) {
+      case "health":
+        const opponents = state.getOpponents(active);
+        if (opponents.every(k => players[k].health.val === 0)) {
+          state.setWinner(active);
+        }
+    }
+  }
+
   private actuators(card: CardProxy): Actuator[] {
     return card
       .getActuators()
@@ -46,4 +60,4 @@ class Operator implements StateStrategy {
   }
 }
 
-export default Operator;
+export default CoreOperatorStrategy;
