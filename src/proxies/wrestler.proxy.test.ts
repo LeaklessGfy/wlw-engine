@@ -91,10 +91,4 @@ describe("[PROXY] Wrestler", () => {
   });
 
   it("should be able to return combat", () => {});
-
-  it("should be able to apply recovery", () => {
-    const w = fakeState().players.P1;
-    const proxy = new WrestlerProxy(w);
-    proxy.recovery(1);
-  });
 });

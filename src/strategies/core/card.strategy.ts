@@ -3,7 +3,8 @@ import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 import CardStrategy from "../card.strategy";
 
 class CoreCardStrategy implements CardStrategy {
-  private static readonly MIN = 3;
+  private static readonly MIN = 5;
+  private static readonly MAX = 7;
 
   shuffleDeck(w: WrestlerProxy): void {
     w.setDeck(_.shuffle(w.getDeck().getRef()));
@@ -35,8 +36,8 @@ class CoreCardStrategy implements CardStrategy {
   discardCard(c: CardProxy, w: WrestlerProxy, s: StateProxy): void {
     const hand = w.getHand().getRef();
     const dead = w.getDead().getRef();
-    w.setHand(hand.filter(card => card !== c.getRef()));
-    dead.push(c.getRef());
+    w.setHand(hand.filter(card => c.is(card)));
+    dead.push(c.toCard());
   }
 
   private discardHand(wrestler: WrestlerProxy) {

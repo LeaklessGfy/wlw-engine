@@ -66,13 +66,17 @@ class CardProxy {
     return this.card.valid;
   }
 
-  getRef(): Card {
-    return this.card;
+  is(card): boolean {
+    return this.card === card;
+  }
+
+  toCard(): Card {
+    return _.cloneDeep(this.card);
   }
 
   setValid(valid: boolean): CardProxy {
     if (!_.isBoolean(valid)) {
-      throw new Error("Bad value, valid isn't a boolean. Card.setValid");
+      throw new Error("ILLEGAL ARGUMENT valid. Card.setValid");
     }
     this.card.valid = valid;
     return this;

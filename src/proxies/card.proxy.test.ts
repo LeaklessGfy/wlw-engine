@@ -110,9 +110,18 @@ describe("[PROXY] Card", () => {
     expect(proxy.isValid()).to.equal(c.valid);
   });
 
-  it("should be able to return ref", () => {
+  it("should be able to say if is same", () => {
     const c = new Ddt();
     const proxy = new CardProxy(c);
-    expect(proxy.getRef()).to.equal(c);
+    expect(proxy.is(c)).to.equal(true);
+    expect(proxy.is(null)).to.equal(false);
+    expect(proxy.is(proxy.toCard())).to.equal(false);
+  });
+
+  it("should be able to return a card", () => {
+    const c = new Ddt();
+    const proxy = new CardProxy(c);
+    expect(proxy.toCard()).to.not.equal(c);
+    expect(proxy.toCard()).to.eql(c);
   });
 });

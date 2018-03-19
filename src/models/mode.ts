@@ -1,3 +1,5 @@
+import Card from "./card";
+
 class Mode {
   uid: string;
   name: string;
@@ -6,6 +8,7 @@ class Mode {
   numbers: number;
   team: boolean;
   winning: string;
+  cards?: Card[];
 }
 
 export default Mode;

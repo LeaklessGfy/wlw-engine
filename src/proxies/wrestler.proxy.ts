@@ -76,31 +76,30 @@ class WrestlerProxy {
   // SETTERS
 
   setDeck(deck: Card[]): WrestlerProxy {
+    if (!_.isArray(deck)) {
+      throw new Error("ILLEGAL ARGUMENT deck. Wrestler.setDeck");
+    }
     this.wrestler.deck = deck;
     return this;
   }
 
   setHand(hand: Card[]): WrestlerProxy {
+    if (!_.isArray(hand)) {
+      throw new Error("ILLEGAL ARGUMENT hand. Wrestler.setHand");
+    }
     this.wrestler.hand = hand;
     return this;
   }
 
   setDead(dead: Card[]): WrestlerProxy {
+    if (!_.isArray(dead)) {
+      throw new Error("ILLEGAL ARGUMENT dead. Wrestler.setDead");
+    }
     this.wrestler.dead = dead;
     return this;
   }
 
   // SPECIAL
-
-  recovery(turn: number): void {
-    const max = (turn + this.wrestler.combat.recovery) / 2;
-
-    const stamina = this.getStamina();
-    stamina.addVal(randomInt(turn / 2, max));
-
-    const intensity = this.getIntensity();
-    intensity.addVal(randomInt(turn / 2, max));
-  }
 
   hasDodge(card: CardProxy, w: WrestlerProxy): boolean {
     if (!card.isBlockable()) {

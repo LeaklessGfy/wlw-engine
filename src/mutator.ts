@@ -22,7 +22,7 @@ class Mutator {
     const turn = state.getTurn();
     const mode = state.getMode();
     const active = state.nextActive();
-    active.recovery(turn);
+    this.$operator.recovery(active, state);
 
     state.getWrestlers().forEach(w => {
       if (turn % mode.numbers === 0) {

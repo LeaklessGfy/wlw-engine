@@ -13,7 +13,7 @@ class MirrorActuator implements Actuator {
     const tmp = active
       .getHand()
       .getRef()
-      .filter(c => c !== card.getRef());
+      .filter(c => !card.is(c));
 
     active.setHand(target.getHand().getRef());
     target.setHand(tmp);

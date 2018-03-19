@@ -1,7 +1,8 @@
-import { CardProxy, StateProxy } from "../../proxies";
+import OperatorStrategy from "../operator.strategy";
+import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 import Actuator from "../../models/actuator";
 import { Records, Reports } from "../../consts";
-import OperatorStrategy from "../operator.strategy";
+import { randomInt } from "../../utils";
 
 class CoreOperatorStrategy implements OperatorStrategy {
   private readonly kernel;
@@ -11,6 +12,14 @@ class CoreOperatorStrategy implements OperatorStrategy {
     for (let actuator of actuators) {
       this.kernel[actuator.key] = actuator;
     }
+  }
+
+  recovery(w: WrestlerProxy, s: StateProxy): void {
+    const max = Math.max(1, w.getCombat().getRecovery() / 2);
+    const stamina = w.getStamina();
+    stamina.addVal(randomInt(1, max));
+    const intensity = w.getIntensity();
+    intensity.addVal(1);
   }
 
   operate(state: StateProxy): void {
@@ -38,7 +47,7 @@ class CoreOperatorStrategy implements OperatorStrategy {
     state.setRecords(records);
   }
 
-  winner(state: StateProxy) {
+  winner(state: StateProxy): void {
     const mode = state.getMode();
     const active = state.getActiveKey();
     const players = state.getPlayers();

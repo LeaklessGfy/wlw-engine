@@ -103,26 +103,41 @@ class StateProxy {
   /* SETTERS */
 
   setCard(card: number | null): StateProxy {
+    if (!_.isInteger(card) && card !== null) {
+      throw new Error("ILLEGAL ARGUMENT card. State.setCard");
+    }
     this.state.card = card;
     return this;
   }
 
   setRecords(records: Record[]): StateProxy {
+    if (!_.isArray(records)) {
+      throw new Error("ILLEGAL ARGUMENT records. State.setRecords");
+    }
     this.state.records = records;
     return this;
   }
 
   setTargets(targets: string[]): StateProxy {
+    if (!_.isArray(targets)) {
+      throw new Error("ILLEGAL ARGUMENT targets. State.setTargets");
+    }
     this.state.targets = targets;
     return this;
   }
 
-  setWinner(winner?: string): StateProxy {
+  setWinner(winner: string): StateProxy {
+    if (!_.isString(winner)) {
+      throw new Error("ILLEGAL ARGUMENT winner. State.setWinner");
+    }
     this.state.winner = winner;
     return this;
   }
 
   setNext(next: string[]): StateProxy {
+    if (!_.isArray(next)) {
+      throw new Error("ILLEGAL ARGUMENT next. State.setNext");
+    }
     this.state.next = next;
     return this;
   }

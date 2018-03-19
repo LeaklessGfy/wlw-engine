@@ -15,7 +15,7 @@ class BarProxy {
 
   setVal(val: number): BarProxy {
     if (!_.isInteger(val)) {
-      throw new Error("Bad value, val isn't an integer. Bar.setVal");
+      throw new Error("ILLEGAL ARGUMENT val. Bar.setVal");
     }
     this.bar.val = minMax(0, this.bar.max, val);
     return this;
@@ -23,7 +23,7 @@ class BarProxy {
 
   setMax(max: number): BarProxy {
     if (!_.isInteger(max)) {
-      throw new Error("Bad value, max isn't an integer. Bar.setMax");
+      throw new Error("ILLEGAL ARGUMENT max. Bar.setMax");
     }
     this.bar.max = Math.max(1, max);
     return this;

@@ -38,7 +38,7 @@ class CombatProxy {
 
   setAccuracy(val: number): CombatProxy {
     if (!_.isInteger(val)) {
-      throw new Error("Bad value, val isn't an integer. Combat.setAccuracy");
+      throw new Error("ILLEGAL ARGUMENT val. Combat.setAccuracy");
     }
     this.combat.accuracy = Math.max(0, val);
     return this;
@@ -46,7 +46,7 @@ class CombatProxy {
 
   setDamage(val: number): CombatProxy {
     if (!_.isInteger(val)) {
-      throw new Error("Bad value, val isn't an integer. Combat.setDamage");
+      throw new Error("ILLEGAL ARGUMENT val. Combat.setDamage");
     }
     this.combat.damage = Math.max(0, val);
     return this;
