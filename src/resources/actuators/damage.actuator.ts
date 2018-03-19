@@ -13,9 +13,6 @@ class DamageActuator implements Actuator {
   ): void {
     const combat = active.getCombat();
     let damage = card.getDamage() + randomInt(0, combat.getDamage());
-    if (!damage) {
-      return;
-    }
     if (active.hasCrit()) {
       damage = damage * 1.5;
       state.getRecords().push({ key: "", val: damage });

@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import CombatStat from "../models/combat-stat";
 
 class CombatProxy {
@@ -36,14 +37,18 @@ class CombatProxy {
   }
 
   setAccuracy(val: number): CombatProxy {
+    if (!_.isInteger(val)) {
+      throw new Error("Bad value, val isn't an integer. Combat.setAccuracy");
+    }
     this.combat.accuracy = Math.max(0, val);
-
     return this;
   }
 
   setDamage(val: number): CombatProxy {
+    if (!_.isInteger(val)) {
+      throw new Error("Bad value, val isn't an integer. Combat.setDamage");
+    }
     this.combat.damage = Math.max(0, val);
-
     return this;
   }
 }

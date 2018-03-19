@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import { Actuator, Card, Effect } from "../models";
 import ArrayProxy from "./array.proxy";
 import EffectProxy from "./effect.proxy";
@@ -70,6 +71,9 @@ class CardProxy {
   }
 
   setValid(valid: boolean): CardProxy {
+    if (_.isBoolean(valid)) {
+      throw new Error("Bad value, valid isn't a boolean. Card.setValid");
+    }
     this.card.valid = valid;
     return this;
   }

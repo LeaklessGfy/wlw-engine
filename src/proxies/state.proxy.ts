@@ -102,7 +102,7 @@ class StateProxy {
 
   /* SETTERS */
 
-  setCard(card: number): StateProxy {
+  setCard(card: number | null): StateProxy {
     this.state.card = card;
     return this;
   }
@@ -117,7 +117,7 @@ class StateProxy {
     return this;
   }
 
-  setWinner(winner: string): StateProxy {
+  setWinner(winner?: string): StateProxy {
     this.state.winner = winner;
     return this;
   }
