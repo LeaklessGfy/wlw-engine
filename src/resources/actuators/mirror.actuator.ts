@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
-import Actuator from "../../models/actuator";
-import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
+import "reflect-metadata";
+import Actuator from "models/actuator";
+import { CardProxy, StateProxy, WrestlerProxy } from "proxies";
 
 @injectable()
 class MirrorActuator implements Actuator {

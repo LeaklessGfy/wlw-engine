@@ -1,23 +1,26 @@
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
-import { Action, Actuator } from "../../models";
-import { CardProxy, StateProxy } from "../../proxies";
-import { CardStrategy, WrestlerStrategy } from "../../strategies";
-import { Records, Reports } from "../../consts";
-import { isInteractive } from "../../utils";
-import TYPES from "../../types";
+import { Action, Actuator } from "models";
+import { CardProxy, StateProxy } from "proxies";
+import { CardStrategy, WrestlerStrategy } from "strategies";
+import { Records, Reports } from "consts";
+import { isInteractive } from "utils";
+import TYPES from "types";
 
 @injectable()
 class PlayAction implements Action {
-  private readonly factory;
+  private readonly $card;
+  private readonly $wrestler;
+  private readonly $factory;
 
   constructor(
-    @inject(TYPES.CardStrategy) private readonly $card: CardStrategy,
-    @inject(TYPES.WrestlerStrategy)
-    private readonly $wrestler: WrestlerStrategy,
+    @inject(TYPES.CardStrategy) card: CardStrategy,
+    @inject(TYPES.WrestlerStrategy) wrestler: WrestlerStrategy,
     @inject("Factory<Actuator>") factory: (name: String) => Actuator
   ) {
-    this.factory = factory;
+    this.$card = card;
+    this.$wrestler = wrestler;
+    this.$factory = factory;
   }
 
   act(state: StateProxy): void {
@@ -57,7 +60,7 @@ class PlayAction implements Action {
   private actuators(card: CardProxy): Actuator[] {
     return card
       .getActuators()
-      .map(a => this.factory(a))
+      .map(a => this.$factory(a))
       .filter(a => a);
   }
 }

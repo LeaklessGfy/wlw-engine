@@ -2,10 +2,10 @@ import "mocha";
 import { expect } from "chai";
 import fakeState from "../fake-state";
 import DamageActuator from "./damage.actuator";
-import StateProxy from "../../proxies/state.proxy";
+import StateProxy from "proxies/state.proxy";
 
 describe("[ACTUATOR] Damage", () => {
-  it("should be able to operate correctly", () => {
+  it("should be able to operate", () => {
     const f = fakeState();
     const mutable = fakeState();
     mutable.players.P1.hand = mutable.players.P1.deck;
@@ -21,7 +21,6 @@ describe("[ACTUATOR] Damage", () => {
       proxy
     );
 
-    const card = proxy.getCard();
     expect(
       proxy
         .getFirstTarget()

@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
 import "reflect-metadata";
-import Actuator from "../../models/actuator";
-import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
-import { randomInt } from "../../utils";
+import Actuator from "models/actuator";
+import { CardProxy, StateProxy, WrestlerProxy } from "proxies";
+import { randomInt } from "utils";
 
 @injectable()
 class DamageActuator implements Actuator {
