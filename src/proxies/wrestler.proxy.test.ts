@@ -1,8 +1,8 @@
 import "mocha";
 import { expect } from "chai";
-import fakeState from "../resources/fake-state";
-import CardProxy from "./card.proxy";
 import WrestlerProxy from "./wrestler.proxy";
+import CardProxy from "./card.proxy";
+import fakeState from "../resources/fake-state";
 
 describe("[PROXY] Wrestler", () => {
   it("should be able to return uid", () => {

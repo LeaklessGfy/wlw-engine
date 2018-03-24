@@ -1,7 +1,7 @@
 import "mocha";
 import { expect } from "chai";
-import fakeState from "../resources/fake-state";
 import StateProxy from "./state.proxy";
+import fakeState from "../resources/fake-state";
 
 describe("[PROXY] State", () => {
   const f = fakeState();
@@ -83,16 +83,5 @@ describe("[PROXY] State", () => {
     expect(f.active).to.equal("CPU1");
     proxy.nextActive();
     expect(f.active).to.equal("P1");
-  });
-
-  it("should be able to build next", () => {
-    const f = fakeState();
-
-    f.next = [];
-
-    const proxy = new StateProxy(f);
-    proxy.buildNext();
-
-    expect(f.baseNext.length).to.equal(2);
   });
 });

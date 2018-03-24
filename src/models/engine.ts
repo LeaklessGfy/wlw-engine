@@ -1,8 +1,9 @@
 import State from "../models/state";
 
 interface Engine {
-  newTurn(_state: State): State;
-  playCard(_state: State): State;
+  init(_state: State): State;
+  turn(_state: State): State;
+  play(_state: State): State;
 }
 
 export default Engine;

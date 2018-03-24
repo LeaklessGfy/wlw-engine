@@ -3,25 +3,26 @@ import { expect } from "chai";
 import * as _ from "lodash";
 import Engine from "./engine";
 import { State } from "./models";
-import Mutator from "./mutator";
 import { Reports } from "./consts";
-import * as W from "./resources/wrestlers";
-import * as C from "./resources/cards";
+import * as R from "./resources";
 import * as S from "./strategies/core";
-import DamageActuator from "./resources/actuators/damage.actuator";
-import fakeState from "./resources/fake-state";
+import InitAction from "./actions/core/init.action";
+import TurnAction from "./actions/core/turn.action";
+import PlayAction from "./actions/core/play.action";
 
 describe("Engine", () => {
-  const mutator = new Mutator(
-    new S.CardStrategy(),
-    new S.OperatorStrategy([new DamageActuator()]),
-    new S.CPUStrategy()
-  );
-  const engine = new Engine(mutator);
+  const card = new S.CardStrategy();
+  const wrestler = new S.WrestlerStrategy();
+  const init = new InitAction(card, wrestler);
+  const turn = new TurnAction(card, wrestler);
+  const play = new PlayAction(card, wrestler);
+  const engine = new Engine(init, turn, play);
 
-  it("should be able to make a new turn", () => {
-    const f = fakeState();
-    const mutable = engine.newTurn(f);
+  it("should be able to make an init", () => {});
+
+  it("should be able to make a turn", () => {
+    const f = R.FakeState();
+    const mutable = engine.turn(f);
 
     /* CHANGES */
     expect(mutable.players).to.not.eql(f.players);
@@ -32,13 +33,12 @@ describe("Engine", () => {
     expect(mutable.active).to.equal("P1");
   });
 
-  it("should be able to make a simple card play", () => {
-    const f = fakeState();
+  it("should be able to make a play", () => {
+    const f = R.FakeState();
     f.players.P1.hand = f.players.P1.deck;
     f.players.P1.hand[0].valid = true;
     f.card = 0;
-    const engine = new Engine(mutator);
-    const mutable = engine.playCard(f);
+    const mutable = engine.play(f);
 
     /* NO CHANGES */
     expect(mutable).to.not.equal(f);

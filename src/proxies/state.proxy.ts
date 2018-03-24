@@ -134,6 +134,14 @@ class StateProxy {
     return this;
   }
 
+  setBaseNext(baseNext: string[]): StateProxy {
+    if (!_.isArray(baseNext)) {
+      throw new Error("ILLEGAL ARGUMENT baseNext. State.setBaseNext");
+    }
+    this.state.baseNext = baseNext;
+    return this;
+  }
+
   setNext(next: string[]): StateProxy {
     if (!_.isArray(next)) {
       throw new Error("ILLEGAL ARGUMENT next. State.setNext");
@@ -164,22 +172,6 @@ class StateProxy {
   nextActive(): WrestlerProxy {
     this.state.active = this.state.next.shift();
     return this.getActive();
-  }
-
-  buildNext() {
-    const keys = this.getKeys();
-    const tmp = keys.map(key => {
-      const w = this.state.players[key];
-      const speed = randomInt(0, w.combat.speed);
-      return { key, speed };
-    });
-
-    tmp.sort((a, b) => {
-      if (a.speed > b.speed) return -1;
-      return 1;
-    });
-
-    this.state.baseNext = tmp.map(t => t.key);
   }
 
   clean(): void {
