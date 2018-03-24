@@ -1,8 +1,10 @@
+import { injectable } from "inversify";
 import Actuator from "../../models/actuator";
 import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 
+@injectable()
 class SacrificeActuactor implements Actuator {
-  key = "sacrifice";
+  readonly KEY = "sacrifice";
 
   operate(
     card: CardProxy,

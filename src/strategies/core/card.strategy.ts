@@ -1,7 +1,9 @@
 import * as _ from "lodash";
+import { injectable } from "inversify";
 import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 import CardStrategy from "../card.strategy";
 
+@injectable()
 class CoreCardStrategy implements CardStrategy {
   private static readonly MIN = 5;
   private static readonly MAX = 7;

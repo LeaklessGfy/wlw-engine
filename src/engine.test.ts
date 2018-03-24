@@ -1,27 +1,20 @@
 import "mocha";
 import { expect } from "chai";
 import * as _ from "lodash";
-import Engine from "./engine";
-import { State } from "./models";
+import { Engine, State } from "./models";
 import { Reports } from "./consts";
 import * as R from "./resources";
-import * as S from "./strategies/core";
-import InitAction from "./actions/core/init.action";
-import TurnAction from "./actions/core/turn.action";
-import PlayAction from "./actions/core/play.action";
+import container from "./inversify.config";
+import TYPES from "./types";
 
 describe("Engine", () => {
-  const card = new S.CardStrategy();
-  const wrestler = new S.WrestlerStrategy();
-  const init = new InitAction(card, wrestler);
-  const turn = new TurnAction(card, wrestler);
-  const play = new PlayAction(card, wrestler);
-  const engine = new Engine(init, turn, play);
+  const engine = container.get<Engine>(TYPES.Engine);
 
   it("should be able to make an init", () => {});
 
   it("should be able to make a turn", () => {
     const f = R.FakeState();
+    f.baseNext = ["P1", "CPU1"];
     const mutable = engine.turn(f);
 
     /* CHANGES */

@@ -1,9 +1,13 @@
+import { injectable } from "inversify";
+import "reflect-metadata";
 import Actuator from "../../models/actuator";
 import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 import { randomInt } from "../../utils";
 
+@injectable()
 class DamageActuator implements Actuator {
-  key = "damage";
+  public static KEY = "damage";
+  readonly KEY = DamageActuator.KEY;
 
   operate(
     card: CardProxy,

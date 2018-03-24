@@ -1,3 +1,4 @@
+export { default as Action } from "./action";
 export { default as Actuator } from "./actuator";
 export { default as Arena } from "./arena";
 export { default as Bar } from "./bar";

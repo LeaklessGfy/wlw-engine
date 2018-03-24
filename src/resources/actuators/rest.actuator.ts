@@ -1,8 +1,11 @@
+import { injectable } from "inversify";
 import Actuator from "../../models/actuator";
 import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 
+@injectable()
 class RestActuactor implements Actuator {
-  key = "rest";
+  public static KEY = "rest";
+  readonly KEY = RestActuactor.KEY;
 
   operate(
     card: CardProxy,

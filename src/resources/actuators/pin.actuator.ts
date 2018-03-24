@@ -1,10 +1,13 @@
+import { injectable } from "inversify";
 import Actuator from "../../models/actuator";
 import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 import * as Status from "../../consts/status";
 import { randomBool } from "../../utils";
 
+@injectable()
 class PinActuactor implements Actuator {
-  key = "pin";
+  public static KEY = "pin";
+  readonly KEY = PinActuactor.KEY;
 
   operate(
     card: CardProxy,

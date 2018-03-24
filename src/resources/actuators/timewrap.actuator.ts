@@ -1,8 +1,11 @@
+import { injectable } from "inversify";
 import Actuator from "../../models/actuator";
 import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 
+@injectable()
 class TimewrapActuator implements Actuator {
-  key = "timewrap";
+  public static KEY = "timewrap";
+  readonly KEY = TimewrapActuator.KEY;
 
   operate(
     card: CardProxy,

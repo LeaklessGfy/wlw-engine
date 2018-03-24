@@ -1,8 +1,10 @@
+import { injectable } from "inversify";
 import WrestlerStrategy from "../wrestler.strategy";
 import { StateProxy, WrestlerProxy } from "../../proxies";
 import * as Targets from "../../consts/targets";
 import { randomInt } from "../../utils";
 
+@injectable()
 class CoreWrestlerStratey implements WrestlerStrategy {
   order(s: StateProxy) {
     const keys = s.getKeys();

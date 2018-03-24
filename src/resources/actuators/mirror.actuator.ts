@@ -1,8 +1,11 @@
+import { injectable } from "inversify";
 import Actuator from "../../models/actuator";
 import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
 
+@injectable()
 class MirrorActuator implements Actuator {
-  key = "mirror";
+  public static KEY = "mirror";
+  readonly KEY = MirrorActuator.KEY;
 
   operate(
     card: CardProxy,

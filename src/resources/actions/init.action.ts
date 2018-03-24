@@ -1,11 +1,15 @@
-import Action from "../action";
+import { injectable, inject } from "inversify";
+import "reflect-metadata";
+import Action from "../../models/action";
 import StateProxy from "../../proxies/state.proxy";
 import { CardStrategy, WrestlerStrategy } from "../../strategies";
+import TYPES from "../../types";
 
+@injectable()
 class InitAction implements Action {
   constructor(
-    private readonly $card: CardStrategy,
-    private readonly $wrestler: WrestlerStrategy
+    @inject(TYPES.CardStrategy) private readonly $card: CardStrategy,
+    @inject(TYPES.WrestlerStrategy) private readonly $wrestler: WrestlerStrategy
   ) {}
 
   act(state: StateProxy): void {

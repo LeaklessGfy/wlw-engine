@@ -1,8 +1,10 @@
 import * as _ from "lodash";
-import { Engine, State } from "./models";
+import { injectable, inject, named } from "inversify";
+import "reflect-metadata";
+import { Action, Engine, State } from "./models";
 import StateProxy from "./proxies/state.proxy";
-import Action from "./actions/action";
 import * as check from "./checker";
+import TYPES from "./types";
 
 /**
  * The engine of the WLW game
@@ -10,14 +12,21 @@ import * as check from "./checker";
  * @class CoreEngine
  * @implements {Engine}
  */
+@injectable()
 class CoreEngine implements Engine {
   /**
    * Creates an instance of CoreEngine.
    * @memberof CoreEngine
    */
   constructor(
+    @inject(TYPES.Action)
+    @named("init")
     private readonly $init: Action,
+    @inject(TYPES.Action)
+    @named("turn")
     private readonly $turn: Action,
+    @inject(TYPES.Action)
+    @named("play")
     private readonly $play: Action
   ) {}
 

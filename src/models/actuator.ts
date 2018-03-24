@@ -1,7 +1,8 @@
 import { CardProxy, StateProxy, WrestlerProxy } from "../proxies";
 
 interface Actuator {
-  readonly key;
+  readonly KEY: string;
+
   operate(
     card: CardProxy,
     target: WrestlerProxy,
