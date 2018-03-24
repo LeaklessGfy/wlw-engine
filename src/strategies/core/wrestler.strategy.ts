@@ -27,7 +27,7 @@ class CoreWrestlerStratey implements WrestlerStrategy {
     const stamina = w.getStamina();
     stamina.addVal(randomInt(1, max));
     const intensity = w.getIntensity();
-    intensity.addVal(1);
+    intensity.addVal(w.hasCrit() ? 3 : 1);
   }
 
   action(s) {

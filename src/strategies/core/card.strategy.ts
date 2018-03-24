@@ -36,7 +36,7 @@ class CoreCardStrategy implements CardStrategy {
   discardCard(c: CardProxy, w: WrestlerProxy, s: StateProxy): void {
     const hand = w.getHand().getRef();
     const dead = w.getDead().getRef();
-    w.setHand(hand.filter(card => c.is(card)));
+    w.setHand(hand.filter(card => !c.is(card)));
     dead.push(c.toCard());
   }
 

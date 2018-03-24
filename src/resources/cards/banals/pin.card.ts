@@ -1,4 +1,4 @@
-import { Card, State, Engine } from "../../../models";
+import { Card } from "../../../models";
 import * as C from "../../../consts";
 
 class Pin implements Card {
