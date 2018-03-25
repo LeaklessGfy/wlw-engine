@@ -5,9 +5,9 @@ import * as Status from "../../consts/status";
 import { randomBool } from "../../utils";
 
 @injectable()
-class PinActuactor implements Actuator {
+class PinActuator implements Actuator {
   public static KEY = "pin";
-  readonly KEY = PinActuactor.KEY;
+  readonly KEY = PinActuator.KEY;
 
   operate(
     card: CardProxy,
@@ -31,7 +31,8 @@ class PinActuactor implements Actuator {
       chance += -(chance / 2);
     }
 
-    const win = randomBool(Math.max(chance, 0));
+    chance = Math.min(Math.max(chance, 0), 100);
+    const win = randomBool(chance);
     if (win) {
       // Trigger win event ? Put target health to 0 ? Special state value ?
       const health = target.getHealth();
@@ -70,4 +71,4 @@ class PinActuactor implements Actuator {
   }
 }
 
-export default PinActuactor;
+export default PinActuator;

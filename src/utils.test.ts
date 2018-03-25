@@ -3,16 +3,6 @@ import { expect } from "chai";
 import * as utils from "./utils";
 
 describe("Utils", () => {
-  it("should be able to clone", () => {
-    const A = { a: 0, b: 0, c: 1, d: { a: 0 } };
-    const B = utils.clone(A);
-
-    expect(A).to.eql(B);
-    expect(A).to.not.equal(B);
-    expect(A.d).to.eql(B.d);
-    expect(A.d).to.not.equal(B.d);
-  });
-
   it("should be able to generate a random bool", () => {
     expect(utils.randomBool(100)).to.equal(true);
     expect(utils.randomBool(0)).to.equal(false);

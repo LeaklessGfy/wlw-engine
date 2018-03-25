@@ -1,8 +1,8 @@
 import "mocha";
 import { expect } from "chai";
 import CoreWrestlerStratey from "./wrestler.strategy";
-import StateProxy from "../../proxies/state.proxy";
-import fakeState from "../../resources/fake-state";
+import StateProxy from "proxies/state.proxy";
+import fakeState from "resources/fake-state";
 
 describe("[STRATEGY] Wrestler", () => {
   const strategy = new CoreWrestlerStratey();

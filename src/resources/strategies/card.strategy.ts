@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import { injectable } from "inversify";
-import { CardProxy, StateProxy, WrestlerProxy } from "../../proxies";
-import CardStrategy from "../card.strategy";
+import CardStrategy from "models/card-strategy";
+import { CardProxy, StateProxy, WrestlerProxy } from "proxies";
 
 @injectable()
 class CoreCardStrategy implements CardStrategy {

@@ -1,11 +1,16 @@
 import { Container, interfaces } from "inversify";
 import TYPES from "./types";
-import { Action, Actuator, Engine } from "./models";
-import { CardStrategy, WrestlerStrategy } from "./strategies";
+import {
+  Action,
+  Actuator,
+  CardStrategy,
+  Engine,
+  EffectStrategy,
+  WrestlerStrategy
+} from "./models";
 import * as Actions from "./resources/actions";
 import * as Actuators from "./resources/actuators";
-import CoreCardStrategy from "./strategies/core/card.strategy";
-import CoreWrestlerStrategy from "./strategies/core/wrestler.strategy";
+import * as Strategies from "./resources/strategies";
 import CoreEngine from "./engine";
 
 var container = new Container();
@@ -30,10 +35,15 @@ container
   .whenTargetNamed("play");
 
 /* STRATEGY */
-container.bind<CardStrategy>(TYPES.CardStrategy).to(CoreCardStrategy);
+container.bind<CardStrategy>(TYPES.CardStrategy).to(Strategies.CardStrategy);
+
+container
+  .bind<EffectStrategy>(TYPES.EffectStrategy)
+  .to(Strategies.EffectStrategy);
+
 container
   .bind<WrestlerStrategy>(TYPES.WrestlerStrategy)
-  .to(CoreWrestlerStrategy);
+  .to(Strategies.WrestlerStrategy);
 
 /* ACTUATOR */
 container

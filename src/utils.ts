@@ -1,18 +1,6 @@
-import * as _ from "lodash";
 import * as Chance from "chance";
 
 const random = new Chance(Math.random);
-
-/**
- * Clone the object pass in parameter
- *
- * @param {T} o
- *
- * @return {T}
- */
-export const clone = <T>(o: T): T => {
-  return _.cloneDeep(o);
-};
 
 /**
  * Return a random integer. Can be influenced by min and max parameter (inclusive).

@@ -1,7 +1,6 @@
 import { injectable, inject } from "inversify";
-import Action from "models/action";
+import { Action, CardStrategy, WrestlerStrategy } from "models";
 import StateProxy from "proxies/state.proxy";
-import { CardStrategy, WrestlerStrategy } from "strategies";
 import { isInteractive } from "utils";
 import TYPES from "types";
 

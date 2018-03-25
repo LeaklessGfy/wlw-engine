@@ -1,24 +1,32 @@
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
-import { Action, Actuator } from "models";
+import {
+  Action,
+  Actuator,
+  CardStrategy,
+  EffectStrategy,
+  WrestlerStrategy
+} from "models";
 import { CardProxy, StateProxy } from "proxies";
-import { CardStrategy, WrestlerStrategy } from "strategies";
 import { Records, Reports } from "consts";
 import { isInteractive } from "utils";
 import TYPES from "types";
 
 @injectable()
 class PlayAction implements Action {
-  private readonly $card;
-  private readonly $wrestler;
-  private readonly $factory;
+  private readonly $card: CardStrategy;
+  private readonly $effect: EffectStrategy;
+  private readonly $wrestler: WrestlerStrategy;
+  private readonly $factory: (name: string) => Actuator;
 
   constructor(
     @inject(TYPES.CardStrategy) card: CardStrategy,
+    @inject(TYPES.EffectStrategy) effect: EffectStrategy,
     @inject(TYPES.WrestlerStrategy) wrestler: WrestlerStrategy,
-    @inject("Factory<Actuator>") factory: (name: String) => Actuator
+    @inject("Factory<Actuator>") factory: (name: string) => Actuator
   ) {
     this.$card = card;
+    this.$effect = effect;
     this.$wrestler = wrestler;
     this.$factory = factory;
   }
@@ -36,9 +44,11 @@ class PlayAction implements Action {
       if (!t.hasDodge(card, active)) {
         records.push({ key: Records.CARD_STATUS, val: Reports.TOUCH });
         actuators.forEach(a => a.operate(card, t, active, state));
+        card.getEffects().forEach(e => this.$effect.applyEffect(e, active, t));
       } else if (t.hasReverse(card)) {
         records.push({ key: Records.CARD_STATUS, val: Reports.REVERSE });
         actuators.forEach(a => a.operate(card, active, t, state));
+        card.getEffects().forEach(e => this.$effect.applyEffect(e, t, active));
       } else {
         records.push({ key: Records.CARD_STATUS, val: Reports.DODGE });
       }

@@ -14,6 +14,10 @@ import TYPES from "./types";
  */
 @injectable()
 class CoreEngine implements Engine {
+  private readonly $init: Action;
+  private readonly $turn: Action;
+  private readonly $play: Action;
+
   /**
    * Creates an instance of CoreEngine.
    * @memberof CoreEngine
@@ -21,14 +25,18 @@ class CoreEngine implements Engine {
   constructor(
     @inject(TYPES.Action)
     @named("init")
-    private readonly $init: Action,
+    init: Action,
     @inject(TYPES.Action)
     @named("turn")
-    private readonly $turn: Action,
+    turn: Action,
     @inject(TYPES.Action)
     @named("play")
-    private readonly $play: Action
-  ) {}
+    play: Action
+  ) {
+    this.$init = init;
+    this.$turn = turn;
+    this.$play = play;
+  }
 
   /**
    * Init the game.

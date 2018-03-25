@@ -1,8 +1,7 @@
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
-import Action from "models/action";
+import { Action, CardStrategy, WrestlerStrategy } from "models";
 import StateProxy from "proxies/state.proxy";
-import { CardStrategy, WrestlerStrategy } from "strategies";
 import TYPES from "types";
 
 @injectable()

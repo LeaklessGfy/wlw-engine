@@ -19,6 +19,6 @@ describe("[ACTION] Init", () => {
     expect(f.baseNext.length).to.equal(2);
 
     // Deck shuffle
-    expect(b.players.P1.deck[0].name).to.not.equal(f.players.P1.deck[0].name);
+    expect(b.players.P1.deck).to.not.eql(f.players.P1.deck);
   });
 });

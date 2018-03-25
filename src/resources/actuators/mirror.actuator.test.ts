@@ -18,9 +18,8 @@ describe("[ACTUATOR] Mirror", () => {
 
     a.operate(card, s.getFirstTarget(), s.getActive(), s);
 
+    f.players.P1.deck.shift();
     expect(m.players.P1.hand).to.eql(f.players.CPU1.hand);
-    expect(m.players.CPU1.hand).to.eql(
-      f.players.P1.deck.filter(c => !card.is(c))
-    );
+    expect(m.players.CPU1.hand).to.eql(f.players.P1.deck);
   });
 });

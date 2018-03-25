@@ -1,4 +1,4 @@
-import { CardProxy, StateProxy, WrestlerProxy } from "../proxies";
+import { CardProxy, StateProxy, WrestlerProxy } from "proxies";
 
 interface CardStrategy {
   shuffleDeck(wrestler: WrestlerProxy): void;

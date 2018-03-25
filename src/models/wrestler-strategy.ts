@@ -1,4 +1,4 @@
-import { StateProxy, WrestlerProxy } from "../proxies";
+import { StateProxy, WrestlerProxy } from "proxies";
 
 interface WrestlerStrategy {
   order(s: StateProxy): void;
