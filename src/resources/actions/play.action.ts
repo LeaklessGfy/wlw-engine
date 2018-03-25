@@ -44,11 +44,11 @@ class PlayAction implements Action {
       if (!t.hasDodge(card, active)) {
         records.push({ key: Records.CARD_STATUS, val: Reports.TOUCH });
         actuators.forEach(a => a.operate(card, t, active, state));
-        card.getEffects().forEach(e => this.$effect.applyEffect(e, active, t));
+        card.getEffects().forEach(e => this.$effect.apply(e, active, t));
       } else if (t.hasReverse(card)) {
         records.push({ key: Records.CARD_STATUS, val: Reports.REVERSE });
         actuators.forEach(a => a.operate(card, active, t, state));
-        card.getEffects().forEach(e => this.$effect.applyEffect(e, t, active));
+        card.getEffects().forEach(e => this.$effect.apply(e, t, active));
       } else {
         records.push({ key: Records.CARD_STATUS, val: Reports.DODGE });
       }

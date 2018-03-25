@@ -4,6 +4,7 @@ import ArrayProxy from "./array.proxy";
 import BarProxy from "./bar.proxy";
 import CardProxy from "./card.proxy";
 import CombatProxy from "./combat.proxy";
+import EffectProxy from "./effect.proxy";
 import { randomInt } from "../utils";
 
 class WrestlerProxy {
@@ -96,6 +97,15 @@ class WrestlerProxy {
       throw new Error("ILLEGAL ARGUMENT dead. Wrestler.setDead");
     }
     this.wrestler.dead = dead;
+    return this;
+  }
+
+  addEffect(effect: EffectProxy): WrestlerProxy {
+    if (!effect) {
+      throw new Error("ILLEGAL ARGUMENT effect. Wrestler.addEffect");
+    }
+    if (!this.wrestler.effects) this.wrestler.effects = [];
+    this.wrestler.effects.push(effect.getRef());
     return this;
   }
 

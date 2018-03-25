@@ -1,6 +1,7 @@
 import Bar from "./bar";
 import Card from "./card";
 import CombatStat from "./combat-stat";
+import Effect from "./effect";
 
 interface Wrestler {
   uid: string;
@@ -16,12 +17,12 @@ interface Wrestler {
   dead: Card[]; //Defausse
   status: number[];
   combat: CombatStat;
+  effects?: Effect[];
   //show: Show; * COMING SOON *
   //moral: MoralStat; * COMING SOON *
   //crowd: CrowdStat; * COMING SOON *
   //quirks: any; * COMING SOON *
   //skills: any; *COMING SOON*
-  //effects: Effect[]; * COMING SOON *
   //managers?: Official[]; * COMING SOON *
   //team?: Team; * COMING SOON *
 
